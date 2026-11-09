@@ -20,7 +20,8 @@ from patchright.async_api import async_playwright
 SEARCH_URL = "https://x.com/search?q=remux%20filter%3Alinks&f=live&src=typed_query"
 OUTPUT_FILE = "remux_links.json"
 PROFILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".browser_profile")
-SCROLL_ROUNDS = 80       # ~80 scrolls for a deep scrape
+MAX_SCROLL_ROUNDS = 300       # Maximum ceiling
+MAX_CONSECUTIVE_EMPTY = 6     # Stop if 6 scrolls in a row return 0 new tweets
 SCROLL_PAUSE_MS = 2000
 
 FILE_HOSTS = [
@@ -142,14 +143,17 @@ async def scrape():
                 await context.close()
                 return
 
-            print(f"\n🚀 Scraping — {SCROLL_ROUNDS} scroll rounds (current total hits: {sum(1 for r in results if r.get('file_links'))})\n")
+            print(f"\n🚀 Scraping — Up to {MAX_SCROLL_ROUNDS} scrolls (Smart Auto-Stop active, current hits: {sum(1 for r in results if r.get('file_links'))})\n")
 
             new_hits_this_run = 0
+            consecutive_empty = 0
 
-            for round_num in range(1, SCROLL_ROUNDS + 1):
+            for round_num in range(1, MAX_SCROLL_ROUNDS + 1):
                 articles = await page.query_selector_all("article[data-testid='tweet']")
                 hits_count = sum(1 for r in results if r.get("file_links"))
-                print(f"   📜 Scroll {round_num}/{SCROLL_ROUNDS} — {hits_count} total hits ({new_hits_this_run} new this run)")
+                print(f"   📜 Scroll {round_num}/{MAX_SCROLL_ROUNDS} — {hits_count} total hits ({new_hits_this_run} new this run)")
+
+                new_in_scroll = 0
 
                 for article in articles:
                     try:
@@ -166,6 +170,7 @@ async def scrape():
                         if not tweet_url or tweet_url in seen_tweet_urls:
                             continue
                         seen_tweet_urls.add(tweet_url)
+                        new_in_scroll += 1
 
                         text_el = await article.query_selector("[data-testid='tweetText']")
                         text = (await text_el.inner_text()).strip() if text_el else ""
@@ -213,6 +218,16 @@ async def scrape():
 
                     except Exception:
                         continue
+
+                # Check Smart Auto-Stop condition
+                if new_in_scroll == 0:
+                    consecutive_empty += 1
+                    if consecutive_empty >= MAX_CONSECUTIVE_EMPTY:
+                        print(f"\n🛑 Smart Auto-Stop: No new tweets found across {MAX_CONSECUTIVE_EMPTY} consecutive scrolls.")
+                        print(f"   Reached the end of X.com's available search results at scroll {round_num}/{MAX_SCROLL_ROUNDS}!")
+                        break
+                else:
+                    consecutive_empty = 0
 
                 # Save progress periodically every 5 rounds
                 if round_num % 5 == 0:
