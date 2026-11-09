@@ -14,7 +14,10 @@ import httpx
 from datetime import datetime, timezone
 from patchright.async_api import async_playwright
 
-SEARCH_URL = "https://x.com/search?q=remux&f=video&src=typed_query"
+# Search query:
+# - 'remux filter:links': forces X.com to only show tweets containing hyperlinks
+# - 'f=live': forces X.com to sort by "Latest" instead of "Top"
+SEARCH_URL = "https://x.com/search?q=remux%20filter%3Alinks&f=live&src=typed_query"
 OUTPUT_FILE = "remux_links.json"
 PROFILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".browser_profile")
 SCROLL_ROUNDS = 80       # ~80 scrolls for a deep scrape
