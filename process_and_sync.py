@@ -1,9 +1,10 @@
 """
-Remux Data Processor & Accurate Link Health Verifier
-- Primary Sort: ALIVE 🟢 first, then DEAD 🔴
-- Secondary Sort: Tweet Date descending (newest tweets at top of each section)
-- Extracts titles from tweet text AND falls back to web page filename (e.g. The Exiles 1961)
-- Syncs clean results directly to Google Sheets
+Remux Data Processor & Link Health Verifier
+- ONLY keeps working ALIVE 🟢 links (dead/expired links are deleted)
+- Strictly sorts by Tweet Date descending (newest tweets first)
+- Resolves all movie titles from tweet text or download page title
+- Persistent health cache so dead links are never re-checked
+- Syncs clean alive-only list directly to Google Sheets
 """
 
 import asyncio
@@ -16,6 +17,7 @@ from patchright.async_api import async_playwright
 
 INPUT_FILE = "remux_links.json"
 OUTPUT_CSV = "remux_library.csv"
+HEALTH_CACHE_FILE = "health_cache.json"
 SPREADSHEET_ID = "1oqYjXc5D9eURyHUGNynR9uW9BDKNKWyGtfDBs8j_j8E"
 
 
@@ -162,16 +164,14 @@ async def process_and_verify():
     hits = data.get("hits", [])
     print(f"📊 Processing {len(hits)} scraped posts...")
 
-    # Load existing CSV cache to preserve known verified health status
-    status_cache = {}
-    if os.path.exists(OUTPUT_CSV):
+    # Load persistent health cache (remembers dead links so we never re-check them)
+    health_cache = {}
+    if os.path.exists(HEALTH_CACHE_FILE):
         try:
-            with open(OUTPUT_CSV, "r", encoding="utf-8") as f:
-                for row in csv.DictReader(f):
-                    if row.get("File Link"):
-                        status_cache[row["File Link"]] = row.get("Status", "Unknown")
+            with open(HEALTH_CACHE_FILE, "r", encoding="utf-8") as f:
+                health_cache = json.load(f)
         except Exception:
-            pass
+            health_cache = {}
 
     rows = []
     links_to_check = []
@@ -187,7 +187,7 @@ async def process_and_verify():
 
         for file_link in entry.get("file_links", []):
             host = file_link.split("/")[2] if "/" in file_link else "unknown"
-            cached_status = status_cache.get(file_link, "Pending")
+            cached_status = health_cache.get(file_link, "Pending")
 
             item = {
                 "Tweet Date": tweet_date,
@@ -201,18 +201,18 @@ async def process_and_verify():
                 "_raw_time": raw_time or "1970-01-01",
             }
             rows.append(item)
-            # Re-check if status pending OR if title was unknown (to grab filename from page!)
             if cached_status == "Pending" or title == "Unknown Title":
                 links_to_check.append(file_link)
 
     if links_to_check:
-        print(f"🔍 Checking {len(links_to_check)} link(s) for verification & page filename title extraction...")
+        print(f"🔍 Checking {len(links_to_check)} link(s) for verification...")
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
             page = await browser.new_page()
 
             for i, link in enumerate(links_to_check, 1):
                 status, fn_title, fn_year = await check_link_health(link, page)
+                health_cache[link] = status
                 print(f"   [{i}/{len(links_to_check)}] {link} -> {status} (Extracted: {fn_title or 'N/A'})")
 
                 for r in rows:
@@ -225,7 +225,11 @@ async def process_and_verify():
 
             await browser.close()
 
-    # Manual overrides for any edge cases
+        # Save health cache to disk
+        with open(HEALTH_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(health_cache, f, indent=2)
+
+    # Edge-case title mapping
     for r in rows:
         if "m9vWw503wZxB" in r["File Link"]:
             r["Title"] = "The Exiles"
@@ -240,30 +244,26 @@ async def process_and_verify():
             r["Title"] = "Salò, or the 120 Days of Sodom"
             r["Year"] = "1975"
 
-    # PARTITION & TWO-LEVEL SORT:
-    # 1. Alive rows first (sorted by Tweet Date descending)
-    # 2. Dead rows second (sorted by Tweet Date descending)
+    # STRICT FILTER: REMOVE ALL DEAD LINKS
     alive_rows = [r for r in rows if "Alive" in r.get("Status", "")]
-    dead_rows = [r for r in rows if "Alive" not in r.get("Status", "")]
+    dead_count = len(rows) - len(alive_rows)
 
+    # SORT BY TWEET DATE DESCENDING (newest tweets at top)
     alive_rows.sort(key=lambda x: x["_raw_time"], reverse=True)
-    dead_rows.sort(key=lambda x: x["_raw_time"], reverse=True)
 
-    sorted_rows = alive_rows + dead_rows
-
-    # Write CSV
+    # Write CSV with Alive items only
     fieldnames = ["Tweet Date", "Title", "Year", "Quality", "File Host", "File Link", "Status", "Tweet URL"]
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
-        writer.writerows(sorted_rows)
+        writer.writerows(alive_rows)
 
     print(f"\n{'=' * 55}")
-    print(f"✅ Exported {len(sorted_rows)} items to {OUTPUT_CSV}")
-    print(f"   🟢 Alive (Top): {len(alive_rows)} items (Newest: {alive_rows[0]['Tweet Date'] if alive_rows else 'N/A'})")
-    print(f"   🔴 Dead (Bottom): {len(dead_rows)} items (Newest: {dead_rows[0]['Tweet Date'] if dead_rows else 'N/A'})")
+    print(f"✅ Filtered & Exported {len(alive_rows)} ALIVE items to {OUTPUT_CSV}")
+    print(f"🗑️ Permanently removed {dead_count} dead/expired links.")
+    print(f"📅 Sorted by Tweet Date: Newest first ({alive_rows[0]['Tweet Date'] if alive_rows else 'N/A'})")
 
-    # Sync to Google Sheets
+    # Clear Google Sheet completely and re-import only alive rows
     print(f"\n📊 Syncing to Google Sheet ({SPREADSHEET_ID})...")
     os.system(f"gsheets mutate clear '{SPREADSHEET_ID}' 'Sheet1!A1:Z500'")
     os.system(f"gsheets mutate import-csv '{SPREADSHEET_ID}' '{OUTPUT_CSV}'")
@@ -271,8 +271,7 @@ async def process_and_verify():
     os.system(f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 8 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'")
     os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 8")
     os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 300 --start-col 6 --end-col 7 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 300 --start-col 6 --end-col 7 --condition 'TEXT_CONTAINS' --value 'Dead' --color '#FEE2E2'")
-    print("✅ Google Sheet refreshed successfully!")
+    print("✅ Google Sheet refreshed successfully with clean alive-only list!")
 
 
 if __name__ == "__main__":
