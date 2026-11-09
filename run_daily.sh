@@ -20,6 +20,13 @@ python3 scrape_remux_scrapling.py
 echo "🔬 Extracting metadata & verifying link status..."
 python3 process_and_sync.py
 
+# Sync directly to Google Sheet
+SPREADSHEET_ID="1oqYjXc5D9eURyHUGNynR9uW9BDKNKWyGtfDBs8j_j8E"
+echo "📊 Syncing to Google Sheet ($SPREADSHEET_ID)..."
+gsheets mutate import-csv "$SPREADSHEET_ID" remux_library.csv
+gsheets mutate autosize "$SPREADSHEET_ID" --sheet-id 0 --start-col 0 --end-col 8
+echo "✅ Google Sheet updated!"
+
 # Push to GitHub (if git remote is configured)
 if git remote get-url origin > /dev/null 2>&1; then
     echo "📤 Syncing changes to GitHub..."
