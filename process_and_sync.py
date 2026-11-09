@@ -1,8 +1,8 @@
 """
 Remux Data Processor & Accurate Link Health Verifier
-- Only retains ALIVE 🟢 links (dead links are deleted)
-- Strictly sorts by Tweet Date (newest first)
-- Resolves all messy/unknown movie titles
+- Primary Sort: ALIVE 🟢 first, then DEAD 🔴
+- Secondary Sort: Tweet Date descending (newest tweets at top of each section)
+- Extracts titles from tweet text AND falls back to web page filename (e.g. The Exiles 1961)
 - Syncs clean results directly to Google Sheets
 """
 
@@ -67,7 +67,7 @@ def clean_text_for_title(raw_text: str):
 
 
 def extract_title_from_filename(filename: str):
-    """Fallback: Parse release filename like 'Aniki.Bobo.1942.1080p.BluRay.REMUX.mkv'"""
+    """Parse release filename like 'The.Exiles.1961.1080p.BluRay.Remux.AVC.FLAC2.0-PSTX.mkv'"""
     cleaned = filename.replace(".", " ").replace("_", " ")
     m = re.search(r'^([A-Za-z0-9\s\'\-\!\?]+?)\s+\b(19\d{2}|20\d{2})\b', cleaned)
     if m:
@@ -100,6 +100,7 @@ def extract_format_info(raw_text: str) -> str:
 async def check_link_health(link: str, page) -> tuple[str, str | None, str | None]:
     """
     Checks whether the file link is still alive or expired.
+    Also extracts the exact filename/title shown on the download page.
     Returns: (status, fallback_title, fallback_year)
     """
     try:
@@ -161,18 +162,14 @@ async def process_and_verify():
     hits = data.get("hits", [])
     print(f"📊 Processing {len(hits)} scraped posts...")
 
-    # Load existing CSV cache to avoid re-verifying links already known dead or alive
+    # Load existing CSV cache to preserve known verified health status
     status_cache = {}
     if os.path.exists(OUTPUT_CSV):
         try:
             with open(OUTPUT_CSV, "r", encoding="utf-8") as f:
                 for row in csv.DictReader(f):
                     if row.get("File Link"):
-                        status_cache[row["File Link"]] = (
-                            row.get("Status", "Unknown"),
-                            row.get("Title", ""),
-                            row.get("Year", "")
-                        )
+                        status_cache[row["File Link"]] = row.get("Status", "Unknown")
         except Exception:
             pass
 
@@ -183,7 +180,6 @@ async def process_and_verify():
         text = entry.get("text", "")
         tweet_url = entry.get("tweet_url", "")
         raw_time = entry.get("timestamp", "")
-        # Format tweet date nicely: YYYY-MM-DD HH:MM
         tweet_date = raw_time[:16].replace("T", " ") if raw_time else "Unknown"
 
         title, year = clean_text_for_title(text)
@@ -191,9 +187,8 @@ async def process_and_verify():
 
         for file_link in entry.get("file_links", []):
             host = file_link.split("/")[2] if "/" in file_link else "unknown"
-            
-            cached_status, _, _ = status_cache.get(file_link, ("Pending", "", ""))
-            
+            cached_status = status_cache.get(file_link, "Pending")
+
             item = {
                 "Tweet Date": tweet_date,
                 "Title": title,
@@ -206,18 +201,19 @@ async def process_and_verify():
                 "_raw_time": raw_time or "1970-01-01",
             }
             rows.append(item)
-            if cached_status == "Pending":
+            # Re-check if status pending OR if title was unknown (to grab filename from page!)
+            if cached_status == "Pending" or title == "Unknown Title":
                 links_to_check.append(file_link)
 
     if links_to_check:
-        print(f"🔍 Checking health for {len(links_to_check)} unverified link(s)...")
+        print(f"🔍 Checking {len(links_to_check)} link(s) for verification & page filename title extraction...")
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
             page = await browser.new_page()
 
             for i, link in enumerate(links_to_check, 1):
                 status, fn_title, fn_year = await check_link_health(link, page)
-                print(f"   [{i}/{len(links_to_check)}] {link} -> {status}")
+                print(f"   [{i}/{len(links_to_check)}] {link} -> {status} (Extracted: {fn_title or 'N/A'})")
 
                 for r in rows:
                     if r["File Link"] == link:
@@ -229,38 +225,45 @@ async def process_and_verify():
 
             await browser.close()
 
-    # Manual fixes for known edge cases
+    # Manual overrides for any edge cases
     for r in rows:
-        if "gDVLkuwxkDiA" in r["File Link"] and r["Title"] == "Unknown Title":
+        if "m9vWw503wZxB" in r["File Link"]:
+            r["Title"] = "The Exiles"
+            r["Year"] = "1961"
+        elif "gDVLkuwxkDiA" in r["File Link"] and (r["Title"] == "Unknown Title" or not r["Title"]):
             r["Title"] = "Trainspotting"
             r["Year"] = "1996"
-        if "ZJiDky" in r["File Link"] and r["Title"] == "Unknown Title":
+        elif "ZJiDky" in r["File Link"] and (r["Title"] == "Unknown Title" or not r["Title"]):
             r["Title"] = "Armageddon"
             r["Year"] = "1998"
-        if r["Title"].startswith(", or"):
+        elif r["Title"].startswith(", or"):
             r["Title"] = "Salò, or the 120 Days of Sodom"
             r["Year"] = "1975"
 
-    # FILTER: ONLY KEEP ALIVE LINKS (delete dead ones completely)
+    # PARTITION & TWO-LEVEL SORT:
+    # 1. Alive rows first (sorted by Tweet Date descending)
+    # 2. Dead rows second (sorted by Tweet Date descending)
     alive_rows = [r for r in rows if "Alive" in r.get("Status", "")]
-    dead_count = len(rows) - len(alive_rows)
+    dead_rows = [r for r in rows if "Alive" not in r.get("Status", "")]
 
-    # SORT BY TWEET DATE DESCENDING (newest tweets first)
     alive_rows.sort(key=lambda x: x["_raw_time"], reverse=True)
+    dead_rows.sort(key=lambda x: x["_raw_time"], reverse=True)
 
-    # Write cleaned CSV
+    sorted_rows = alive_rows + dead_rows
+
+    # Write CSV
     fieldnames = ["Tweet Date", "Title", "Year", "Quality", "File Host", "File Link", "Status", "Tweet URL"]
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
-        writer.writerows(alive_rows)
+        writer.writerows(sorted_rows)
 
     print(f"\n{'=' * 55}")
-    print(f"✅ Filtered & Exported {len(alive_rows)} ALIVE items to {OUTPUT_CSV}")
-    print(f"🗑️ Deleted {dead_count} dead/expired links.")
-    print(f"📅 Sorted by Tweet Date: Newest first ({alive_rows[0]['Tweet Date'] if alive_rows else 'N/A'})")
+    print(f"✅ Exported {len(sorted_rows)} items to {OUTPUT_CSV}")
+    print(f"   🟢 Alive (Top): {len(alive_rows)} items (Newest: {alive_rows[0]['Tweet Date'] if alive_rows else 'N/A'})")
+    print(f"   🔴 Dead (Bottom): {len(dead_rows)} items (Newest: {dead_rows[0]['Tweet Date'] if dead_rows else 'N/A'})")
 
-    # Clear old Google Sheet data and re-import freshly sorted alive data
+    # Sync to Google Sheets
     print(f"\n📊 Syncing to Google Sheet ({SPREADSHEET_ID})...")
     os.system(f"gsheets mutate clear '{SPREADSHEET_ID}' 'Sheet1!A1:Z500'")
     os.system(f"gsheets mutate import-csv '{SPREADSHEET_ID}' '{OUTPUT_CSV}'")
@@ -268,7 +271,8 @@ async def process_and_verify():
     os.system(f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 8 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'")
     os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 8")
     os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 300 --start-col 6 --end-col 7 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
-    print("✅ Google Sheet refreshed successfully with clean alive-only list!")
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 300 --start-col 6 --end-col 7 --condition 'TEXT_CONTAINS' --value 'Dead' --color '#FEE2E2'")
+    print("✅ Google Sheet refreshed successfully!")
 
 
 if __name__ == "__main__":
