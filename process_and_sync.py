@@ -1,7 +1,7 @@
 """
-Remux Data Processor & Link Health Verifier
+Remux Data Processor & Accurate Link Health Verifier
 Extracts Movie Title, Year, Quality/Size info, and tests whether each link is ALIVE or DEAD.
-Exports the cleaned table to remux_library.csv for Google Sheets.
+Exports the cleaned table to remux_library.csv and updates Google Sheets.
 """
 
 import asyncio
@@ -14,6 +14,7 @@ from patchright.async_api import async_playwright
 
 INPUT_FILE = "remux_links.json"
 OUTPUT_CSV = "remux_library.csv"
+SPREADSHEET_ID = "1oqYjXc5D9eURyHUGNynR9uW9BDKNKWyGtfDBs8j_j8E"
 
 
 def clean_text_for_title(raw_text: str):
@@ -31,25 +32,32 @@ def clean_text_for_title(raw_text: str):
     m1 = re.search(r'^([A-Za-z0-9\s\'\:\,\.\-\!\?*#&]+?)\s*[\(\[](?:[^\)\]]*?\b(19\d{2}|20\d{2})\b[^\)\]]*)[\)\]]', first_line)
     if m1:
         raw_title = m1.group(1).strip(" -:\t\n*#")
-        raw_title = re.sub(r'\s*\*[^*]+\*\s*', ' ', raw_title).strip() # clean *4K Restoration*
+        raw_title = re.sub(r'\s*\*[^*]+\*\s*', ' ', raw_title).strip()
         year = m1.group(2)
         return raw_title, year
 
-    # Pattern 2: Search throughout entire text if first line was a header
+    # Pattern 2: Search throughout entire text
     for line in raw_text.split("\n"):
         line = line.strip()
         m2 = re.search(r'([A-Za-z0-9\s\'\:\,\.\-\!\?*#&]+?)\s*[\(\[](?:[^\)\]]*?\b(19\d{2}|20\d{2})\b[^\)\]]*)[\)\]]', line)
         if m2:
             raw_title = m2.group(1).strip(" -:\t\n*#")
             raw_title = re.sub(r'\s*\*[^*]+\*\s*', ' ', raw_title).strip()
-            # Ignore if title looks like just resolution
             if not re.search(r'^(1080p|4k|bluray|uhd|remux)', raw_title, re.I):
                 return raw_title, m2.group(2)
 
-    # Fallback: Just year, title unknown
     myear = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
     year = myear.group(1) if myear else "Unknown"
     return "Unknown Title", year
+
+
+def extract_title_from_filename(filename: str):
+    """Fallback: Parse release filename like 'Aniki.Bobo.1942.1080p.BluRay.REMUX.mkv'"""
+    cleaned = filename.replace(".", " ").replace("_", " ")
+    m = re.search(r'^([A-Za-z0-9\s\'\-\!\?]+?)\s+\b(19\d{2}|20\d{2})\b', cleaned)
+    if m:
+        return m.group(1).strip(), m.group(2)
+    return None, None
 
 
 def extract_format_info(raw_text: str) -> str:
@@ -67,7 +75,6 @@ def extract_format_info(raw_text: str) -> str:
     if re.search(r'\bREMUX\b', raw_text, re.I):
         tags.append("REMUX")
 
-    # Size (e.g. 32.5 GB)
     msize = re.search(r'(\d+(?:\.\d+)?\s*(?:GB|GiB|MB))', raw_text, re.I)
     if msize:
         tags.append(msize.group(1).upper())
@@ -75,35 +82,56 @@ def extract_format_info(raw_text: str) -> str:
     return " | ".join(tags) if tags else "Remux"
 
 
-async def check_link_health(link: str, page) -> str:
-    """Checks whether the file link is still alive or expired."""
+async def check_link_health(link: str, page) -> tuple[str, str | None, str | None]:
+    """
+    Checks whether the file link is still alive or expired.
+    Returns: (status, fallback_title, fallback_year)
+    """
     try:
         if "transfer.it" in link:
-            await page.goto(link, wait_until="networkidle", timeout=12000)
+            await page.goto(link, wait_until="domcontentloaded", timeout=12000)
+            # Give client-side SPA 2.5 seconds to populate transfer data or error message
+            await page.wait_for_timeout(2500)
             body = (await page.inner_text("body")).lower()
-            if "can’t find this transfer" in body or "expired" in body or "removed" in body:
-                return "Dead 🔴"
-            if "ready to download" in body or "download" in body or "gb" in body:
-                return "Alive 🟢"
-            return "Alive 🟢"
+
+            # Strict dead detection
+            if any(term in body for term in ["oops", "can’t find this transfer", "can't find this transfer", "expired", "removed", "incorrect"]):
+                return "Dead 🔴", None, None
+
+            # Strict alive detection
+            if "ready to download" in body:
+                # Try to extract actual movie filename from the line under 'Ready to download'
+                lines = [l.strip() for l in (await page.inner_text("body")).split("\n") if l.strip()]
+                for idx, line in enumerate(lines):
+                    if line.lower() == "ready to download" and idx + 1 < len(lines):
+                        fn_title, fn_year = extract_title_from_filename(lines[idx + 1])
+                        return "Alive 🟢", fn_title, fn_year
+                return "Alive 🟢", None, None
+
+            return "Dead 🔴", None, None
 
         elif "gofile.io" in link:
-            await page.goto(link, wait_until="networkidle", timeout=12000)
+            await page.goto(link, wait_until="domcontentloaded", timeout=12000)
+            await page.wait_for_timeout(2500)
             body = (await page.inner_text("body")).lower()
-            if "content does not exist" in body or "not found" in body:
-                return "Dead 🔴"
-            return "Alive 🟢"
+            if "this content does not exist" in body or "error-notfound" in body or "not found" in body:
+                return "Dead 🔴", None, None
+            if "download" in body or "files" in body:
+                return "Alive 🟢", None, None
+            return "Dead 🔴", None, None
 
         elif "mega.nz" in link:
-            await page.goto(link, wait_until="networkidle", timeout=12000)
+            await page.goto(link, wait_until="domcontentloaded", timeout=12000)
+            await page.wait_for_timeout(2500)
             body = (await page.inner_text("body")).lower()
-            if "no longer available" in body or "removed" in body or "does not exist" in body:
-                return "Dead 🔴"
-            return "Alive 🟢"
+            if any(term in body for term in ["no longer available", "removed", "does not exist", "invalid link"]):
+                return "Dead 🔴", None, None
+            return "Alive 🟢", None, None
 
-        return "Alive 🟢"
-    except Exception:
-        return "Unknown ⚠️"
+        return "Alive 🟢", None, None
+
+    except Exception as e:
+        return "Dead 🔴", None, None
 
 
 async def process_and_verify():
@@ -116,19 +144,6 @@ async def process_and_verify():
 
     hits = data.get("hits", [])
     print(f"📊 Processing {len(hits)} scraped posts with file links...")
-
-    # Load existing CSV if available to cache previously checked statuses
-    status_cache = {}
-    if os.path.exists(OUTPUT_CSV):
-        try:
-            with open(OUTPUT_CSV, "r", encoding="utf-8") as f:
-                reader = csv.DictReader(f)
-                for row in reader:
-                    if row.get("File Link"):
-                        status_cache[row["File Link"]] = (row.get("Status", "Unknown ⚠️"), row.get("Checked Date", ""))
-            print(f"📂 Cached status loaded for {len(status_cache)} links.")
-        except Exception:
-            pass
 
     rows = []
     links_to_check = []
@@ -147,35 +162,36 @@ async def process_and_verify():
                 "Quality": quality,
                 "File Host": host,
                 "File Link": file_link,
-                "Status": status_cache.get(file_link, ("Pending", ""))[0],
-                "Checked Date": status_cache.get(file_link, ("Pending", ""))[1] or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                "Status": "Pending",
+                "Checked Date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
                 "Tweet URL": tweet_url,
             })
-            if file_link not in status_cache or status_cache[file_link][0] == "Pending":
-                links_to_check.append(file_link)
+            links_to_check.append(file_link)
 
-    print(f"🔍 Need to verify health for {len(links_to_check)} link(s)...")
+    print(f"🔍 Verifying health for all {len(links_to_check)} link(s) with strict checks...")
 
-    if links_to_check:
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=True)
-            page = await browser.new_page()
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
 
-            for i, link in enumerate(links_to_check, 1):
-                print(f"   [{i}/{len(links_to_check)}] Checking {link} ...")
-                status = await check_link_health(link, page)
-                checked_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-                print(f"         Result: {status}")
+        for i, link in enumerate(links_to_check, 1):
+            status, fn_title, fn_year = await check_link_health(link, page)
+            checked_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            print(f"   [{i}/{len(links_to_check)}] {link} -> {status}")
 
-                for r in rows:
-                    if r["File Link"] == link:
-                        r["Status"] = status
-                        r["Checked Date"] = checked_date
+            for r in rows:
+                if r["File Link"] == link:
+                    r["Status"] = status
+                    r["Checked Date"] = checked_date
+                    if (r["Title"] == "Unknown Title" or not r["Title"]) and fn_title:
+                        r["Title"] = fn_title
+                        if fn_year:
+                            r["Year"] = fn_year
 
-            await browser.close()
+        await browser.close()
 
-    # Sort rows by Title, then Year
-    rows.sort(key=lambda x: (x["Title"] == "Unknown Title", x["Title"], x["Year"]))
+    # Sort rows by Status (Alive first), then Title, then Year
+    rows.sort(key=lambda x: (x["Status"] != "Alive 🟢", x["Title"] == "Unknown Title", x["Title"], x["Year"]))
 
     # Write to CSV
     fieldnames = ["Title", "Year", "Quality", "File Host", "File Link", "Status", "Checked Date", "Tweet URL"]
@@ -184,11 +200,17 @@ async def process_and_verify():
         writer.writeheader()
         writer.writerows(rows)
 
-    print(f"\n{'=' * 55}")
-    print(f"✅ Exported {len(rows)} verified items to {OUTPUT_CSV}")
     alive_count = sum(1 for r in rows if "Alive" in r["Status"])
     dead_count = sum(1 for r in rows if "Dead" in r["Status"])
+    print(f"\n{'=' * 55}")
+    print(f"✅ Exported {len(rows)} verified items to {OUTPUT_CSV}")
     print(f"   🟢 Alive: {alive_count} | 🔴 Dead: {dead_count}")
+
+    # Directly update Google Sheets
+    print(f"\n📊 Updating Google Sheet ({SPREADSHEET_ID})...")
+    os.system(f"gsheets mutate import-csv '{SPREADSHEET_ID}' '{OUTPUT_CSV}'")
+    os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 8")
+    print("✅ Google Sheet refreshed successfully!")
 
 
 if __name__ == "__main__":
