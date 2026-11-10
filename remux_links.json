@@ -1,7 +1,7 @@
 {
-  "scraped_at": "2026-11-10T12:50:10.312101+00:00",
-  "query": "remux",
-  "total_tweets": 667,
+  "scraped_at": "2026-11-10T17:04:47.855150+00:00",
+  "query": "remux-multi-query",
+  "total_tweets": 668,
   "total_with_file_links": 635,
   "hits": [
     {
@@ -8710,6 +8710,19 @@
       ],
       "raw_tco": {
         "https://t.co/FU1SdQyxHy": "https://github.com/h3nock/remux"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/abriter901/status/2119310349493264517",
+      "author": "https://x.com/abriter901",
+      "timestamp": "2026-11-08T06:05:36.000Z",
+      "text": "It’s there on Internet archive as well for free view/download",
+      "file_links": [],
+      "other_links": [
+        "https://archive.org/details/ramayana-the-legend-of-prince-rama-1992-dvd5-remux-hineng-esubs-mpeg-dd5.1"
+      ],
+      "raw_tco": {
+        "https://t.co/ZBG6APzKcs": "https://archive.org/details/ramayana-the-legend-of-prince-rama-1992-dvd5-remux-hineng-esubs-mpeg-dd5.1"
       }
     }
   ]
