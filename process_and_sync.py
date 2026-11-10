@@ -181,11 +181,12 @@ KNOWN_4K_EXISTS = {
     "Lancelot of the Lake",
 }
 
-# Sub-optimal (DVD / 576p / Web-DL where 1080p bluray exists)
-SUB_OPTIMAL_TITLES = {
-    "A Spring for the Thirsty",
-    "The Legend of Princess Olga",
-    "The Eve of Ivan Kupalo",
+# Titles where a 1080p Blu-ray exists, but current link is DVD
+DVD_UPGRADE_EXISTS = {
+    "Cabiria",
+    "Secret Things",
+    "The Films of the Lumiere Brothers",
+    "Colossal Youth",
 }
 
 
@@ -195,15 +196,18 @@ def evaluate_quality_tier(quality_str: str, title: str) -> str:
     - 4K UHD Remux: Peak quality available (⭐ Yes (4K UHD))
     - 1080p Remux: If no 4K exists in the world, it's the definitive best available (🟢 Yes (1080p Best))
     - 1080p Remux: If an official 4K disc exists, flag it (⚠️ 4K UHD Exists)
-    - 576p DVD: Flag if higher quality bluray exists (🔻 Higher Tier Exists)
+    - DVD Remux: If no 1080p exists, DVD is the definitive best available (📀 Yes (DVD is Best))
+    - DVD Remux: If 1080p exists, flag it (⚠️ 1080p Exists)
     """
     q_lower = quality_str.lower()
 
     if "4k" in q_lower or "2160p" in q_lower or "uhd" in q_lower:
         return "⭐ Yes (4K UHD)"
 
-    if "dvd" in q_lower or "576p" in q_lower or title in SUB_OPTIMAL_TITLES:
-        return "🔻 Higher Tier Exists"
+    if "dvd" in q_lower or "576p" in q_lower or "480p" in q_lower or "480i" in q_lower:
+        if title in DVD_UPGRADE_EXISTS or title in KNOWN_4K_EXISTS:
+            return "⚠️ 1080p Exists"
+        return "📀 Yes (DVD is Best)"
 
     if title in KNOWN_4K_EXISTS:
         return "⚠️ 4K UHD Exists"
@@ -330,12 +334,20 @@ def extract_title_from_filename(filename: str):
 
 
 def extract_format_info(raw_text: str) -> str:
-    """Extracts quality markers (4K, 1080p, HDR, DV, file size)."""
+    """Extracts quality markers (4K, 1080p, 720p, 576p DVD, 480p DVD, DVD, HDR, DV, file size)."""
     tags = []
     if re.search(r'\b4K\b|2160p|UHD', raw_text, re.I):
         tags.append("4K UHD")
-    elif re.search(r'\b1080p\b', raw_text, re.I):
+    elif re.search(r'\b1080p\b|1080i\b', raw_text, re.I):
         tags.append("1080p")
+    elif re.search(r'\b720p\b', raw_text, re.I):
+        tags.append("720p")
+    elif re.search(r'\b576p\b|576i\b', raw_text, re.I):
+        tags.append("576p DVD")
+    elif re.search(r'\b480p\b|480i\b', raw_text, re.I):
+        tags.append("480p DVD")
+    elif re.search(r'\bDVD\b', raw_text, re.I):
+        tags.append("DVD")
 
     if re.search(r'\bHDR\b', raw_text, re.I):
         tags.append("HDR")
@@ -567,12 +579,16 @@ async def process_and_verify():
     os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 9")
     
     # Conditional formatting for Best Quality? (Col 4)
-    # Green for Yes (4K or 1080p Best)
+    # Green for Yes (4K, 1080p Best, or DVD Best)
     os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Yes' --color '#DCFCE7'")
-    # Amber for 4K UHD Exists
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value '4K UHD Exists' --color '#FEF3C7'")
-    # Red for Higher Tier Exists
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Higher Tier' --color '#FEE2E2'")
+    # Amber for when a higher resolution (4K or 1080p) exists
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Exists' --color '#FEF3C7'")
+    
+    # Conditional formatting for Quality (Col 3)
+    # Soft purple for DVD
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value 'DVD' --color '#F3E8FF'")
+    # Soft gold for 4K
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value '4K' --color '#FEF08A'")
     
     # Conditional formatting for Status (Col 7)
     os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 7 --end-col 8 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
