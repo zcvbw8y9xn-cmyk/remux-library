@@ -128,7 +128,12 @@ LINK_OVERRIDES = {
     "MdodCHhD0TYB": ("Luminous Woman", "1987"),
     "1PB4eDBMQuaxPaK3vPlas-83N3c4JwsTO": ("Businessman", "2012"),
     "9JSyfWpx3BjI": ("Freeze Me", "2000"),
-    "qN9ZjvpXkR7I": ("A Night in Nude", "1993")
+    "qN9ZjvpXkR7I": ("A Night in Nude", "1993"),
+    "0xCRcV511DYL": ("Pearls of the Deep", "1965"),
+    "by0sfK94": ("Blue Velvet", "1986"),
+    "wCJptEoBhDqD": ("The Guest", "2014"),
+    "PD4gYRolyRjQ": ("Affliction", "1997"),
+    "6RNXAI4Y": ("Unknown Pleasures", "2002")
 }
 
 # Known movies where an official 4K UHD physical disc release exists in the real world
@@ -300,12 +305,13 @@ def clean_text_for_title(raw_text: str):
                 return t, yr
 
     # Pattern B: Det Sjunde Inseglet - The Seventh Seal
-    m_seal = re.search(r'-\s*([A-Za-z0-9\s\'\:\,\.\!\?&]+?)(?:\s+CRITERION|\s+1080p|\s+bluray|\s+remux|$)', filtered[0], re.I)
+    m_seal = re.search(r'(?<!blu)(?<!web)\s+-\s+([A-Za-z0-9\s\'\:\,\.\!\?&]+?)(?:\s+CRITERION|\s+1080p|\s+bluray|\s+remux|$)', filtered[0], re.I)
     if m_seal:
         t = m_seal.group(1).strip(" -:\t\n*#[],")
-        m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
-        yr = m_yr.group(1) if m_yr else "Unknown"
-        return t, yr
+        if t.lower() not in ["ray", "blu", "remux", "dvd", "rip", "bd", "uhd", "4k", "1080p"] and len(t) > 2:
+            m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
+            yr = m_yr.group(1) if m_yr else "Unknown"
+            return t, yr
 
     # Pattern C: Multi-line English / Foreign / Director, Year
     for i in range(1, min(len(filtered), 5)):
