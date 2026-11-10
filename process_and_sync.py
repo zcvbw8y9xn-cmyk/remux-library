@@ -573,6 +573,14 @@ def get_letterboxd_link(title: str, year: str) -> str:
     return f"https://letterboxd.com/search/{urllib.parse.quote_plus(q)}/"
 
 
+def get_imdb_link(title: str, year: str) -> str:
+    """Generates direct IMDb search URL for the movie."""
+    if not title or title == "Unknown Title":
+        return ""
+    q = f"{title} {year}".strip() if year and year != "Unknown" else title.strip()
+    return f"https://www.imdb.com/find/?q={urllib.parse.quote_plus(q)}&s=tt"
+
+
 def parse_cached_entry(entry):
     """Parses status and timestamp from cache, supporting both legacy strings and new dict formats."""
     if isinstance(entry, dict):
@@ -746,9 +754,10 @@ async def process_and_verify():
                 "Year": eff_year,
                 "Quality": quality,
                 "Best Quality?": "Pending",
-                "Letterboxd": get_letterboxd_link(eff_title, eff_year),
                 "File Host": host,
                 "File Link": file_link,
+                "Letterboxd": get_letterboxd_link(eff_title, eff_year),
+                "IMDb": get_imdb_link(eff_title, eff_year),
                 "Status": cached_status,
                 "Tweet URL": tweet_url,
                 "_raw_time": raw_time or "1970-01-01",
@@ -820,8 +829,9 @@ async def process_and_verify():
         # Evaluate Best Quality Available status
         r["Best Quality?" ] = evaluate_quality_tier(r["Quality"], r["Title"])
 
-        # Update Letterboxd link with final title and year
+        # Update Letterboxd and IMDb links with final title and year
         r["Letterboxd"] = get_letterboxd_link(r["Title"], r["Year"])
+        r["IMDb"] = get_imdb_link(r["Title"], r["Year"])
 
     # STRICT FILTER: REMOVE ALL DEAD LINKS
     alive_rows = [r for r in rows if "Alive" in r.get("Status", "")]
@@ -831,7 +841,7 @@ async def process_and_verify():
     alive_rows.sort(key=lambda x: x["_raw_time"], reverse=True)
 
     # Write CSV with Alive items only
-    fieldnames = ["Tweet Date", "Title", "Year", "Quality", "Best Quality?", "Letterboxd", "File Host", "File Link", "Status", "Tweet URL"]
+    fieldnames = ["Tweet Date", "Title", "Year", "Quality", "Best Quality?", "File Host", "File Link", "Letterboxd", "IMDb", "Status", "Tweet URL"]
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
@@ -848,13 +858,13 @@ async def process_and_verify():
     # Send optional Discord/Telegram notifications
     send_webhook_notifications(alive_rows, dead_count)
 
-    # Clear Google Sheet completely and re-import with new 10-column layout
+    # Clear Google Sheet completely and re-import with new 11-column layout
     print(f"\n📊 Syncing to Google Sheet ({SPREADSHEET_ID})...")
     os.system(f"gsheets mutate clear '{SPREADSHEET_ID}' 'Sheet1!A1:Z600'")
     os.system(f"gsheets mutate import-csv '{SPREADSHEET_ID}' '{OUTPUT_CSV}'")
     os.system(f"gsheets mutate freeze '{SPREADSHEET_ID}' --sheet-id 0 --rows 1")
-    os.system(f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 10 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'")
-    os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 10")
+    os.system(f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 11 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'")
+    os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 11")
     
     # Conditional formatting for Best Quality? (Col 4)
     # Green for Yes (4K, 1080p Best, or DVD Best)
@@ -868,9 +878,9 @@ async def process_and_verify():
     # Soft gold for 4K
     os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value '4K' --color '#FEF08A'")
     
-    # Conditional formatting for Status (Col 8)
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 8 --end-col 9 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
-    print("✅ Google Sheet refreshed successfully with Letterboxd links and Quality Tier evaluation!")
+    # Conditional formatting for Status (Col 9)
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 9 --end-col 10 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
+    print("✅ Google Sheet refreshed successfully with transfer.it, Letterboxd, IMDb, and Quality Tier evaluation!")
 
 
 if __name__ == "__main__":

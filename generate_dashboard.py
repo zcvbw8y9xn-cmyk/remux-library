@@ -9,20 +9,7 @@ import os
 CSV_FILE = "remux_library.csv"
 OUTPUT_HTML = "index.html"
 
-def generate():
-    movies = []
-    if os.path.exists(CSV_FILE):
-        with open(CSV_FILE, "r", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            movies = list(reader)
-
-    movies_json = json.dumps(movies, ensure_ascii=False)
-    total_count = len(movies)
-    uhd_count = sum(1 for m in movies if "4K" in m.get("Quality", ""))
-    best_1080p_count = sum(1 for m in movies if "1080p Best" in m.get("Best Quality?", ""))
-    dvd_count = sum(1 for m in movies if "DVD" in m.get("Quality", ""))
-
-    html_content = f'''<!DOCTYPE html>
+HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
@@ -30,50 +17,49 @@ def generate():
   <title>Remux Vault — Curated 4K UHD & 1080p Cinema Library</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {{
+    tailwind.config = {
       darkMode: 'class',
-      theme: {{
-        extend: {{
-          colors: {{
-            brand: {{
+      theme: {
+        extend: {
+          colors: {
+            brand: {
               50: '#f0fdf4',
               500: '#10b981',
               600: '#059669',
-            }},
-            slate: {{
+            },
+            slate: {
               850: '#151f32',
               900: '#0f172a',
               950: '#080d1a',
-            }}
-          }}
-        }}
-      }}
-    }}
+            }
+          }
+        }
+      }
+    }
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
-    body {{
+    body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-    }}
-    .mono {{
+    }
+    .mono {
       font-family: 'JetBrains Mono', monospace;
-    }}
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {{
+    }
+    ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
-    }}
-    ::-webkit-scrollbar-track {{
+    }
+    ::-webkit-scrollbar-track {
       background: #0f172a;
-    }}
-    ::-webkit-scrollbar-thumb {{
+    }
+    ::-webkit-scrollbar-thumb {
       background: #334155;
       border-radius: 4px;
-    }}
-    ::-webkit-scrollbar-thumb:hover {{
+    }
+    ::-webkit-scrollbar-thumb:hover {
       background: #475569;
-    }}
+    }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-black">
@@ -120,7 +106,7 @@ def generate():
           <i class="fa-solid fa-clapperboard"></i>
         </div>
         <div>
-          <div class="text-2xl font-bold text-white tracking-tight" id="stat-total">{total_count}</div>
+          <div class="text-2xl font-bold text-white tracking-tight" id="stat-total">__TOTAL_COUNT__</div>
           <div class="text-xs text-slate-400">Total Active Movies</div>
         </div>
       </div>
@@ -130,7 +116,7 @@ def generate():
           <i class="fa-solid fa-star"></i>
         </div>
         <div>
-          <div class="text-2xl font-bold text-amber-400 tracking-tight" id="stat-uhd">{uhd_count}</div>
+          <div class="text-2xl font-bold text-amber-400 tracking-tight" id="stat-uhd">__UHD_COUNT__</div>
           <div class="text-xs text-slate-400">4K UHD Remuxes</div>
         </div>
       </div>
@@ -140,7 +126,7 @@ def generate():
           <i class="fa-solid fa-check-double"></i>
         </div>
         <div>
-          <div class="text-2xl font-bold text-emerald-400 tracking-tight" id="stat-1080p">{best_1080p_count}</div>
+          <div class="text-2xl font-bold text-emerald-400 tracking-tight" id="stat-1080p">__1080P_COUNT__</div>
           <div class="text-xs text-slate-400">1080p Definitive Masters</div>
         </div>
       </div>
@@ -150,7 +136,7 @@ def generate():
           <i class="fa-solid fa-compact-disc"></i>
         </div>
         <div>
-          <div class="text-2xl font-bold text-purple-400 tracking-tight" id="stat-dvd">{dvd_count}</div>
+          <div class="text-2xl font-bold text-purple-400 tracking-tight" id="stat-dvd">__DVD_COUNT__</div>
           <div class="text-xs text-slate-400">Rare DVD Remuxes</div>
         </div>
       </div>
@@ -213,7 +199,7 @@ def generate():
           <option value="drive.google.com">Google Drive</option>
         </select>
 
-        <span id="resultCount" class="ml-auto text-slate-400 text-xs font-mono">Showing {total_count} movies</span>
+        <span id="resultCount" class="ml-auto text-slate-400 text-xs font-mono">Showing __TOTAL_COUNT__ movies</span>
       </div>
     </div>
 
@@ -259,6 +245,7 @@ def generate():
       <div>Auto-refreshed daily via Raspberry Pi & GitHub Actions.</div>
       <div class="flex items-center gap-4">
         <a href="https://letterboxd.com" target="_blank" class="hover:text-slate-300 transition">Letterboxd</a>
+        <a href="https://www.imdb.com" target="_blank" class="hover:text-slate-300 transition">IMDb</a>
         <a href="https://docs.google.com/spreadsheets/d/1oqYjXc5D9eURyHUGNynR9uW9BDKNKWyGtfDBs8j_j8E" target="_blank" class="hover:text-slate-300 transition">Google Sheets</a>
         <a href="https://github.com/zcvbw8y9xn-cmyk/remux-library" target="_blank" class="hover:text-slate-300 transition">GitHub Repo</a>
       </div>
@@ -266,61 +253,61 @@ def generate():
   </footer>
 
   <script>
-    let rawMovies = {movies_json};
+    let rawMovies = __MOVIES_JSON__;
     let currentFilter = 'all';
     let currentView = 'grid';
 
     // Attempt to dynamically fetch fresh CSV if served over HTTP
-    if (window.location.protocol.startsWith('http')) {{
+    if (window.location.protocol.startsWith('http')) {
       fetch('remux_library.csv?t=' + Date.now())
         .then(res => res.text())
-        .then(text => {{
+        .then(text => {
           const parsed = parseCSV(text);
-          if (parsed && parsed.length > 0) {{
+          if (parsed && parsed.length > 0) {
             rawMovies = parsed;
             updateStats();
             renderMovies();
-          }}
-        }})
-        .catch(() => {{}});
-    }}
+          }
+        })
+        .catch(() => {});
+    }
 
-    function parseCSV(text) {{
+    function parseCSV(text) {
       const lines = text.trim().split('\\n');
       if (lines.length < 2) return null;
       const headers = lines[0].split(',').map(h => h.trim());
       const data = [];
-      for (let i = 1; i < lines.length; i++) {{
+      for (let i = 1; i < lines.length; i++) {
         const row = parseCSVRow(lines[i]);
-        if (row.length === headers.length) {{
-          const item = {{}};
+        if (row.length === headers.length) {
+          const item = {};
           headers.forEach((h, idx) => item[h] = row[idx]);
           data.push(item);
-        }}
-      }}
+        }
+      }
       return data;
-    }}
+    }
 
-    function parseCSVRow(line) {{
+    function parseCSVRow(line) {
       const result = [];
       let current = '';
       let inQuotes = false;
-      for (let i = 0; i < line.length; i++) {{
+      for (let i = 0; i < line.length; i++) {
         const ch = line[i];
-        if (ch === '"') {{
+        if (ch === '"') {
           inQuotes = !inQuotes;
-        }} else if (ch === ',' && !inQuotes) {{
+        } else if (ch === ',' && !inQuotes) {
           result.push(current.trim());
           current = '';
-        }} else {{
+        } else {
           current += ch;
-        }}
-      }}
+        }
+      }
       result.push(current.trim());
       return result;
-    }}
+    }
 
-    function updateStats() {{
+    function updateStats() {
       const total = rawMovies.length;
       const uhd = rawMovies.filter(m => (m['Quality'] || '').includes('4K')).length;
       const best1080 = rawMovies.filter(m => (m['Best Quality?'] || '').includes('1080p Best')).length;
@@ -329,134 +316,129 @@ def generate():
       document.getElementById('stat-uhd').innerText = uhd;
       document.getElementById('stat-1080p').innerText = best1080;
       document.getElementById('stat-dvd').innerText = dvd;
-    }}
+    }
 
-    function setQualityFilter(tier) {{
+    function setQualityFilter(tier) {
       currentFilter = tier;
-      document.querySelectorAll('.chip').forEach(btn => {{
-        if (btn.dataset.filter === tier) {{
+      document.querySelectorAll('.chip').forEach(btn => {
+        if (btn.dataset.filter === tier) {
           btn.classList.add('bg-emerald-500', 'text-slate-950', 'border-emerald-500', 'font-bold');
           btn.classList.remove('bg-slate-900', 'text-slate-300', 'border-slate-800');
-        }} else {{
+        } else {
           btn.classList.remove('bg-emerald-500', 'text-slate-950', 'border-emerald-500', 'font-bold');
           btn.classList.add('bg-slate-900', 'text-slate-300', 'border-slate-800');
-        }}
-      }});
+        }
+      });
       renderMovies();
-    }}
+    }
 
-    function setViewMode(mode) {{
+    function setViewMode(mode) {
       currentView = mode;
       const gridBtn = document.getElementById('viewGridBtn');
       const tableBtn = document.getElementById('viewTableBtn');
       const gridContainer = document.getElementById('gridContainer');
       const tableContainer = document.getElementById('tableContainer');
 
-      if (mode === 'grid') {{
+      if (mode === 'grid') {
         gridBtn.className = 'p-1.5 px-2.5 rounded-lg text-xs font-semibold text-emerald-400 bg-slate-800 shadow transition';
         tableBtn.className = 'p-1.5 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition';
         gridContainer.classList.remove('hidden');
         tableContainer.classList.add('hidden');
-      }} else {{
+      } else {
         tableBtn.className = 'p-1.5 px-2.5 rounded-lg text-xs font-semibold text-emerald-400 bg-slate-800 shadow transition';
         gridBtn.className = 'p-1.5 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition';
         gridContainer.classList.add('hidden');
         tableContainer.classList.remove('hidden');
-      }}
-    }}
+      }
+    }
 
-    function handleSearch() {{
+    function handleSearch() {
       renderMovies();
-    }}
+    }
 
-    function getFilteredMovies() {{
+    function getFilteredMovies() {
       const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
       const hostFilter = document.getElementById('hostFilter').value;
       const sort = document.getElementById('sortSelect').value;
 
-      return rawMovies.filter(m => {{
+      return rawMovies.filter(m => {
         const title = (m['Title'] || '').toLowerCase();
         const year = (m['Year'] || '');
         const quality = (m['Quality'] || '').toLowerCase();
         const host = (m['File Host'] || '').toLowerCase();
         const tier = (m['Best Quality?'] || '').toLowerCase();
 
-        // Search match
         const matchesQuery = !query || title.includes(query) || year.includes(query) || quality.includes(query) || host.includes(query);
-
-        // Host filter
         const matchesHost = hostFilter === 'all' || host.includes(hostFilter);
 
-        // Quality filter
         let matchesTier = true;
-        if (currentFilter === '4k') {{
+        if (currentFilter === '4k') {
           matchesTier = quality.includes('4k');
-        }} else if (currentFilter === '1080p-best') {{
+        } else if (currentFilter === '1080p-best') {
           matchesTier = tier.includes('1080p best');
-        }} else if (currentFilter === '4k-exists') {{
+        } else if (currentFilter === '4k-exists') {
           matchesTier = tier.includes('exists');
-        }} else if (currentFilter === 'dvd') {{
+        } else if (currentFilter === 'dvd') {
           matchesTier = quality.includes('dvd');
-        }}
+        }
 
         return matchesQuery && matchesHost && matchesTier;
-      }}).sort((a, b) => {{
-        if (sort === 'title-asc') {{
+      }).sort((a, b) => {
+        if (sort === 'title-asc') {
           return (a['Title'] || '').localeCompare(b['Title'] || '');
-        }} else if (sort === 'year-desc') {{
+        } else if (sort === 'year-desc') {
           return parseInt(b['Year'] || 0) - parseInt(a['Year'] || 0);
-        }} else if (sort === 'year-asc') {{
+        } else if (sort === 'year-asc') {
           return parseInt(a['Year'] || 0) - parseInt(b['Year'] || 0);
-        }} else {{
-          // date-desc default
+        } else {
           return (b['Tweet Date'] || '').localeCompare(a['Tweet Date'] || '');
-        }}
-      }});
-    }}
+        }
+      });
+    }
 
-    function getTierBadge(tier) {{
+    function getTierBadge(tier) {
       if (!tier) return '';
-      if (tier.includes('4K UHD')) {{
+      if (tier.includes('4K UHD')) {
         return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1"><i class="fa-solid fa-star text-[9px]"></i> Yes (4K UHD)</span>`;
-      }} else if (tier.includes('1080p Best')) {{
+      } else if (tier.includes('1080p Best')) {
         return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 flex items-center gap-1"><i class="fa-solid fa-check text-[9px]"></i> Yes (1080p Best)</span>`;
-      }} else if (tier.includes('DVD is Best')) {{
+      } else if (tier.includes('DVD is Best')) {
         return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30 flex items-center gap-1"><i class="fa-solid fa-compact-disc text-[9px]"></i> Yes (DVD is Best)</span>`;
-      }} else if (tier.includes('4K UHD Exists')) {{
+      } else if (tier.includes('4K UHD Exists')) {
         return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-yellow-500/15 text-yellow-300 border border-yellow-500/30 flex items-center gap-1"><i class="fa-solid fa-triangle-exclamation text-[9px]"></i> 4K UHD Exists</span>`;
-      }} else {{
-        return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">${{tier}}</span>`;
-      }}
-    }}
+      } else {
+        return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">${tier}</span>`;
+      }
+    }
 
-    function getQualityBadge(quality) {{
-      if ((quality || '').includes('4K')) {{
+    function getQualityBadge(quality) {
+      if ((quality || '').includes('4K')) {
         return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-400 text-slate-950 font-mono">4K UHD</span>`;
-      }} else if ((quality || '').includes('DVD')) {{
+      } else if ((quality || '').includes('DVD')) {
         return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-400 text-slate-950 font-mono">DVD REMUX</span>`;
-      }} else {{
+      } else {
         return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-700 text-slate-200 font-mono">1080p</span>`;
-      }}
-    }}
+      }
+    }
 
-    function renderMovies() {{
+    function renderMovies() {
       const movies = getFilteredMovies();
-      document.getElementById('resultCount').innerText = `Showing ${{movies.length}} movies`;
+      document.getElementById('resultCount').innerText = `Showing ${movies.length} movies`;
 
       const grid = document.getElementById('gridContainer');
       const tableBody = document.getElementById('tableBody');
       const emptyState = document.getElementById('emptyState');
 
-      if (movies.length === 0) {{
+      if (movies.length === 0) {
         grid.innerHTML = '';
         tableBody.innerHTML = '';
         emptyState.classList.remove('hidden');
         return;
-      }}
+      }
       emptyState.classList.add('hidden');
 
       // Render Grid
-      grid.innerHTML = movies.map(m => {{
+      grid.innerHTML = movies.map(m => {
         const title = m['Title'] || 'Unknown';
         const year = m['Year'] || '';
         const quality = m['Quality'] || '';
@@ -464,7 +446,8 @@ def generate():
         const host = m['File Host'] || '';
         const fileLink = m['File Link'] || '';
         const tweetUrl = m['Tweet URL'] || '';
-        const letterboxd = m['Letterboxd'] || `https://letterboxd.com/search/${{encodeURIComponent(title + ' ' + year)}}/`;
+        const letterboxd = m['Letterboxd'] || `https://letterboxd.com/search/${encodeURIComponent(title + ' ' + year)}/`;
+        const imdb = m['IMDb'] || `https://www.imdb.com/find/?q=${encodeURIComponent(title + ' ' + year)}&s=tt`;
         const tweetDate = m['Tweet Date'] || '';
 
         return `
@@ -472,46 +455,50 @@ def generate():
             <div>
               <div class="flex items-start justify-between gap-2 mb-2">
                 <div class="flex items-center gap-1.5 flex-wrap">
-                  ${{getQualityBadge(quality)}}
-                  <span class="text-[10px] font-mono text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">${{host}}</span>
+                  ${getQualityBadge(quality)}
+                  <span class="text-[10px] font-mono text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">${host}</span>
                 </div>
-                <span class="text-[10px] text-slate-500 font-mono">${{tweetDate.split(' ')[0] || ''}}</span>
+                <span class="text-[10px] text-slate-500 font-mono">${(tweetDate.split(' ')[0] || '')}</span>
               </div>
 
-              <h3 class="text-sm font-bold text-white tracking-tight line-clamp-1">${{title}}</h3>
-              <div class="text-xs text-slate-400 mb-2.5 font-medium">${{year}}</div>
+              <h3 class="text-sm font-bold text-white tracking-tight line-clamp-1">${title}</h3>
+              <div class="text-xs text-slate-400 mb-2.5 font-medium">${year}</div>
 
               <div class="mb-3">
-                ${{getTierBadge(tier)}}
+                ${getTierBadge(tier)}
               </div>
 
-              <div class="text-[11px] font-mono text-slate-400 bg-slate-950/70 p-2 rounded-lg border border-slate-800/60 mb-3 truncate" title="${{quality}}">
-                ${{quality}}
+              <div class="text-[11px] font-mono text-slate-400 bg-slate-950/70 p-2 rounded-lg border border-slate-800/60 mb-3 truncate" title="${quality}">
+                ${quality}
               </div>
             </div>
 
             <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-1.5 text-xs">
-              <button onclick="copyToClipboard('${{fileLink}}')" class="flex-1 py-1.5 px-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 font-semibold flex items-center justify-center gap-1.5 transition">
+              <button onclick="copyToClipboard('${fileLink}')" class="flex-1 py-1.5 px-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 font-semibold flex items-center justify-center gap-1.5 transition">
                 <i class="fa-regular fa-copy text-[11px]"></i>
                 <span>Copy Link</span>
               </button>
 
-              <a href="${{fileLink}}" target="_blank" class="p-1.5 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Open Download Link">
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+              <a href="${fileLink}" target="_blank" class="p-1.5 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Open Download Link (${host})">
+                <i class="fa-solid fa-download text-xs"></i>
               </a>
 
-              <a href="${{letterboxd}}" target="_blank" class="p-1.5 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Search on Letterboxd">
+              <a href="${letterboxd}" target="_blank" class="p-1.5 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Search on Letterboxd">
                 <i class="fa-solid fa-film text-xs"></i>
               </a>
 
-              ${{tweetUrl ? `<a href="${{tweetUrl}}" target="_blank" class="p-1.5 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="View Tweet"><i class="fa-brands fa-x-twitter text-xs"></i></a>` : ''}}
+              <a href="${imdb}" target="_blank" class="p-1.5 px-2 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 font-black text-[10px] tracking-tight transition" title="Search on IMDb">
+                IMDb
+              </a>
+
+              ${tweetUrl ? `<a href="${tweetUrl}" target="_blank" class="p-1.5 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="View Tweet"><i class="fa-brands fa-x-twitter text-xs"></i></a>` : ''}
             </div>
           </div>
         `;
-      }}).join('');
+      }).join('');
 
       // Render Table
-      tableBody.innerHTML = movies.map(m => {{
+      tableBody.innerHTML = movies.map(m => {
         const title = m['Title'] || 'Unknown';
         const year = m['Year'] || '';
         const quality = m['Quality'] || '';
@@ -519,77 +506,100 @@ def generate():
         const host = m['File Host'] || '';
         const fileLink = m['File Link'] || '';
         const tweetUrl = m['Tweet URL'] || '';
-        const letterboxd = m['Letterboxd'] || `https://letterboxd.com/search/${{encodeURIComponent(title + ' ' + year)}}/`;
+        const letterboxd = m['Letterboxd'] || `https://letterboxd.com/search/${encodeURIComponent(title + ' ' + year)}/`;
+        const imdb = m['IMDb'] || `https://www.imdb.com/find/?q=${encodeURIComponent(title + ' ' + year)}&s=tt`;
         const tweetDate = m['Tweet Date'] || '';
 
         return `
           <tr class="hover:bg-slate-850/60 transition">
-            <td class="py-2.5 px-4 font-mono text-slate-400 whitespace-nowrap text-[11px]">${{tweetDate}}</td>
+            <td class="py-2.5 px-4 font-mono text-slate-400 whitespace-nowrap text-[11px]">${tweetDate}</td>
             <td class="py-2.5 px-4">
               <div class="font-bold text-slate-100 flex items-center gap-1.5">
-                ${{title}}
-                <span class="text-slate-400 text-[11px] font-normal">(${{year}})</span>
+                ${title}
+                <span class="text-slate-400 text-[11px] font-normal">(${year})</span>
               </div>
             </td>
-            <td class="py-2.5 px-4 font-mono text-[11px] text-slate-300">${{quality}}</td>
-            <td class="py-2.5 px-4">${{getTierBadge(tier)}}</td>
-            <td class="py-2.5 px-4 font-mono text-slate-400 text-[11px]">${{host}}</td>
+            <td class="py-2.5 px-4 font-mono text-[11px] text-slate-300">${quality}</td>
+            <td class="py-2.5 px-4">${getTierBadge(tier)}</td>
+            <td class="py-2.5 px-4 font-mono text-slate-400 text-[11px]">${host}</td>
             <td class="py-2.5 px-4 text-right">
               <div class="flex items-center justify-end gap-1.5">
-                <button onclick="copyToClipboard('${{fileLink}}')" class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 text-xs font-semibold transition" title="Copy Link">
+                <button onclick="copyToClipboard('${fileLink}')" class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 text-xs font-semibold transition" title="Copy Link">
                   <i class="fa-regular fa-copy"></i>
                 </button>
-                <a href="${{fileLink}}" target="_blank" class="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs transition" title="Download">
+                <a href="${fileLink}" target="_blank" class="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs transition" title="Download (${host})">
                   <i class="fa-solid fa-download"></i>
                 </a>
-                <a href="${{letterboxd}}" target="_blank" class="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs transition" title="Letterboxd">
+                <a href="${letterboxd}" target="_blank" class="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs transition" title="Letterboxd">
                   <i class="fa-solid fa-film"></i>
                 </a>
-                ${{tweetUrl ? `<a href="${{tweetUrl}}" target="_blank" class="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs transition" title="Tweet"><i class="fa-brands fa-x-twitter"></i></a>` : ''}}
+                <a href="${imdb}" target="_blank" class="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-black transition" title="IMDb">
+                  IMDb
+                </a>
+                ${tweetUrl ? `<a href="${tweetUrl}" target="_blank" class="px-2 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs transition" title="Tweet"><i class="fa-brands fa-x-twitter"></i></a>` : ''}
               </div>
             </td>
           </tr>
         `;
-      }}).join('');
-    }}
+      }).join('');
+    }
 
-    function copyToClipboard(text) {{
-      navigator.clipboard.writeText(text).then(() => {{
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
         showToast('Direct download link copied to clipboard!');
-      }}).catch(() => {{
+      }).catch(() => {
         showToast('Link copied!');
-      }});
-    }}
+      });
+    }
 
-    function copyAllLinks() {{
+    function copyAllLinks() {
       const movies = getFilteredMovies();
       const urls = movies.map(m => m['File Link']).filter(Boolean).join('\\n');
-      navigator.clipboard.writeText(urls).then(() => {{
-        showToast(`Copied ${{movies.length}} batch URLs for JDownloader / Debrid!`);
-      }}).catch(() => {{
+      navigator.clipboard.writeText(urls).then(() => {
+        showToast(`Copied ${movies.length} batch URLs for JDownloader / Debrid!`);
+      }).catch(() => {
         showToast('Copied batch links!');
-      }});
-    }}
+      });
+    }
 
-    function showToast(msg) {{
+    function showToast(msg) {
       const toast = document.getElementById('toast');
       document.getElementById('toastMsg').innerText = msg;
       toast.classList.remove('translate-y-24', 'opacity-0');
       toast.classList.add('translate-y-0', 'opacity-100');
-      setTimeout(() => {{
+      setTimeout(() => {
         toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('translate-y-24', 'opacity-0');
-      }}, 2600);
-    }}
+      }, 2600);
+    }
 
-    // Initial render
     setQualityFilter('all');
   </script>
 </body>
 </html>
-'''
+"""
+
+def generate():
+    movies = []
+    if os.path.exists(CSV_FILE):
+        with open(CSV_FILE, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            movies = list(reader)
+
+    movies_json = json.dumps(movies, ensure_ascii=False)
+    total_count = len(movies)
+    uhd_count = sum(1 for m in movies if "4K" in m.get("Quality", ""))
+    best_1080p_count = sum(1 for m in movies if "1080p Best" in m.get("Best Quality?", ""))
+    dvd_count = sum(1 for m in movies if "DVD" in m.get("Quality", ""))
+
+    content = HTML_TEMPLATE.replace("__MOVIES_JSON__", movies_json)
+    content = content.replace("__TOTAL_COUNT__", str(total_count))
+    content = content.replace("__UHD_COUNT__", str(uhd_count))
+    content = content.replace("__1080P_COUNT__", str(best_1080p_count))
+    content = content.replace("__DVD_COUNT__", str(dvd_count))
+
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
-        f.write(html_content)
+        f.write(content)
 
     print(f"✨ Dashboard generated successfully: {OUTPUT_HTML} ({total_count} movies embedded)")
 
