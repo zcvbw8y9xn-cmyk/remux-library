@@ -5,6 +5,7 @@
 # 3. Commits and pushes the updated CSV to GitHub
 
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/scottsnow/.gemini/antigravity/bin:$PATH"
+export DEVELOPER_DIR="/Library/Developer/CommandLineTools"
 export PYTHONUNBUFFERED=1
 
 PROJECT_DIR="/Users/scottsnow/.gemini/antigravity/scratch/my-pi-project"
@@ -19,21 +20,18 @@ echo "=========================================="
 echo "🔍 Scraping X.com for new remux links..."
 python3 scrape_remux_scrapling.py
 
-# Process titles, years & check health
-echo "🔬 Extracting metadata & verifying link status..."
+# Process titles, years, health checks & Google Sheet sync
+echo "🔬 Extracting metadata, verifying links & updating Google Sheet..."
 python3 process_and_sync.py
 
-# Sync directly to Google Sheet
-SPREADSHEET_ID="1oqYjXc5D9eURyHUGNynR9uW9BDKNKWyGtfDBs8j_j8E"
-echo "📊 Syncing to Google Sheet ($SPREADSHEET_ID)..."
-gsheets mutate import-csv "$SPREADSHEET_ID" remux_library.csv
-gsheets mutate autosize "$SPREADSHEET_ID" --sheet-id 0 --start-col 0 --end-col 8
-echo "✅ Google Sheet updated!"
+# Regenerate Web Dashboard
+echo "🌐 Updating Web Dashboard (index.html)..."
+python3 generate_dashboard.py
 
-# Push to GitHub (if git remote is configured)
+# Push to GitHub
 if git remote get-url origin > /dev/null 2>&1; then
     echo "📤 Syncing changes to GitHub..."
-    git add remux_links.json remux_library.csv
+    git add remux_links.json remux_library.csv index.html health_cache.json downloads_*.txt
     git commit -m "Auto-update remux library: $(date -u +'%Y-%m-%d %H:%M UTC')"
     git push origin main
     echo "✅ GitHub sync complete!"

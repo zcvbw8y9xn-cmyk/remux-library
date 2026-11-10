@@ -1,0 +1,6 @@
+{
+  "_comment": "Rename to config.json to enable Discord or Telegram notifications (optional)",
+  "discord_webhook_url": "",
+  "telegram_bot_token": "",
+  "telegram_chat_id": ""
+}

@@ -565,6 +565,125 @@ async def check_link_health(link: str, page) -> tuple[str, str | None, str | Non
         return "Dead 🔴", None, None
 
 
+def get_letterboxd_link(title: str, year: str) -> str:
+    """Generates direct Letterboxd search URL for the movie."""
+    if not title or title == "Unknown Title":
+        return ""
+    q = f"{title} {year}".strip() if year and year != "Unknown" else title.strip()
+    return f"https://letterboxd.com/search/{urllib.parse.quote_plus(q)}/"
+
+
+def parse_cached_entry(entry):
+    """Parses status and timestamp from cache, supporting both legacy strings and new dict formats."""
+    if isinstance(entry, dict):
+        return entry.get("status", "Pending"), entry.get("checked_at", "1970-01-01T00:00:00Z")
+    elif isinstance(entry, str):
+        return entry, "1970-01-01T00:00:00Z"
+    return "Pending", "1970-01-01T00:00:00Z"
+
+
+def export_download_batches(alive_rows):
+    """Exports raw download links for batch downloading in JDownloader, Real-Debrid, or aria2."""
+    with open("downloads_all_alive.txt", "w", encoding="utf-8") as f:
+        for r in alive_rows:
+            f.write(f"{r['File Link']}\n")
+
+    with open("downloads_4k_alive.txt", "w", encoding="utf-8") as f:
+        for r in alive_rows:
+            if "4K" in r.get("Quality", ""):
+                f.write(f"{r['File Link']}\n")
+
+    with open("downloads_newest_50.txt", "w", encoding="utf-8") as f:
+        for r in alive_rows[:50]:
+            f.write(f"{r['File Link']}\n")
+
+    print("📦 Exported batch download link lists (downloads_all_alive.txt, downloads_4k_alive.txt, downloads_newest_50.txt).")
+
+
+def send_webhook_notifications(alive_rows, dead_count):
+    """Sends optional Discord or Telegram notifications if configured in config.json or environment."""
+    config = {}
+    config_file = "config.json"
+    if os.path.exists(config_file):
+        try:
+            with open(config_file, "r", encoding="utf-8") as f:
+                config = json.load(f)
+        except Exception:
+            pass
+
+    discord_url = config.get("discord_webhook_url") or os.environ.get("DISCORD_WEBHOOK_URL")
+    telegram_token = config.get("telegram_bot_token") or os.environ.get("TELEGRAM_BOT_TOKEN")
+    telegram_chat = config.get("telegram_chat_id") or os.environ.get("TELEGRAM_CHAT_ID")
+
+    if not discord_url and not (telegram_token and telegram_chat):
+        return
+
+    total_alive = len(alive_rows)
+    uhd_count = sum(1 for r in alive_rows if "4K" in r.get("Quality", ""))
+    dvd_count = sum(1 for r in alive_rows if "DVD" in r.get("Quality", ""))
+    newest_3 = [f"• {r['Title']} ({r['Year']}) — {r['Quality']}" for r in alive_rows[:3]]
+    newest_text = "\n".join(newest_3)
+
+    if discord_url:
+        try:
+            payload = {
+                "embeds": [{
+                    "title": "🎬 Remux Library Updated",
+                    "color": 3066993,
+                    "description": f"**{total_alive} active movies** currently available in the library.",
+                    "fields": [
+                        {"name": "⭐ 4K UHD Remuxes", "value": str(uhd_count), "inline": True},
+                        {"name": "📀 DVD Remuxes", "value": str(dvd_count), "inline": True},
+                        {"name": "🗑️ Pruned Dead Links", "value": str(dead_count), "inline": True},
+                        {"name": "✨ Latest Additions", "value": newest_text or "N/A", "inline": False},
+                        {"name": "📊 Google Sheet", "value": f"[Open Library](https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID})", "inline": True}
+                    ],
+                    "timestamp": datetime.now(timezone.utc).isoformat()
+                }]
+            }
+            req = urllib.request.Request(
+                discord_url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json", "User-Agent": "RemuxBot/1.0"}
+            )
+            urllib.request.urlopen(req, timeout=10)
+            print("📣 Discord notification sent successfully!")
+        except Exception as e:
+            print(f"⚠️ Discord notification failed: {e}")
+
+    if telegram_token and telegram_chat:
+        try:
+            tg_lines = [
+                "🎬 *Remux Library Update*",
+                "",
+                f"• Active movies: *{total_alive}*",
+                f"• 4K UHD: *{uhd_count}*",
+                f"• DVD Remux: *{dvd_count}*",
+                "",
+                "*Latest Additions:*",
+                newest_text,
+                "",
+                f"[Open Google Sheet](https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID})"
+            ]
+            tg_text = "\n".join(tg_lines)
+            tg_url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
+            payload = {
+                "chat_id": telegram_chat,
+                "text": tg_text,
+                "parse_mode": "Markdown",
+                "disable_web_page_preview": True
+            }
+            req = urllib.request.Request(
+                tg_url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"}
+            )
+            urllib.request.urlopen(req, timeout=10)
+            print("📣 Telegram notification sent successfully!")
+        except Exception as e:
+            print(f"⚠️ Telegram notification failed: {e}")
+
+
 async def process_and_verify():
     if not os.path.exists(INPUT_FILE):
         print(f"❌ {INPUT_FILE} not found!")
@@ -599,7 +718,7 @@ async def process_and_verify():
 
         for file_link in entry.get("file_links", []):
             host = file_link.split("/")[2] if "/" in file_link else "unknown"
-            cached_status = health_cache.get(file_link, "Pending")
+            cached_status, cached_time = parse_cached_entry(health_cache.get(file_link, "Pending"))
 
             # Check LINK_OVERRIDES first
             eff_title = title
@@ -619,6 +738,7 @@ async def process_and_verify():
                 "Year": eff_year,
                 "Quality": quality,
                 "Best Quality?": "Pending",
+                "Letterboxd": get_letterboxd_link(eff_title, eff_year),
                 "File Host": host,
                 "File Link": file_link,
                 "Status": cached_status,
@@ -629,6 +749,23 @@ async def process_and_verify():
             if cached_status == "Pending" or (cached_status != "Dead 🔴" and (eff_title == "Unknown Title" or not is_valid_movie_title(eff_title))):
                 links_to_check.append(file_link)
 
+    # Periodic Maintenance: Re-verify up to 10 active links older than 21 days
+    now_utc = datetime.now(timezone.utc)
+    recheck_candidates = []
+    for flink, entry in health_cache.items():
+        st, ctime = parse_cached_entry(entry)
+        if "Alive" in st and flink not in links_to_check:
+            try:
+                c_dt = datetime.fromisoformat(ctime.replace("Z", "+00:00"))
+                age_days = (now_utc - c_dt).total_seconds() / 86400
+                if age_days > 21:
+                    recheck_candidates.append((age_days, flink))
+            except Exception:
+                pass
+    recheck_candidates.sort(reverse=True)
+    for _, flink in recheck_candidates[:10]:
+        links_to_check.append(flink)
+
     # Deep-check links that need status verification
     if links_to_check:
         print(f"🔍 Checking {len(links_to_check)} link(s) for verification & title extraction...")
@@ -638,7 +775,10 @@ async def process_and_verify():
 
             for i, link in enumerate(links_to_check, 1):
                 status, fn_title, fn_year = await check_link_health(link, page)
-                health_cache[link] = status
+                health_cache[link] = {
+                    "status": status,
+                    "checked_at": datetime.now(timezone.utc).isoformat()
+                }
                 print(f"   [{i}/{len(links_to_check)}] {link} -> {status} (Extracted: {fn_title or 'N/A'})")
 
                 for r in rows:
@@ -655,7 +795,7 @@ async def process_and_verify():
         with open(HEALTH_CACHE_FILE, "w", encoding="utf-8") as f:
             json.dump(health_cache, f, indent=2)
 
-    # Apply Link Overrides, English Cleaning, and Quality Tier Evaluation across all rows
+    # Apply Link Overrides, English Cleaning, Quality Tier Evaluation, and Letterboxd link across all rows
     for r in rows:
         fl = r["File Link"]
         for k, (ov_t, ov_y) in LINK_OVERRIDES.items():
@@ -670,7 +810,10 @@ async def process_and_verify():
             r["Title"] = "Unknown Title"
         
         # Evaluate Best Quality Available status
-        r["Best Quality?"] = evaluate_quality_tier(r["Quality"], r["Title"])
+        r["Best Quality?" ] = evaluate_quality_tier(r["Quality"], r["Title"])
+
+        # Update Letterboxd link with final title and year
+        r["Letterboxd"] = get_letterboxd_link(r["Title"], r["Year"])
 
     # STRICT FILTER: REMOVE ALL DEAD LINKS
     alive_rows = [r for r in rows if "Alive" in r.get("Status", "")]
@@ -680,24 +823,30 @@ async def process_and_verify():
     alive_rows.sort(key=lambda x: x["_raw_time"], reverse=True)
 
     # Write CSV with Alive items only
-    fieldnames = ["Tweet Date", "Title", "Year", "Quality", "Best Quality?", "File Host", "File Link", "Status", "Tweet URL"]
+    fieldnames = ["Tweet Date", "Title", "Year", "Quality", "Best Quality?", "Letterboxd", "File Host", "File Link", "Status", "Tweet URL"]
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(alive_rows)
 
-    print(f"\n{'=' * 55}")
+    print("\n" + "=" * 55)
     print(f"✅ Filtered & Exported {len(alive_rows)} ALIVE items to {OUTPUT_CSV}")
     print(f"🗑️ Permanently removed {dead_count} dead/expired links.")
     print(f"📅 Sorted by Tweet Date: Newest first ({alive_rows[0]['Tweet Date'] if alive_rows else 'N/A'})")
 
-    # Clear Google Sheet completely and re-import with new Best Quality? column
+    # Export batch download link lists for Real-Debrid / JDownloader
+    export_download_batches(alive_rows)
+
+    # Send optional Discord/Telegram notifications
+    send_webhook_notifications(alive_rows, dead_count)
+
+    # Clear Google Sheet completely and re-import with new 10-column layout
     print(f"\n📊 Syncing to Google Sheet ({SPREADSHEET_ID})...")
     os.system(f"gsheets mutate clear '{SPREADSHEET_ID}' 'Sheet1!A1:Z600'")
     os.system(f"gsheets mutate import-csv '{SPREADSHEET_ID}' '{OUTPUT_CSV}'")
     os.system(f"gsheets mutate freeze '{SPREADSHEET_ID}' --sheet-id 0 --rows 1")
-    os.system(f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 9 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'")
-    os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 9")
+    os.system(f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 10 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'")
+    os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 10")
     
     # Conditional formatting for Best Quality? (Col 4)
     # Green for Yes (4K, 1080p Best, or DVD Best)
@@ -711,9 +860,9 @@ async def process_and_verify():
     # Soft gold for 4K
     os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value '4K' --color '#FEF08A'")
     
-    # Conditional formatting for Status (Col 7)
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 7 --end-col 8 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
-    print("✅ Google Sheet refreshed successfully with Quality Tier evaluation!")
+    # Conditional formatting for Status (Col 8)
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 8 --end-col 9 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
+    print("✅ Google Sheet refreshed successfully with Letterboxd links and Quality Tier evaluation!")
 
 
 if __name__ == "__main__":
