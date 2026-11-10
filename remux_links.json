@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-10T17:04:47.855150+00:00",
+  "scraped_at": "2026-11-10T23:32:00.900664+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 668,
-  "total_with_file_links": 635,
+  "total_tweets": 669,
+  "total_with_file_links": 636,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -8282,6 +8282,19 @@
       "other_links": [],
       "raw_tco": {
         "https://t.co/SPVXNAyyzp": "https://transfer.it/t/SJUOAR8h0JxI"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/Sad_Nezha/status/2120240838374478007",
+      "author": "https://x.com/Sad_Nezha",
+      "timestamp": "2026-11-10T19:43:02.000Z",
+      "text": "https://\ntransfer.it/t/3bZpBRtAEBoR\n\nCharisma [カリスマ]\nKiyoshi Kurosawa (1999)\n\n-1080p -Blue-Ray REMUX\n-25.68GB -EngSub",
+      "file_links": [
+        "https://transfer.it/t/3bZpBRtAEBoR"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/tBvgWRRPms": "https://transfer.it/t/3bZpBRtAEBoR"
       }
     }
   ],
