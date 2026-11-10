@@ -4,6 +4,9 @@
 # 2. Extracts title, year, quality, and verifies link health
 # 3. Commits and pushes the updated CSV to GitHub
 
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/scottsnow/.gemini/antigravity/bin:$PATH"
+export PYTHONUNBUFFERED=1
+
 PROJECT_DIR="/Users/scottsnow/.gemini/antigravity/scratch/my-pi-project"
 cd "$PROJECT_DIR" || exit 1
 
@@ -38,4 +41,8 @@ else
     echo "⚠️ Git remote 'origin' not configured yet. Skipping git push."
 fi
 
-echo "🎉 All done for today!"
+# Send native Mac notification
+ACTIVE_COUNT=$(grep -c "Alive 🟢" "$PROJECT_DIR/remux_library.csv" 2>/dev/null || echo "0")
+osascript -e "display notification \"Library updated: $ACTIVE_COUNT active movies ready in Google Sheets!\" with title \"🎬 Remux Library Sync Complete\" sound name \"Glass\"" 2>/dev/null
+
+echo "🎉 All done! Desktop notification sent."
