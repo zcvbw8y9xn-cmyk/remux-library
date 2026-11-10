@@ -268,16 +268,96 @@ def clean_to_english_title(text: str) -> str:
     if re.search(r'https?://|t\.co/|transfer\.it/|gofile\.io/|ibb\.co/|\.jpg\)?|\.png\)?', text, re.I) and ".com for murder" not in text.lower():
         return "Unknown Title"
 
+    if not is_valid_movie_title(text):
+        return "Unknown Title"
+
     return text or "Unknown Title"
+
+
+INVALID_EXACT_TITLES = {
+    "ray", "blu", "remux", "bd", "dvd", "rip", "uhd", "4k", "1080p", "720p", "2160p",
+    "hdr", "dv", "dolby", "vision", "atmos", "dts", "truehd", "flac", "aac", "hevc",
+    "x264", "x265", "h264", "h265", "re-up", "reup", "reupload", "link", "download",
+    "collection", "archive", "part", "disc", "volume", "vol", "subs", "unknown",
+    "unknown title", "bluray", "bdremux", "dvdrip", "webdl", "webrip", "criterion",
+    "arrow", "radiance", "eureka", "kino", "lorber", "b-ray", "blu-ray"
+}
+
+
+def is_valid_movie_title(title: str) -> bool:
+    """
+    Validates whether a candidate string is a plausible movie title
+    and not a media format fragment (e.g. 'ray', '1080p', 'Blu-ray', 'remux').
+    """
+    if not title or not isinstance(title, str):
+        return False
+    t = title.strip().strip("-: \t\n*#[],")
+    t_lower = t.lower()
+
+    # 1. Exact match against blacklisted single words or format terms
+    if t_lower in INVALID_EXACT_TITLES:
+        return False
+
+    # 2. Too short (except genuine 1-2 letter titles like 'GO', 'Pi', 'Io', 'Us', 'M', 'O', 'Z')
+    if len(t) < 2 and t_lower not in ["m", "o", "z"]:
+        return False
+
+    # 3. Contains URLs or domain remnants
+    if re.search(r'https?://|transfer\.it|gofile\.io|pixeldrain|mega\.nz|t\.co|\.jpg|\.png', t_lower):
+        return False
+
+    # 4. Purely composed of format / codec / resolution / rip tokens
+    words = set(re.findall(r'[a-z0-9]+', t_lower))
+    format_tokens = {
+        "1080p", "2160p", "720p", "480p", "576p", "4k", "uhd", "bluray", "remux", "bd",
+        "dvd", "rip", "hdr", "dv", "hevc", "x264", "x265", "h264", "h265", "dts", "flac",
+        "aac", "truehd", "atmos", "gb", "mb", "reup", "re", "up", "ray", "blu", "b", "subs"
+    }
+    if words and words.issubset(format_tokens):
+        return False
+
+    # 5. Starts with obvious format specification like '1080p BluRay REMUX'
+    if re.search(r'^(1080p|2160p|720p|4k|uhd|bluray|bd\s+remux|dvd\s+remux)\b', t_lower):
+        return False
+
+    return True
+
+
+def sanitize_technical_terms(text: str) -> str:
+    """
+    Normalizes hyphenated technical terms (e.g. 'Blu-ray' -> 'BluRay', 'Ultra-HD' -> 'UltraHD')
+    so that hyphens inside technical specs are never confused with movie title separators.
+    """
+    substitutions = [
+        (r'\bblu\s*-\s*ray\b', 'BluRay'),
+        (r'\bultra\s*-\s*hd\b', 'UltraHD'),
+        (r'\bweb\s*-\s*dl\b', 'WebDL'),
+        (r'\bweb\s*-\s*rip\b', 'WebRip'),
+        (r'\bbd\s*-\s*remux\b', 'BDRemux'),
+        (r'\bbd\s*-\s*rip\b', 'BDRip'),
+        (r'\bdvd\s*-\s*rip\b', 'DVDRip'),
+        (r'\bdvd\s*-\s*remux\b', 'DVDRemux'),
+        (r'\b4k\s*-\s*remux\b', '4K Remux'),
+        (r'\b1080p\s*-\s*remux\b', '1080p Remux'),
+        (r'\bre\s*-\s*up\b', 'ReUp'),
+        (r'\bre\s*-\s*upload\b', 'ReUpload'),
+    ]
+    for pattern, repl in substitutions:
+        text = re.sub(pattern, repl, text, flags=re.I)
+    return text
 
 
 def clean_text_for_title(raw_text: str):
     """
     Extracts English Title and Year from tweet text.
     Handles multi-line, director credits, bracketed foreign titles, and single-line tweets.
+    Guarantees no 'ray' or technical format fragments are returned as titles.
     """
+    # Normalize hyphenated technical specs first
+    sanitized = sanitize_technical_terms(raw_text)
+
     # Clean image urls, bracketed urls, or trailing url fragments
-    cleaned_text = re.sub(r'\(\s*(?:https?://|i\.ibb\.co)[^\)]*\)', '', raw_text)
+    cleaned_text = re.sub(r'\(\s*(?:https?://|i\.ibb\.co)[^\)]*\)', '', sanitized)
     cleaned_text = re.sub(r'https?://\S*', '', cleaned_text)
     lines = [l.strip() for l in cleaned_text.strip().split("\n") if l.strip()]
     if not lines:
@@ -308,24 +388,25 @@ def clean_text_for_title(raw_text: str):
             t = mA.group(1).strip(" -:\t\n*#[],")
             m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
             yr = m_yr.group(1) if m_yr else "Unknown"
-            if t and not re.search(r'^(1080p|4k|bluray|uhd|remux)', t, re.I):
+            if is_valid_movie_title(t):
                 return t, yr
 
-    # Pattern B: Det Sjunde Inseglet - The Seventh Seal
-    m_seal = re.search(r'(?<!blu)(?<!web)\s+-\s+([A-Za-z0-9\s\'\:\,\.\!\?&]+?)(?:\s+CRITERION|\s+1080p|\s+bluray|\s+remux|$)', filtered[0], re.I)
+    # Pattern B: Det Sjunde Inseglet - The Seventh Seal (requires non-format words on both sides)
+    m_seal = re.search(r'^([A-Za-z0-9\s\'\,\.\!\?&]+?)\s+-\s+([A-Za-z0-9\s\'\:\,\.\!\?&]+?)(?:\s+CRITERION|\s+1080p|\s+bluray|\s+remux|$)', filtered[0], re.I)
     if m_seal:
-        t = m_seal.group(1).strip(" -:\t\n*#[],")
-        if t.lower() not in ["ray", "blu", "remux", "dvd", "rip", "bd", "uhd", "4k", "1080p"] and len(t) > 2:
+        left = m_seal.group(1).strip(" -:\t\n*#[],")
+        right = m_seal.group(2).strip(" -:\t\n*#[],")
+        if is_valid_movie_title(right) and not re.search(r'^(1080p|4k|bluray|bd|remux)', left, re.I):
             m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
             yr = m_yr.group(1) if m_yr else "Unknown"
-            return t, yr
+            return right, yr
 
     # Pattern C: Multi-line English / Foreign / Director, Year
     for i in range(1, min(len(filtered), 5)):
         m_dir_year = re.search(r'\b(19\d{2}|20\d{2})\b', filtered[i])
         if m_dir_year and ('directed' in filtered[i].lower() or ',' in filtered[i] or 'by' in filtered[i].lower() or 'shepitko' in filtered[i].lower() or 'illienko' in filtered[i].lower() or 'dovzhenko' in filtered[i].lower() or 'vertov' in filtered[i].lower() or 'muratova' in filtered[i].lower() or 'grappe' in filtered[i].lower()):
             cand = filtered[0].strip(" -:\t\n*#[],")
-            if cand and not re.search(r'archive|collection|remux|bluray|1080p|4k', cand, re.I):
+            if is_valid_movie_title(cand):
                 return cand, m_dir_year.group(1)
 
     # Pattern D: Line with Title YYYY
@@ -333,7 +414,7 @@ def clean_text_for_title(raw_text: str):
         mC = re.search(r'^([A-Za-z0-9\s\'\-\:\,\.\!\?&]+?)\s+\b(19\d{2}|20\d{2})\b(?:\s+.*)?$', line.strip(), re.I)
         if mC:
             t = mC.group(1).strip(" -:\t\n*#[],")
-            if t and not re.search(r'^(1080p|4k|bluray|uhd|remux|bd)', t, re.I) and len(t) > 1:
+            if is_valid_movie_title(t):
                 return t, mC.group(2)
 
     # Pattern E: Standard Title (Year)
@@ -341,7 +422,7 @@ def clean_text_for_title(raw_text: str):
         mE = re.search(r'([^\n\r(\[]+?)\s*[\(\[](?:[^\)\]]*?\b(19\d{2}|20\d{2})\b[^\)\]]*)[\)\]]', line)
         if mE:
             t = mE.group(1).strip(" -:\t\n*#[],")
-            if not re.search(r'^(1080p|4k|bluray|uhd|remux)', t, re.I):
+            if is_valid_movie_title(t):
                 return t, mE.group(2)
 
     m_all_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
@@ -353,7 +434,9 @@ def extract_title_from_filename(filename: str):
     cleaned = filename.replace(".", " ").replace("_", " ")
     m = re.search(r'^([A-Za-z0-9\s\'\-\!\?]+?)\s+\b(19\d{2}|20\d{2})\b', cleaned)
     if m:
-        return m.group(1).strip(), m.group(2)
+        cand = m.group(1).strip()
+        if is_valid_movie_title(cand):
+            return cand, m.group(2)
     return None, None
 
 
@@ -527,6 +610,9 @@ async def process_and_verify():
                     eff_year = ov_y
                     break
 
+            if not is_valid_movie_title(eff_title):
+                eff_title = "Unknown Title"
+
             item = {
                 "Tweet Date": tweet_date,
                 "Title": eff_title,
@@ -540,7 +626,7 @@ async def process_and_verify():
                 "_raw_time": raw_time or "1970-01-01",
             }
             rows.append(item)
-            if cached_status == "Pending" or (cached_status != "Dead 🔴" and eff_title == "Unknown Title"):
+            if cached_status == "Pending" or (cached_status != "Dead 🔴" and (eff_title == "Unknown Title" or not is_valid_movie_title(eff_title))):
                 links_to_check.append(file_link)
 
     # Deep-check links that need status verification
@@ -558,7 +644,7 @@ async def process_and_verify():
                 for r in rows:
                     if r["File Link"] == link:
                         r["Status"] = status
-                        if (r["Title"] == "Unknown Title" or not r["Title"]) and fn_title:
+                        if (r["Title"] == "Unknown Title" or not is_valid_movie_title(r["Title"])) and fn_title and is_valid_movie_title(fn_title):
                             r["Title"] = fn_title
                             if fn_year:
                                 r["Year"] = fn_year
@@ -580,6 +666,8 @@ async def process_and_verify():
 
         # Convert to clean English title
         r["Title"] = clean_to_english_title(r["Title"])
+        if not is_valid_movie_title(r["Title"]):
+            r["Title"] = "Unknown Title"
         
         # Evaluate Best Quality Available status
         r["Best Quality?"] = evaluate_quality_tier(r["Quality"], r["Title"])
