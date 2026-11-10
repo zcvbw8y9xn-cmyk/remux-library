@@ -125,7 +125,10 @@ LINK_OVERRIDES = {
     "ZJiDky": ("Armageddon", "1998"),
     "xYmCNYsxHBIC": ("Perdida", "2009"),
     "XHgMDKx3HR6I": ("Meditation on Violence", "1949"),
-    "MdodCHhD0TYB": ("Luminous Woman", "1987")
+    "MdodCHhD0TYB": ("Luminous Woman", "1987"),
+    "1PB4eDBMQuaxPaK3vPlas-83N3c4JwsTO": ("Businessman", "2012"),
+    "9JSyfWpx3BjI": ("Freeze Me", "2000"),
+    "qN9ZjvpXkR7I": ("A Night in Nude", "1993")
 }
 
 # Known movies where an official 4K UHD physical disc release exists in the real world
@@ -248,6 +251,11 @@ def clean_to_english_title(text: str) -> str:
     # Clean brackets and whitespace
     text = re.sub(r'[\[\]]', '', text).strip(" -:\t\n*#,.")
     text = re.sub(r'\s+', ' ', text)
+
+    # Ensure no URL leaked through as a title (safeguard)
+    if re.search(r'https?://|t\.co/|transfer\.it/|gofile\.io/|ibb\.co/|\.jpg\)?|\.png\)?', text, re.I) and ".com for murder" not in text.lower():
+        return "Unknown Title"
+
     return text or "Unknown Title"
 
 
@@ -256,7 +264,10 @@ def clean_text_for_title(raw_text: str):
     Extracts English Title and Year from tweet text.
     Handles multi-line, director credits, bracketed foreign titles, and single-line tweets.
     """
-    lines = [l.strip() for l in raw_text.strip().split("\n") if l.strip()]
+    # Clean image urls, bracketed urls, or trailing url fragments
+    cleaned_text = re.sub(r'\(\s*(?:https?://|i\.ibb\.co)[^\)]*\)', '', raw_text)
+    cleaned_text = re.sub(r'https?://\S*', '', cleaned_text)
+    lines = [l.strip() for l in cleaned_text.strip().split("\n") if l.strip()]
     if not lines:
         return "Unknown Title", "Unknown"
 
@@ -271,7 +282,7 @@ def clean_text_for_title(raw_text: str):
     for l in lines:
         if re.search(r'^\d+(?:st|nd|rd|th)\s+film\s+of|archive collection', l, re.I):
             continue
-        if re.search(r'^https?://', l):
+        if re.search(r'transfer\.it|gofile\.io|pixeldrain|mega\.nz|t\.co|drive\.google|ibb\.co|\.jpg|\.png', l, re.I):
             continue
         filtered.append(l)
 
