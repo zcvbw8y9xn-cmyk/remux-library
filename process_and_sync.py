@@ -72,6 +72,13 @@ TRANSLATION_MAP = {
 
 # Curated link-level metadata overrides
 LINK_OVERRIDES = {
+    "1gN31F9WWDDI": ("Orpheus", "1950"),
+    "5qGZM58hTTST": ("Until the End of the World", "1991"),
+    "kz6bwU8DkJCK": ("Dementia", "1955"),
+    "fSXIurpBkb5A": ("A Summer's Tale", "1996"),
+    "6zjtz2gViTqb": ("Moonlighting", "1982"),
+    "u8xXkFhnRL6Z": ("I'm Going Home", "2001"),
+
     "46W2KcwTQLTJ": ("The Seventh Seal", "1957"),
     "aJPt3l4n2ZzL": ("Village of Eight Gravestones", "1977"),
     "w2zw6U0hUJiS": ("The Ascent", "1977"),
@@ -511,10 +518,19 @@ async def process_and_verify():
             host = file_link.split("/")[2] if "/" in file_link else "unknown"
             cached_status = health_cache.get(file_link, "Pending")
 
+            # Check LINK_OVERRIDES first
+            eff_title = title
+            eff_year = year
+            for k, (ov_t, ov_y) in LINK_OVERRIDES.items():
+                if k in file_link:
+                    eff_title = ov_t
+                    eff_year = ov_y
+                    break
+
             item = {
                 "Tweet Date": tweet_date,
-                "Title": title,
-                "Year": year,
+                "Title": eff_title,
+                "Year": eff_year,
                 "Quality": quality,
                 "Best Quality?": "Pending",
                 "File Host": host,
@@ -524,7 +540,7 @@ async def process_and_verify():
                 "_raw_time": raw_time or "1970-01-01",
             }
             rows.append(item)
-            if cached_status == "Pending":
+            if cached_status == "Pending" or (cached_status != "Dead 🔴" and eff_title == "Unknown Title"):
                 links_to_check.append(file_link)
 
     # Deep-check links that need status verification
