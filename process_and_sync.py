@@ -4,8 +4,9 @@ Remux Data Processor & Link Health Verifier
 - Strictly sorts by Tweet Date descending (newest tweets first)
 - Deep-extracts titles from tweet text and download pages (including clicking "View Content")
 - Converts all foreign titles and accents to clean English
+- Evaluates whether each movie is the Best Quality Available (4K UHD vs 1080p Best vs 4K Exists)
 - Persistent health cache so dead links are never re-checked
-- Syncs clean alive-only list directly to Google Sheets
+- Syncs clean alive-only list directly to Google Sheets with custom color coding
 """
 
 import asyncio
@@ -81,7 +82,6 @@ LINK_OVERRIDES = {
     "1L1wKN8h1ZSI": ("Man with a Movie Camera", "1929"),
     "JwfreYklkLRa": ("Olga", "2021"),
     "QV0CqFllkbgD": ("The Long Farewell", "1971"),
-
     "9sEXctpn2BjJ": ("The Tragedy of W", "1984"),
     "A1fbifwh2LCJ": ("Love Battles", "2013"),
     "17x7mfgjwZiC": ("Aquaman", "2018"),
@@ -127,6 +127,88 @@ LINK_OVERRIDES = {
     "XHgMDKx3HR6I": ("Meditation on Violence", "1949"),
     "MdodCHhD0TYB": ("Luminous Woman", "1987")
 }
+
+# Known movies where an official 4K UHD physical disc release exists in the real world
+KNOWN_4K_EXISTS = {
+    "True Lies",
+    "Terminator 2 Judgment Day",
+    "The Bridge on the River Kwai",
+    "Blow-Up",
+    "Apocalypse Now",
+    "Dog Day Afternoon",
+    "Vertigo",
+    "The Seventh Seal",
+    "The Graduate",
+    "Lost in Translation",
+    "Daisies",
+    "Kung Fu Hustle",
+    "Battle Royale",
+    "Under the Skin",
+    "Cape Fear",
+    "Chungking Express",
+    "Death Becomes Her",
+    "The Long Goodbye",
+    "The Presidio",
+    "Nashville",
+    "Badlands",
+    "Rio Lobo",
+    "The House That Jack Built",
+    "Melancholia",
+    "Antichrist",
+    "A Place in the Sun",
+    "Angst",
+    "Nights of Cabiria",
+    "Written on the Wind",
+    "Magnificent Obsession",
+    "Brief Encounter",
+    "Bigger than Life",
+    "Days of Being Wild",
+    "2046",
+    "Fallen Angels",
+    "Nobody Knows",
+    "After Life",
+    "Shoplifters",
+    "The Chaser",
+    "The Yellow Sea",
+    "Imitation Of Life",
+    "Red Desert",
+    "Kwaidan",
+    "Doberman Cop",
+    "Shadows of Forgotten Ancestors",
+    "Lolita",
+    "The Sorrow and the Pity",
+    "The End of Evangelion",
+    "Lancelot of the Lake",
+}
+
+# Sub-optimal (DVD / 576p / Web-DL where 1080p bluray exists)
+SUB_OPTIMAL_TITLES = {
+    "A Spring for the Thirsty",
+    "The Legend of Princess Olga",
+    "The Eve of Ivan Kupalo",
+}
+
+
+def evaluate_quality_tier(quality_str: str, title: str) -> str:
+    """
+    Evaluates whether this copy is the best quality available in the real world.
+    - 4K UHD Remux: Peak quality available (⭐ Yes (4K UHD))
+    - 1080p Remux: If no 4K exists in the world, it's the definitive best available (🟢 Yes (1080p Best))
+    - 1080p Remux: If an official 4K disc exists, flag it (⚠️ 4K UHD Exists)
+    - 576p DVD: Flag if higher quality bluray exists (🔻 Higher Tier Exists)
+    """
+    q_lower = quality_str.lower()
+
+    if "4k" in q_lower or "2160p" in q_lower or "uhd" in q_lower:
+        return "⭐ Yes (4K UHD)"
+
+    if "dvd" in q_lower or "576p" in q_lower or title in SUB_OPTIMAL_TITLES:
+        return "🔻 Higher Tier Exists"
+
+    if title in KNOWN_4K_EXISTS:
+        return "⚠️ 4K UHD Exists"
+
+    return "🟢 Yes (1080p Best)"
 
 
 def clean_to_english_title(text: str) -> str:
@@ -180,39 +262,54 @@ def clean_text_for_title(raw_text: str):
             yr = m_yr.group(1) if m_yr else "Unknown"
             return eng_v, yr
 
+    # Filter out archive collection headers or link lines
+    filtered = []
+    for l in lines:
+        if re.search(r'^\d+(?:st|nd|rd|th)\s+film\s+of|archive collection', l, re.I):
+            continue
+        if re.search(r'^https?://', l):
+            continue
+        filtered.append(l)
+
+    if not filtered:
+        filtered = lines
+
     # Pattern A: English Title [Foreign Title] (Director, Year) or (Year)
-    mA = re.search(r'^([A-Za-z0-9\s\'\-\:\,\.\!\?&]+?)\s*(?:\[[^\]]+\])?\s*[\(\[](?:[^\)\]]*?\b(19\d{2}|20\d{2})\b[^\)\]]*)[\)\]]', lines[0])
-    if mA:
-        t = mA.group(1).strip(" -:\t\n*#[],")
-        if t and not re.search(r'^(1080p|4k|bluray|uhd|remux)', t, re.I):
-            return t, mA.group(2)
+    for line in filtered[:2]:
+        mA = re.search(r'^([A-Za-z0-9\s\'\-\:\,\.\!\?&]+?)\s*(?:\[[^\]]+\])\s*(?:[\(\[](?:[^\)\]]*?\b(19\d{2}|20\d{2})\b[^\)\]]*)[\)\]])?', line)
+        if mA:
+            t = mA.group(1).strip(" -:\t\n*#[],")
+            m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
+            yr = m_yr.group(1) if m_yr else "Unknown"
+            if t and not re.search(r'^(1080p|4k|bluray|uhd|remux)', t, re.I):
+                return t, yr
 
-    # Pattern B: English Title (Foreign Title / aka) (Year)
-    mB = re.search(r'^([A-Za-z0-9\s\'\-\:\,\.\!\?&]+?)(?:\[.*?\]|\(aka.*?\))\s*(?:\n|\b)', raw_text)
-    m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
-    if mB and m_yr:
-        t = mB.group(1).strip(" -:\t\n*#[],")
-        if t and len(t) > 2 and not re.search(r'^(1080p|4k|bluray|uhd|remux)', t, re.I):
-            return t, m_yr.group(1)
+    # Pattern B: Det Sjunde Inseglet - The Seventh Seal
+    m_seal = re.search(r'-\s*([A-Za-z0-9\s\'\:\,\.\!\?&]+?)(?:\s+CRITERION|\s+1080p|\s+bluray|\s+remux|$)', filtered[0], re.I)
+    if m_seal:
+        t = m_seal.group(1).strip(" -:\t\n*#[],")
+        m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
+        yr = m_yr.group(1) if m_yr else "Unknown"
+        return t, yr
 
-    # Pattern C: Line with Title YYYY (e.g. Mystic River 2003 Directed by Clint Eastwood)
-    for line in lines[:3]:
+    # Pattern C: Multi-line English / Foreign / Director, Year
+    for i in range(1, min(len(filtered), 5)):
+        m_dir_year = re.search(r'\b(19\d{2}|20\d{2})\b', filtered[i])
+        if m_dir_year and ('directed' in filtered[i].lower() or ',' in filtered[i] or 'by' in filtered[i].lower() or 'shepitko' in filtered[i].lower() or 'illienko' in filtered[i].lower() or 'dovzhenko' in filtered[i].lower() or 'vertov' in filtered[i].lower() or 'muratova' in filtered[i].lower() or 'grappe' in filtered[i].lower()):
+            cand = filtered[0].strip(" -:\t\n*#[],")
+            if cand and not re.search(r'archive|collection|remux|bluray|1080p|4k', cand, re.I):
+                return cand, m_dir_year.group(1)
+
+    # Pattern D: Line with Title YYYY
+    for line in filtered[:3]:
         mC = re.search(r'^([A-Za-z0-9\s\'\-\:\,\.\!\?&]+?)\s+\b(19\d{2}|20\d{2})\b(?:\s+.*)?$', line.strip(), re.I)
         if mC:
             t = mC.group(1).strip(" -:\t\n*#[],")
             if t and not re.search(r'^(1080p|4k|bluray|uhd|remux|bd)', t, re.I) and len(t) > 1:
                 return t, mC.group(2)
 
-    # Pattern D: Multi-line English / Foreign / Director, Year
-    for i in range(1, min(len(lines), 4)):
-        m_dir_year = re.search(r'\b(19\d{2}|20\d{2})\b', lines[i])
-        if m_dir_year and ('directed' in lines[i].lower() or ',' in lines[i] or 'by' in lines[i].lower()):
-            cand = lines[0].strip(" -:\t\n*#[],")
-            if cand and not re.search(r'archive|collection|remux|bluray|1080p|4k', cand, re.I):
-                return cand, m_dir_year.group(1)
-
     # Pattern E: Standard Title (Year)
-    for line in lines[:3]:
+    for line in filtered[:3]:
         mE = re.search(r'([^\n\r(\[]+?)\s*[\(\[](?:[^\)\]]*?\b(19\d{2}|20\d{2})\b[^\)\]]*)[\)\]]', line)
         if mE:
             t = mE.group(1).strip(" -:\t\n*#[],")
@@ -226,7 +323,6 @@ def clean_text_for_title(raw_text: str):
 def extract_title_from_filename(filename: str):
     """Parse release filename like 'Beetlejuice.Beetlejuice.2024.UHD.Remux.mkv'"""
     cleaned = filename.replace(".", " ").replace("_", " ")
-    # Clean release tags
     m = re.search(r'^([A-Za-z0-9\s\'\-\!\?]+?)\s+\b(19\d{2}|20\d{2})\b', cleaned)
     if m:
         return m.group(1).strip(), m.group(2)
@@ -272,7 +368,6 @@ async def check_link_health(link: str, page) -> tuple[str, str | None, str | Non
                 return "Dead 🔴", None, None
 
             if "ready to download" in body or "1 file" in body or "files" in body:
-                # Try clicking 'View content' button to reveal the actual file name
                 btn = await page.query_selector("text=View content")
                 if btn:
                     try:
@@ -290,7 +385,6 @@ async def check_link_health(link: str, page) -> tuple[str, str | None, str | Non
                         if fn_title:
                             return "Alive 🟢", fn_title, fn_year
 
-                # Fallback to checking line immediately below 'Ready to download'
                 for idx, line in enumerate(lines):
                     if line.lower() == "ready to download" and idx + 1 < len(lines):
                         cand = lines[idx + 1]
@@ -393,6 +487,7 @@ async def process_and_verify():
                 "Title": title,
                 "Year": year,
                 "Quality": quality,
+                "Best Quality?": "Pending",
                 "File Host": host,
                 "File Link": file_link,
                 "Status": cached_status,
@@ -400,10 +495,10 @@ async def process_and_verify():
                 "_raw_time": raw_time or "1970-01-01",
             }
             rows.append(item)
-            if cached_status == "Pending" or title == "Unknown Title":
+            if cached_status == "Pending":
                 links_to_check.append(file_link)
 
-    # Deep-check links that need status or title verification
+    # Deep-check links that need status verification
     if links_to_check:
         print(f"🔍 Checking {len(links_to_check)} link(s) for verification & title extraction...")
         async with async_playwright() as p:
@@ -429,7 +524,7 @@ async def process_and_verify():
         with open(HEALTH_CACHE_FILE, "w", encoding="utf-8") as f:
             json.dump(health_cache, f, indent=2)
 
-    # Apply Link Overrides and English Cleaning across all rows
+    # Apply Link Overrides, English Cleaning, and Quality Tier Evaluation across all rows
     for r in rows:
         fl = r["File Link"]
         for k, (ov_t, ov_y) in LINK_OVERRIDES.items():
@@ -440,6 +535,9 @@ async def process_and_verify():
 
         # Convert to clean English title
         r["Title"] = clean_to_english_title(r["Title"])
+        
+        # Evaluate Best Quality Available status
+        r["Best Quality?"] = evaluate_quality_tier(r["Quality"], r["Title"])
 
     # STRICT FILTER: REMOVE ALL DEAD LINKS
     alive_rows = [r for r in rows if "Alive" in r.get("Status", "")]
@@ -449,7 +547,7 @@ async def process_and_verify():
     alive_rows.sort(key=lambda x: x["_raw_time"], reverse=True)
 
     # Write CSV with Alive items only
-    fieldnames = ["Tweet Date", "Title", "Year", "Quality", "File Host", "File Link", "Status", "Tweet URL"]
+    fieldnames = ["Tweet Date", "Title", "Year", "Quality", "Best Quality?", "File Host", "File Link", "Status", "Tweet URL"]
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
@@ -460,15 +558,25 @@ async def process_and_verify():
     print(f"🗑️ Permanently removed {dead_count} dead/expired links.")
     print(f"📅 Sorted by Tweet Date: Newest first ({alive_rows[0]['Tweet Date'] if alive_rows else 'N/A'})")
 
-    # Clear Google Sheet completely and re-import only alive rows
+    # Clear Google Sheet completely and re-import with new Best Quality? column
     print(f"\n📊 Syncing to Google Sheet ({SPREADSHEET_ID})...")
     os.system(f"gsheets mutate clear '{SPREADSHEET_ID}' 'Sheet1!A1:Z600'")
     os.system(f"gsheets mutate import-csv '{SPREADSHEET_ID}' '{OUTPUT_CSV}'")
     os.system(f"gsheets mutate freeze '{SPREADSHEET_ID}' --sheet-id 0 --rows 1")
-    os.system(f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 8 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'")
-    os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 8")
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 6 --end-col 7 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
-    print("✅ Google Sheet refreshed successfully with clean alive-only list!")
+    os.system(f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 9 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'")
+    os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 9")
+    
+    # Conditional formatting for Best Quality? (Col 4)
+    # Green for Yes (4K or 1080p Best)
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Yes' --color '#DCFCE7'")
+    # Amber for 4K UHD Exists
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value '4K UHD Exists' --color '#FEF3C7'")
+    # Red for Higher Tier Exists
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Higher Tier' --color '#FEE2E2'")
+    
+    # Conditional formatting for Status (Col 7)
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 7 --end-col 8 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
+    print("✅ Google Sheet refreshed successfully with Quality Tier evaluation!")
 
 
 if __name__ == "__main__":
