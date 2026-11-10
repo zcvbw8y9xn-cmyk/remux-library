@@ -320,7 +320,7 @@ https://transfer.it/t/2y6v9rohQbLR
 https://transfer.it/t/9sEXctpn2BjJ
 https://transfer.it/t/PmQiT75zyJwb
 https://transfer.it/t/DjFAv4gRVTjJ
-https://pixeldrain.com/u/WUqN6VND
+https://pixeldrain.com/api/file/WUqN6VND?download
 https://transfer.it/t/JwfreYklkLRa
 https://transfer.it/t/OdOytE9XwBoT
 https://transfer.it/t/GBSUlFpzCRaA

@@ -582,20 +582,28 @@ def parse_cached_entry(entry):
     return "Pending", "1970-01-01T00:00:00Z"
 
 
+def to_direct_download_url(url: str) -> str:
+    """Converts hosts with direct streaming endpoints to raw file URLs (e.g. Pixeldrain for FDM/JDownloader)."""
+    if "pixeldrain.com/u/" in url:
+        pid = url.split("pixeldrain.com/u/")[-1].split("?")[0].strip("/")
+        return f"https://pixeldrain.com/api/file/{pid}?download"
+    return url
+
+
 def export_download_batches(alive_rows):
-    """Exports raw download links for batch downloading in JDownloader, Real-Debrid, or aria2."""
+    """Exports raw download links for batch downloading in Free Download Manager (FDM), JDownloader, or Real-Debrid."""
     with open("downloads_all_alive.txt", "w", encoding="utf-8") as f:
         for r in alive_rows:
-            f.write(f"{r['File Link']}\n")
+            f.write(to_direct_download_url(r["File Link"]) + "\n")
 
     with open("downloads_4k_alive.txt", "w", encoding="utf-8") as f:
         for r in alive_rows:
             if "4K" in r.get("Quality", ""):
-                f.write(f"{r['File Link']}\n")
+                f.write(to_direct_download_url(r["File Link"]) + "\n")
 
     with open("downloads_newest_50.txt", "w", encoding="utf-8") as f:
         for r in alive_rows[:50]:
-            f.write(f"{r['File Link']}\n")
+            f.write(to_direct_download_url(r["File Link"]) + "\n")
 
     print("📦 Exported batch download link lists (downloads_all_alive.txt, downloads_4k_alive.txt, downloads_newest_50.txt).")
 
