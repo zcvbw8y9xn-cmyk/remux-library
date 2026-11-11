@@ -1,6 +1,8 @@
 """
 X.com Remux File Link Scraper — powered by Patchright
 Scrapes X.com for file hosting links (transfer.it, gofile.io, mega.nz, pixeldrain, etc.)
+Supports direct tweets, quote tweets (e.g., @LogiLampadina quoting @Lampadinalinks),
+and self-reply threads (where the parent tweet contains the download link).
 Runs headless in the background with persistent authenticated context.
 
 Usage:
@@ -10,17 +12,22 @@ Usage:
 import asyncio
 import json
 import os
+import re
 import httpx
 from datetime import datetime, timezone
 from patchright.async_api import async_playwright
 
 SEARCH_QUERIES = [
     "remux filter:links",
+    "remux filter:quote",
+    "from:LogiLampadina remux",
+    "from:LogiLampadina bdremux",
+    "from:Lampadinalinks remux",
     "transfer.it remux",
     "gofile.io remux",
     "pixeldrain remux",
     "1080p remux filter:links",
-    "4k remux filter:links"
+    "4k remux filter:links",
 ]
 
 OUTPUT_FILE = "remux_links.json"
@@ -59,6 +66,20 @@ def is_file_host(url: str) -> bool:
     return any(host in url for host in FILE_HOSTS)
 
 
+def extract_plain_urls(text: str) -> list[str]:
+    """Extract URLs from plain text, fixing X.com's line breaks inside wrapped URLs."""
+    if not text:
+        return []
+    # Rejoin X.com wrapped URLs like 'https://\ntransfer.it/t/...' or 'drive.google.com/drive/folders/\n1AbCd...'
+    normalized = re.sub(r'(https?://)\s*\n\s*', r'\1', text)
+    normalized = re.sub(r'(https?://[^\s]*?(?:/|#))\s*\n\s*', r'\1', normalized)
+    normalized = re.sub(r'(https?://[^\s]*?(?:/|#))\s*\n\s*', r'\1', normalized)
+    # Rejoin Google Drive URLs that wrap mid-word across lines (e.g. 'fold\ners/...' or '/file/d/1Hnz\n...').
+    normalized = re.sub(r'(https?://drive\.google\.com/[^\s]*?)\s*\n\s*([A-Za-z0-9_\-/?=&]+)', r'\1\2', normalized)
+    urls = re.findall(r'https?://[^\s\)\]\>"\',…]+', normalized)
+    return [u.rstrip(".,;:!?") for u in urls]
+
+
 async def resolve_tco(tco_url: str, client: httpx.AsyncClient) -> str:
     """Follow a t.co short link and return the final destination URL."""
     try:
@@ -70,6 +91,91 @@ async def resolve_tco(tco_url: str, client: httpx.AsyncClient) -> str:
             return str(resp.url)
         except Exception:
             return tco_url
+
+
+async def extract_article_links(article, http_client: httpx.AsyncClient) -> tuple[str, dict, list[str], list[str]]:
+    """
+    Extract combined text (main + quoted tweet) and resolve both <a href> and plain-text URLs.
+    Returns: (combined_text, resolved_map, file_links, other_links)
+    """
+    text_parts = []
+    for tel in await article.query_selector_all("[data-testid='tweetText']"):
+        t = (await tel.inner_text()).strip()
+        if t:
+            text_parts.append(t)
+    combined_text = "\n".join(text_parts)
+
+    tco_links = []
+    direct_hrefs = []
+    for a in await article.query_selector_all("a[href]"):
+        href = await a.get_attribute("href") or ""
+        if "t.co/" in href and href not in tco_links:
+            tco_links.append(href)
+        elif href.startswith("http") and is_file_host(href) and href not in direct_hrefs:
+            direct_hrefs.append(href)
+
+    # Also grab plain-text URLs (critical for Quote Tweets where X.com strips <a> tags)
+    article_full_text = await article.inner_text()
+    plain_urls = extract_plain_urls(combined_text + "\n" + article_full_text)
+
+    resolved = {}
+    for tco in tco_links:
+        resolved[tco] = await resolve_tco(tco, http_client)
+
+    all_urls = list(resolved.values()) + direct_hrefs + plain_urls
+    file_links = []
+    other_links = []
+    seen_u = set()
+    for u in all_urls:
+        if u in seen_u:
+            continue
+        seen_u.add(u)
+        if is_file_host(u):
+            file_links.append(u)
+        elif "x.com/" not in u and "twitter.com/" not in u:
+            other_links.append(u)
+
+    return combined_text, resolved, file_links, other_links
+
+
+async def fetch_parent_thread_links(thread_page, tweet_url: str, http_client: httpx.AsyncClient) -> tuple[dict, list[str], list[str]]:
+    """
+    When a remux post is a reply to a bare link tweet (like @Lampadinalinks threads),
+    open the conversation and extract file links from the parent tweet(s) above it.
+    """
+    try:
+        await thread_page.goto(tweet_url, wait_until="domcontentloaded", timeout=15000)
+        await thread_page.wait_for_timeout(3000)
+        thread_articles = await thread_page.query_selector_all("article[data-testid='tweet']")
+        target_id = tweet_url.rstrip("/").split("/")[-1]
+
+        all_resolved = {}
+        all_file_links = []
+        all_other_links = []
+
+        for ta in thread_articles:
+            # Stop once we reach the reply tweet itself (only check parent tweets above it)
+            ta_url = None
+            for link in await ta.query_selector_all("a[href*='/status/']"):
+                href = await link.get_attribute("href")
+                if href and "/status/" in href:
+                    ta_url = href.split("?")[0]
+                    break
+            if ta_url and target_id in ta_url:
+                break
+
+            _, resolved, flinks, olinks = await extract_article_links(ta, http_client)
+            all_resolved.update(resolved)
+            for u in flinks:
+                if u not in all_file_links:
+                    all_file_links.append(u)
+            for u in olinks:
+                if u not in all_other_links:
+                    all_other_links.append(u)
+
+        return all_resolved, all_file_links, all_other_links
+    except Exception:
+        return {}, [], []
 
 
 def load_existing_results():
@@ -105,8 +211,8 @@ def save_results(results):
 
 
 async def scrape():
-    print("🕵️  X.com Remux File Link Hunter (Multi-Query Headless)")
-    print("=" * 60)
+    print("🕵️  X.com Remux File Link Hunter (Multi-Query + Quote & Thread Support)")
+    print("=" * 68)
 
     seen_tweet_urls, results = load_existing_results()
     total_new_hits = 0
@@ -123,6 +229,7 @@ async def scrape():
             )
 
             page = await context.new_page()
+            thread_page = await context.new_page()
 
             # Verify session
             print("\n🌐 Checking X.com session...")
@@ -172,29 +279,25 @@ async def scrape():
                             seen_tweet_urls.add(tweet_url)
                             new_in_scroll += 1
 
-                            text_el = await article.query_selector("[data-testid='tweetText']")
-                            text = (await text_el.inner_text()).strip() if text_el else ""
+                            text, resolved, file_links, other_links = await extract_article_links(article, http)
 
-                            tco_links = []
-                            for a in await article.query_selector_all("a[href]"):
-                                href = await a.get_attribute("href") or ""
-                                if "t.co" in href and href not in tco_links:
-                                    tco_links.append(href)
+                            # Fallback for self-reply threads (e.g. @Lampadinalinks replies with title/remux to bare link parent)
+                            if not file_links and "remux" in text.lower():
+                                article_raw = await article.inner_text()
+                                if "Replying to" in article_raw:
+                                    p_res, p_flinks, p_olinks = await fetch_parent_thread_links(thread_page, tweet_url, http)
+                                    if p_flinks:
+                                        resolved.update(p_res)
+                                        file_links = p_flinks
+                                        other_links.extend(p_olinks)
 
-                            if not tco_links:
+                            if not file_links and not resolved and not other_links:
                                 continue
 
-                            resolved = {}
-                            for tco in tco_links:
-                                real = await resolve_tco(tco, http)
-                                resolved[tco] = real
-                                if is_file_host(real):
-                                    print(f"      ✅ FILE HOST: {real}")
-                                    new_hits_query += 1
-                                    total_new_hits += 1
-
-                            file_links = [u for u in resolved.values() if is_file_host(u)]
-                            other_links = [u for u in resolved.values() if not is_file_host(u)]
+                            for fl in file_links:
+                                print(f"      ✅ FILE HOST: {fl}")
+                                new_hits_query += 1
+                                total_new_hits += 1
 
                             author_el = await article.query_selector("[data-testid='User-Name'] a")
                             author_href = await author_el.get_attribute("href") if author_el else ""
@@ -207,7 +310,7 @@ async def scrape():
                                 "tweet_url": tweet_url,
                                 "author": author,
                                 "timestamp": timestamp,
-                                "text": text[:350],
+                                "text": text[:800],
                                 "file_links": file_links,
                                 "other_links": other_links,
                                 "raw_tco": resolved,
@@ -236,7 +339,7 @@ async def scrape():
             await context.close()
 
     total_hits = sum(1 for r in results if r.get("file_links"))
-    print(f"\n{'=' * 60}")
+    print(f"\n{'=' * 68}")
     print(f"✅ Scraping pass complete! Total tweets recorded: {len(results)}")
     print(f"🎯 Total hits with active file links: {total_hits}")
     print(f"✨ Total new links uncovered: {total_new_hits}")

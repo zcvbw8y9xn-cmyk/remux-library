@@ -67,7 +67,15 @@ TRANSLATION_MAP = {
     "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles": "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
     "Shinji Sōmai": "Luminous Woman",
     "00004": "The Tragedy of W",
-    "Kuime": "Over Your Dead Body"
+    "Kuime": "Over Your Dead Body",
+    "Um Filme Falado": "A Talking Picture",
+    "O voyeur do telhado": "The Watcher in the Attic",
+    "Dueto para Canibais": "Duet for Cannibals",
+    "O Inferno /": "L'Inferno",
+    "Cabra Marcado Para Morrer": "Twenty Years Later",
+    "Les yeux sans visage": "Eyes Without a Face",
+    "La tulipe noire": "The Black Tulip",
+    "Flammen & Citronen": "Flame & Citron",
 }
 
 # Curated link-level metadata overrides
@@ -140,7 +148,23 @@ LINK_OVERRIDES = {
     "by0sfK94": ("Blue Velvet", "1986"),
     "wCJptEoBhDqD": ("The Guest", "2014"),
     "PD4gYRolyRjQ": ("Affliction", "1997"),
-    "6RNXAI4Y": ("Unknown Pleasures", "2002")
+    "6RNXAI4Y": ("Unknown Pleasures", "2002"),
+    "mQImcQl11RCT": ("Viva Maria!", "1965"),
+    "UNWBBBsDUTQI": ("Sansho the Bailiff", "1954"),
+    "a5zSREkHRJpC": ("Alien", "1979"),
+    "lkt0Mc1BnB4J": ("Amelie", "2001"),
+    "EIL2VR9FQDIB": ("The Fifth Horseman Is Fear", "1965"),
+    "HzH69Ytn1ZCL": ("Solo Leveling (Season 2)", "2025"),
+    "8L2pQZkHhbgR": ("Flame & Citron", "2008"),
+    "AljXRE8TxJbJ": ("Blue Collar", "1978"),
+    "txWj4EtBCbYK": ("Fate/Grand Order: Camelot", "2020"),
+    "BtbbpB0H3ZwA": ("Dan Da Dan (Season 1)", "2024"),
+    "eLBGsAtTGZ7Z": ("Dan Da Dan (Season 2)", "2025"),
+    "sxOgEQllRR7a": ("Moonlighting", "1982"),
+    "BQZc7zgVRJIY": ("The Maya Deren Collection", "1943-1959"),
+    "PcEiEvpXBJpS": ("Mel Brooks Collection", "1967-1995"),
+    "yMsSKxhnATqD": ("TCM Archives: Forbidden Hollywood Vol. 1-3", "1931-1934"),
+    "VEIDHbonyIyK": ("Poetry", "2010"),
 }
 
 # Known movies where an official 4K UHD physical disc release exists in the real world
@@ -230,6 +254,15 @@ def evaluate_quality_tier(quality_str: str, title: str) -> str:
     return "🟢 Yes (1080p Best)"
 
 
+EXACT_TITLE_TRANSLATIONS = {
+    "shi": "Poetry",
+    "jagten": "The Hunt",
+    "el sur": "The South",
+    "les yeux sans visage": "Eyes Without a Face",
+    "flammen & citronen": "Flame & Citron",
+}
+
+
 def clean_to_english_title(text: str) -> str:
     """
     Translates foreign titles to English and strips non-ASCII accents and symbols.
@@ -237,17 +270,26 @@ def clean_to_english_title(text: str) -> str:
     if not text or text == "Unknown Title":
         return text
 
-    # Direct translation check
+    # Direct translation check (specific phrases safe against description false-positives)
     for foreign_k, eng_v in TRANSLATION_MAP.items():
         if foreign_k in text:
             text = eng_v
             break
 
-    # If title has slash like 'Abraham\'s Valley / Vale Abraão', keep English first part
+    # If title has slash like 'O voyeur do telhado / The Watcher in the Attic', prefer English segment
     if " / " in text:
-        parts = text.split(" / ")
-        if any(ord(c) < 128 for c in parts[0]):
-            text = parts[0]
+        parts = [p.strip() for p in text.split(" / ") if p.strip()]
+        if len(parts) >= 2:
+            p0_ascii = sum(1 for c in parts[0] if ord(c) < 128)
+            p1_ascii = sum(1 for c in parts[1] if ord(c) < 128)
+            p0_non_en_prefix = bool(re.match(r'^(O|Os|As|Um|Uma|La|Le|Les|El|Los|Las|Il|Un|Una|Dueto|Cabra)\s+', parts[0], re.I))
+            p1_en_prefix = bool(re.match(r'^(The|A|An)\s+', parts[1], re.I))
+            if (p0_ascii < len(parts[0]) * 0.5 and p1_ascii > 0) or (p0_non_en_prefix and p1_en_prefix):
+                text = parts[1]
+            elif p0_ascii > 0:
+                text = parts[0]
+            else:
+                text = parts[1]
 
     # Clean typographic punctuation before unicode stripping
     text = text.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
@@ -263,6 +305,15 @@ def clean_to_english_title(text: str) -> str:
     # Clean brackets and whitespace
     text = re.sub(r'[\[\]]', '', text).strip(" -:\t\n*#,.")
     text = re.sub(r'\s+', ' ', text)
+
+    # Move trailing ', The' to leading 'The ' (e.g. 'Fifth Horseman Is Fear, The')
+    m_the = re.match(r'^(.+?),\s+The$', text, re.I)
+    if m_the:
+        text = f"The {m_the.group(1)}"
+
+    # Safe exact-title translations after cleanup
+    if text.lower() in EXACT_TITLE_TRANSLATIONS:
+        text = EXACT_TITLE_TRANSLATIONS[text.lower()]
 
     # Ensure no URL leaked through as a title (safeguard)
     if re.search(r'https?://|t\.co/|transfer\.it/|gofile\.io/|ibb\.co/|\.jpg\)?|\.png\)?', text, re.I) and ".com for murder" not in text.lower():
@@ -353,8 +404,9 @@ def clean_text_for_title(raw_text: str):
     Handles multi-line, director credits, bracketed foreign titles, and single-line tweets.
     Guarantees no 'ray' or technical format fragments are returned as titles.
     """
+    norm_text = raw_text.replace("\xa0", " ").replace("\u3000", " ")
     # Normalize hyphenated technical specs first
-    sanitized = sanitize_technical_terms(raw_text)
+    sanitized = sanitize_technical_terms(norm_text)
 
     # Clean image urls, bracketed urls, or trailing url fragments
     cleaned_text = re.sub(r'\(\s*(?:https?://|i\.ibb\.co)[^\)]*\)', '', sanitized)
@@ -364,29 +416,42 @@ def clean_text_for_title(raw_text: str):
         return "Unknown Title", "Unknown"
 
     for foreign_k, eng_v in TRANSLATION_MAP.items():
-        if foreign_k in raw_text:
-            m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
+        if foreign_k in norm_text:
+            m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', norm_text)
             yr = m_yr.group(1) if m_yr else "Unknown"
             return eng_v, yr
 
-    # Filter out archive collection headers or link lines
+    # Filter out archive collection headers, link lines, or courtesy/remux prefix lines
     filtered = []
     for l in lines:
         if re.search(r'^\d+(?:st|nd|rd|th)\s+film\s+of|archive collection', l, re.I):
             continue
         if re.search(r'transfer\.it|gofile\.io|pixeldrain|mega\.nz|t\.co|drive\.google|ibb\.co|\.jpg|\.png', l, re.I):
             continue
+        if re.search(r'^(?:remux[!:\s]|courtesy\s+of|@\w+$)', l, re.I):
+            continue
         filtered.append(l)
 
     if not filtered:
         filtered = lines
+
+    # Pattern 0: Non-Latin original title followed by parenthesized English title & year
+    # e.g. '色‧戒 (Lust, Caution - 2007)', '無常 (This Transient Life, 1970)', 'ひそひそ星 (The Whispering Star, 2015)'
+    for line in filtered[:2]:
+        m0 = re.search(r'^\s*[^\x00-\x7F][^(]*\(\s*([A-Za-z0-9\s\'\-\:\,\.\!\?&/]+?)\s*[,\-–]\s*(19\d{2}|20\d{2})\s*\)', line)
+        if m0:
+            t = m0.group(1).strip(" -:\t\n*#[],/")
+            if "/" in t:
+                t = t.split("/")[0].strip()
+            if is_valid_movie_title(t):
+                return t, m0.group(2)
 
     # Pattern A: English Title [Foreign Title] (Director, Year) or (Year)
     for line in filtered[:2]:
         mA = re.search(r'^([A-Za-z0-9\s\'\-\:\,\.\!\?&]+?)\s*(?:\[[^\]]+\])\s*(?:[\(\[](?:[^\)\]]*?\b(19\d{2}|20\d{2})\b[^\)\]]*)[\)\]])?', line)
         if mA:
             t = mA.group(1).strip(" -:\t\n*#[],")
-            m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
+            m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', norm_text)
             yr = m_yr.group(1) if m_yr else "Unknown"
             if is_valid_movie_title(t):
                 return t, yr
@@ -397,9 +462,16 @@ def clean_text_for_title(raw_text: str):
         left = m_seal.group(1).strip(" -:\t\n*#[],")
         right = m_seal.group(2).strip(" -:\t\n*#[],")
         if is_valid_movie_title(right) and not re.search(r'^(1080p|4k|bluray|bd|remux)', left, re.I):
-            m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
+            m_yr = re.search(r'\b(19\d{2}|20\d{2})\b', norm_text)
             yr = m_yr.group(1) if m_yr else "Unknown"
             return right, yr
+
+    # Pattern E0: Standard Title (Year) or Title (Year, Director) on first line before checking multi-line bonus text
+    mE0 = re.search(r'([^\n\r(\[]+?)\s*[\(\[](?:[^\)\]]*?\b(19\d{2}|20\d{2})\b[^\)\]]*)[\)\]]', filtered[0])
+    if mE0:
+        t = mE0.group(1).strip(" -:\t\n*#[],")
+        if is_valid_movie_title(t):
+            return t, mE0.group(2)
 
     # Pattern C: Multi-line English / Foreign / Director, Year
     for i in range(1, min(len(filtered), 5)):
@@ -417,7 +489,7 @@ def clean_text_for_title(raw_text: str):
             if is_valid_movie_title(t):
                 return t, mC.group(2)
 
-    # Pattern E: Standard Title (Year)
+    # Pattern E: Standard Title (Year) on subsequent lines
     for line in filtered[:3]:
         mE = re.search(r'([^\n\r(\[]+?)\s*[\(\[](?:[^\)\]]*?\b(19\d{2}|20\d{2})\b[^\)\]]*)[\)\]]', line)
         if mE:
@@ -425,16 +497,20 @@ def clean_text_for_title(raw_text: str):
             if is_valid_movie_title(t):
                 return t, mE.group(2)
 
-    m_all_yr = re.search(r'\b(19\d{2}|20\d{2})\b', raw_text)
+    m_all_yr = re.search(r'\b(19\d{2}|20\d{2})\b', norm_text)
     return "Unknown Title", m_all_yr.group(1) if m_all_yr else "Unknown"
 
 
 def extract_title_from_filename(filename: str):
-    """Parse release filename like 'Beetlejuice.Beetlejuice.2024.UHD.Remux.mkv'"""
-    cleaned = filename.replace(".", " ").replace("_", " ")
-    m = re.search(r'^([A-Za-z0-9\s\'\-\!\?]+?)\s+\b(19\d{2}|20\d{2})\b', cleaned)
+    """Parse release filename like 'Beetlejuice.Beetlejuice.2024.UHD.Remux.mkv' or 'Viva_Maria(1965)_BD-Remux.mkv'"""
+    ascii_name = unicodedata.normalize('NFKD', filename).encode('ascii', 'ignore').decode('utf-8')
+    cleaned = re.sub(r'\s+', ' ', ascii_name.replace(".", " ").replace("_", " ")).strip()
+    m = re.search(r'^([A-Za-z0-9\s\'\-\:\,\!\?&]+?)\s*[\(\[]?\b(19\d{2}|20\d{2})\b[\)\]]?', cleaned)
     if m:
-        cand = m.group(1).strip()
+        cand = m.group(1).strip(" -:,")
+        m_the = re.match(r'^(.+?),\s+The$', cand, re.I)
+        if m_the:
+            cand = f"The {m_the.group(1)}"
         if is_valid_movie_title(cand):
             return cand, m.group(2)
     return None, None
@@ -445,7 +521,7 @@ def extract_format_info(raw_text: str) -> str:
     tags = []
     if re.search(r'\b4K\b|2160p|UHD', raw_text, re.I):
         tags.append("4K UHD")
-    elif re.search(r'\b1080p\b|1080i\b', raw_text, re.I):
+    elif re.search(r'\b1080p\b|1080i\b|\bbd[\s\-]?remux\b', raw_text, re.I):
         tags.append("1080p")
     elif re.search(r'\b720p\b', raw_text, re.I):
         tags.append("720p")
@@ -453,14 +529,14 @@ def extract_format_info(raw_text: str) -> str:
         tags.append("576p DVD")
     elif re.search(r'\b480p\b|480i\b', raw_text, re.I):
         tags.append("480p DVD")
-    elif re.search(r'\bDVD\b', raw_text, re.I):
+    elif re.search(r'\bDVD\b|dvd[\s\-]?remux', raw_text, re.I):
         tags.append("DVD")
 
     if re.search(r'\bHDR\b', raw_text, re.I):
         tags.append("HDR")
     if re.search(r'\bDV\b|Dolby Vision', raw_text, re.I):
         tags.append("DV")
-    if re.search(r'\bREMUX\b', raw_text, re.I):
+    if re.search(r'\bREMUX\b|bdremux|dvdremux', raw_text, re.I):
         tags.append("REMUX")
 
     msize = re.search(r'(\d+(?:\.\d+)?\s*(?:GB|GiB|MB))', raw_text, re.I)
@@ -700,6 +776,66 @@ def send_webhook_notifications(alive_rows, dead_count):
             print(f"⚠️ Telegram notification failed: {e}")
 
 
+def is_non_remux_link(raw_text: str, file_link: str, all_links: list[str]) -> bool:
+    """
+    When a tweet contains multiple links (e.g. both a REMUX and an Encode/Stream/Extras mirror),
+    identify links that are explicitly non-remux so only actual remux links are indexed.
+    Never drops links when the tweet only has a single file link.
+    """
+    if len(all_links) <= 1 or not raw_text:
+        return False
+
+    # Rejoin X.com wrapped URLs so we can inspect the text adjacent to each link
+    norm = re.sub(r'(https?://)\s*\n\s*', r'\1', raw_text)
+    for _ in range(2):
+        norm = re.sub(r'(https?://[^\s]*?(?:/|#))\s*\n\s*', r'\1', norm)
+    norm = re.sub(r'(https?://drive\.google\.com/[^\s]*?)\s*\n\s*([A-Za-z0-9_\-/?=&]+)', r'\1\2', norm)
+
+    idx = norm.find(file_link)
+    if idx == -1 and len(file_link) > 20:
+        idx = norm.find(file_link[:28])
+
+    low_all = norm.lower()
+    has_transfer_remux_alt = any("transfer.it" in u and u != file_link for u in all_links)
+
+    if idx != -1:
+        after = norm[idx + len(file_link): idx + len(file_link) + 45]
+        # Stop at the next URL so we only inspect this link's own annotation
+        after = re.split(r'https?://', after)[0].lower()
+        before = norm[max(0, idx - 30): idx].lower()
+
+        if re.search(r'(?:^|[\s\-…\(])(?:encode|stream)\b', after):
+            return True
+        if re.search(r'\bextras\s*:\s*$', before.strip()):
+            return True
+
+        # Check explicit encode size in tweet text matching this link's annotated size
+        m_enc_sz = re.search(r'encode\s*[:\(]?\s*(\d+(?:[.,]\d+)?)\s*(?:gb|gib)', low_all)
+        m_rem_sz = re.search(r'remux\s*[:\(]?\s*(\d+(?:[.,]\d+)?)\s*(?:gb|gib)', low_all)
+        m_link_sz = re.search(r'\((\d+(?:[.,]\d+)?)\s*(?:gb|gib)', after)
+        if m_enc_sz and m_link_sz:
+            enc_val = m_enc_sz.group(1).replace(",", ".")
+            link_val = m_link_sz.group(1).replace(",", ".")
+            if enc_val == link_val and (not m_rem_sz or m_rem_sz.group(1).replace(",", ".") != link_val):
+                return True
+
+        # Common split pattern: tweet offers Transfer.it Remux + Drive Encode (not joined by 'or')
+        if "drive.google.com" in file_link and has_transfer_remux_alt:
+            if ("encode" in low_all or "stream" in low_all) and not re.search(r'\bor\b\s*$', before.strip()):
+                return True
+
+    # Ordered season/pack lines matching link order (e.g. 'S01 - encodes\nS02 - Remux')
+    spec_lines = [l.strip() for l in norm.split("\n") if l.strip() and re.search(r'\b(?:remux|encodes?|extras)\b', l, re.I) and "http" not in l.lower()]
+    if len(spec_lines) == len(all_links) and file_link in all_links:
+        pos = all_links.index(file_link)
+        line_low = spec_lines[pos].lower()
+        if ("encode" in line_low or "extras" in line_low) and "remux" not in line_low:
+            if any("remux" in sl.lower() for sl in spec_lines):
+                return True
+
+    return False
+
+
 async def process_and_verify():
     if not os.path.exists(INPUT_FILE):
         print(f"❌ {INPUT_FILE} not found!")
@@ -732,7 +868,10 @@ async def process_and_verify():
         title, year = clean_text_for_title(text)
         quality = extract_format_info(text)
 
-        for file_link in entry.get("file_links", []):
+        entry_links = entry.get("file_links", [])
+        for file_link in entry_links:
+            if is_non_remux_link(text, file_link, entry_links):
+                continue
             host = file_link.split("/")[2] if "/" in file_link else "unknown"
             cached_status, cached_time = parse_cached_entry(health_cache.get(file_link, "Pending"))
 
@@ -838,6 +977,17 @@ async def process_and_verify():
     dead_count = len(rows) - len(alive_rows)
 
     # SORT BY TWEET DATE DESCENDING (newest tweets at top)
+    alive_rows.sort(key=lambda x: (x["Title"] != "Unknown Title", x["_raw_time"]), reverse=True)
+
+    # DEDUPLICATE BY FILE LINK (keep newest/best parsed entry if same link was quoted/reposted)
+    deduped_rows = []
+    seen_links = set()
+    for r in alive_rows:
+        fl = r["File Link"]
+        if fl not in seen_links:
+            seen_links.add(fl)
+            deduped_rows.append(r)
+    alive_rows = deduped_rows
     alive_rows.sort(key=lambda x: x["_raw_time"], reverse=True)
 
     # Write CSV with Alive items only
@@ -860,7 +1010,8 @@ async def process_and_verify():
 
     # Clear Google Sheet completely and re-import with new 11-column layout
     print(f"\n📊 Syncing to Google Sheet ({SPREADSHEET_ID})...")
-    os.system(f"gsheets mutate clear '{SPREADSHEET_ID}' 'Sheet1!A1:Z600'")
+    end_fmt_row = max(len(alive_rows) + 100, 1000)
+    os.system(f"gsheets mutate clear '{SPREADSHEET_ID}' 'Sheet1!A1:Z5000'")
     os.system(f"gsheets mutate import-csv '{SPREADSHEET_ID}' '{OUTPUT_CSV}'")
     os.system(f"gsheets mutate freeze '{SPREADSHEET_ID}' --sheet-id 0 --rows 1")
     os.system(f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 11 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'")
@@ -868,18 +1019,18 @@ async def process_and_verify():
     
     # Conditional formatting for Best Quality? (Col 4)
     # Green for Yes (4K, 1080p Best, or DVD Best)
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Yes' --color '#DCFCE7'")
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Yes' --color '#DCFCE7'")
     # Amber for when a higher resolution (4K or 1080p) exists
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Exists' --color '#FEF3C7'")
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Exists' --color '#FEF3C7'")
     
     # Conditional formatting for Quality (Col 3)
     # Soft purple for DVD
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value 'DVD' --color '#F3E8FF'")
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value 'DVD' --color '#F3E8FF'")
     # Soft gold for 4K
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value '4K' --color '#FEF08A'")
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value '4K' --color '#FEF08A'")
     
     # Conditional formatting for Status (Col 9)
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row 500 --start-col 9 --end-col 10 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
+    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 9 --end-col 10 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
     print("✅ Google Sheet refreshed successfully with transfer.it, Letterboxd, IMDb, and Quality Tier evaluation!")
 
 
