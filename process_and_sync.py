@@ -167,35 +167,42 @@ LINK_OVERRIDES = {
     "VEIDHbonyIyK": ("Poetry", "2010"),
 }
 
-# Known movies where an official 4K UHD physical disc release exists in the real world
-KNOWN_4K_EXISTS = {
+# Physical 4K UHD Blu-ray disc released in the real world (true 4K UHD Remux upgrade exists)
+KNOWN_4K_BLURAY_EXISTS = {
     "True Lies",
     "Terminator 2 Judgment Day",
     "The Bridge on the River Kwai",
-    "Blow-Up",
     "Apocalypse Now",
-    "Dog Day Afternoon",
     "Vertigo",
     "The Seventh Seal",
     "The Graduate",
     "Lost in Translation",
-    "Daisies",
-    "Kung Fu Hustle",
     "Battle Royale",
-    "Under the Skin",
-    "Cape Fear",
     "Chungking Express",
     "Death Becomes Her",
-    "The Long Goodbye",
     "The Presidio",
+    "Rio Lobo",
+    "Angst",
+    "Kwaidan",
+    "Shadows of Forgotten Ancestors",
+    "The End of Evangelion",
+}
+
+# 4K Digital / 4K restoration only (no physical 4K UHD Blu-ray disc released yet)
+KNOWN_4K_DIGITAL_ONLY = {
+    "Blow-Up",
+    "Dog Day Afternoon",
+    "Daisies",
+    "Kung Fu Hustle",
+    "Under the Skin",
+    "Cape Fear",
+    "The Long Goodbye",
     "Nashville",
     "Badlands",
-    "Rio Lobo",
     "The House That Jack Built",
     "Melancholia",
     "Antichrist",
     "A Place in the Sun",
-    "Angst",
     "Nights of Cabiria",
     "Written on the Wind",
     "Magnificent Obsession",
@@ -211,12 +218,9 @@ KNOWN_4K_EXISTS = {
     "The Yellow Sea",
     "Imitation Of Life",
     "Red Desert",
-    "Kwaidan",
     "Doberman Cop",
-    "Shadows of Forgotten Ancestors",
     "Lolita",
     "The Sorrow and the Pity",
-    "The End of Evangelion",
     "Lancelot of the Lake",
 }
 
@@ -229,14 +233,14 @@ DVD_UPGRADE_EXISTS = {
 }
 
 
-def evaluate_quality_tier(quality_str: str, title: str) -> str:
+def evaluate_quality_tier(quality_str: str, title: str, year: str = "") -> str:
     """
     Evaluates whether this copy is the best quality available in the real world.
     - 4K UHD Remux: Peak quality available (⭐ Yes (4K UHD))
-    - 1080p Remux: If no 4K exists in the world, it's the definitive best available (🟢 Yes (1080p Best))
-    - 1080p Remux: If an official 4K disc exists, flag it (⚠️ 4K UHD Exists)
-    - DVD Remux: If no 1080p exists, DVD is the definitive best available (📀 Yes (DVD is Best))
-    - DVD Remux: If 1080p exists, flag it (⚠️ 1080p Exists)
+    - 1080p Remux: If a physical 4K UHD Blu-ray disc exists, flag it (💿 4K UHD Blu-ray Exists)
+    - 1080p Remux: If only a 4K digital/restoration copy exists (no 4K UHD disc), flag it (☁️ 4K Digital Only)
+    - 1080p Remux: Otherwise, 1080p Blu-ray is the definitive best available (🟢 Yes (1080p Best))
+    - DVD Remux: If 1080p/4K exists, flag it (⚠️ 1080p Exists); else (📀 Yes (DVD is Best))
     """
     q_lower = quality_str.lower()
 
@@ -244,12 +248,19 @@ def evaluate_quality_tier(quality_str: str, title: str) -> str:
         return "⭐ Yes (4K UHD)"
 
     if "dvd" in q_lower or "576p" in q_lower or "480p" in q_lower or "480i" in q_lower:
-        if title in DVD_UPGRADE_EXISTS or title in KNOWN_4K_EXISTS:
+        if title in DVD_UPGRADE_EXISTS or title in KNOWN_4K_BLURAY_EXISTS:
             return "⚠️ 1080p Exists"
         return "📀 Yes (DVD is Best)"
 
-    if title in KNOWN_4K_EXISTS:
-        return "⚠️ 4K UHD Exists"
+    # Kubrick's 1962 Lolita has a 4K UHD Blu-ray; Adrian Lyne's 1997 Lolita is 1080p/digital only
+    if title == "Lolita" and str(year).strip() == "1962":
+        return "💿 4K UHD Blu-ray Exists"
+
+    if title in KNOWN_4K_BLURAY_EXISTS:
+        return "💿 4K UHD Blu-ray Exists"
+
+    if title in KNOWN_4K_DIGITAL_ONLY:
+        return "☁️ 4K Digital Only"
 
     return "🟢 Yes (1080p Best)"
 
@@ -966,7 +977,7 @@ async def process_and_verify():
             r["Title"] = "Unknown Title"
         
         # Evaluate Best Quality Available status
-        r["Best Quality?" ] = evaluate_quality_tier(r["Quality"], r["Title"])
+        r["Best Quality?" ] = evaluate_quality_tier(r["Quality"], r["Title"], r.get("Year", ""))
 
         # Update Letterboxd and IMDb links with final title and year
         r["Letterboxd"] = get_letterboxd_link(r["Title"], r["Year"])
@@ -1020,6 +1031,7 @@ async def process_and_verify():
         # Conditional formatting for Best Quality? (Col 4)
         f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Yes' --color '#DCFCE7'",
         f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Exists' --color '#FEF3C7'",
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value '4K Digital' --color '#E0F2FE'",
         # Conditional formatting for Quality (Col 3)
         f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value 'DVD' --color '#F3E8FF'",
         f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value '4K' --color '#FEF08A'",

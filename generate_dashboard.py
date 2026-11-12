@@ -500,6 +500,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .tier-1080 { background: rgba(16, 185, 129, 0.14); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
     .tier-dvd { background: rgba(168, 85, 247, 0.14); color: var(--purple-300); border: 1px solid rgba(168, 85, 247, 0.3); }
     .tier-warn { background: rgba(234, 179, 8, 0.14); color: var(--yellow-300); border: 1px solid rgba(234, 179, 8, 0.3); }
+    .tier-digital { background: rgba(56, 189, 248, 0.14); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.32); }
     .tier-other { background: var(--bg-800); color: var(--text-300); border: 1px solid var(--border-strong); }
 
     .specs-box {
@@ -672,6 +673,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></symbol>
     <symbol id="i-check-double" viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></symbol>
     <symbol id="i-disc" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 13a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></symbol>
     <symbol id="i-warn" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.49 4.49 0 0 1 9.5 14z"/></symbol>
     <symbol id="i-grid" viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></symbol>
@@ -801,7 +803,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         <button onclick="setQualityFilter('all')" class="chip active" data-filter="all">All</button>
         <button onclick="setQualityFilter('4k')" class="chip" data-filter="4k">⭐ 4K UHD</button>
         <button onclick="setQualityFilter('1080p-best')" class="chip" data-filter="1080p-best">🟢 1080p Best</button>
-        <button onclick="setQualityFilter('4k-exists')" class="chip" data-filter="4k-exists">⚠️ 4K Exists</button>
+        <button onclick="setQualityFilter('4k-bluray')" class="chip" data-filter="4k-bluray">💿 4K UHD Blu-ray Exists</button>
+        <button onclick="setQualityFilter('4k-digital')" class="chip" data-filter="4k-digital">☁️ 4K Digital Only</button>
         <button onclick="setQualityFilter('dvd')" class="chip" data-filter="dvd">📀 DVD Remux</button>
 
         <span class="filter-label" style="margin-left:10px;">Host:</span>
@@ -904,8 +907,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           _is4k: quality.includes('4K'),
           _isDvd: quality.includes('DVD'),
           _is1080Best: tier.includes('1080p Best'),
+          _is4kBlurayExists: tier.includes('4K UHD Blu-ray Exists'),
+          _is4kDigitalOnly: tier.includes('4K Digital Only'),
           _is4kExists: tier.includes('Exists'),
-          _searchBlob: (title + ' ' + year + ' ' + quality + ' ' + host).toLowerCase()
+          _searchBlob: (title + ' ' + year + ' ' + quality + ' ' + host + ' ' + tier).toLowerCase()
         };
       });
     }
@@ -982,7 +987,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         if (hostFilter !== 'all' && !m._hostLower.includes(hostFilter)) continue;
         if (currentFilter === '4k' && !m._is4k) continue;
         if (currentFilter === '1080p-best' && !m._is1080Best) continue;
-        if (currentFilter === '4k-exists' && !m._is4kExists) continue;
+        if (currentFilter === '4k-bluray' && !m._is4kBlurayExists) continue;
+        if (currentFilter === '4k-digital' && !m._is4kDigitalOnly) continue;
         if (currentFilter === 'dvd' && !m._isDvd) continue;
         out.push(m);
       }
@@ -1007,8 +1013,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         return '<span class="tier-badge tier-1080"><svg class="icon icon-sm"><use href="#i-check"/></svg>Yes (1080p Best)</span>';
       } else if (m.tier.includes('DVD is Best')) {
         return '<span class="tier-badge tier-dvd"><svg class="icon icon-sm"><use href="#i-disc"/></svg>Yes (DVD is Best)</span>';
+      } else if (m._is4kBlurayExists) {
+        return '<span class="tier-badge tier-warn"><svg class="icon icon-sm"><use href="#i-disc"/></svg>4K UHD Blu-ray Exists</span>';
+      } else if (m._is4kDigitalOnly) {
+        return '<span class="tier-badge tier-digital"><svg class="icon icon-sm"><use href="#i-cloud"/></svg>4K Digital Only (No UHD Disc)</span>';
       } else if (m._is4kExists) {
-        return '<span class="tier-badge tier-warn"><svg class="icon icon-sm"><use href="#i-warn"/></svg>4K UHD Exists</span>';
+        return `<span class="tier-badge tier-warn"><svg class="icon icon-sm"><use href="#i-warn"/></svg>${m._tierEsc}</span>`;
       }
       return `<span class="tier-badge tier-other">${m._tierEsc}</span>`;
     }
