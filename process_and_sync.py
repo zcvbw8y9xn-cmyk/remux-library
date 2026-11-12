@@ -654,10 +654,13 @@ async def check_link_health(link: str, page) -> tuple[str, str | None, str | Non
         return "Dead 🔴", None, None
 
 
-def get_letterboxd_link(title: str, year: str) -> str:
-    """Generates direct Letterboxd search URL for the movie."""
+def get_letterboxd_link(title: str, year: str, imdb_url: str = "") -> str:
+    """Returns direct Letterboxd film URL via IMDb ID redirect when available, else search fallback."""
     if not title or title == "Unknown Title":
         return ""
+    m = re.search(r"/title/(tt\d+)/", imdb_url or "")
+    if m:
+        return f"https://letterboxd.com/imdb/{m.group(1)}/"
     q = f"{title} {year}".strip() if year and year != "Unknown" else title.strip()
     return f"https://letterboxd.com/search/{urllib.parse.quote_plus(q)}/"
 
@@ -1110,9 +1113,9 @@ async def process_and_verify():
     imdb_cache = load_imdb_cache()
     batch_resolve_imdb_links(rows, imdb_cache)
     for r in rows:
-        # Update Letterboxd and IMDb links with final title and year
-        r["Letterboxd"] = get_letterboxd_link(r["Title"], r["Year"])
+        # Update IMDb and Letterboxd links with final title and year
         r["IMDb"] = get_imdb_link(r["Title"], r["Year"], imdb_cache)
+        r["Letterboxd"] = get_letterboxd_link(r["Title"], r["Year"], r["IMDb"])
 
     # STRICT FILTER: REMOVE ALL DEAD LINKS
     alive_rows = [r for r in rows if "Alive" in r.get("Status", "")]
