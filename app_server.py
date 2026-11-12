@@ -208,11 +208,54 @@ class RemuxAppHandler(BaseHTTPRequestHandler):
         self.send_error(404, "Not found")
 
 
+STATE_FILE = os.path.join(PROJECT_DIR, ".app_state.json")
+
+
+def _try_reuse_running_app() -> bool:
+    """If an existing local app_server is alive, reopen its Chrome app window and exit cleanly."""
+    if not os.path.exists(STATE_FILE):
+        return False
+    try:
+        with open(STATE_FILE, "r", encoding="utf-8") as f:
+            st = json.load(f)
+        pid = int(st.get("pid", 0))
+        port = int(st.get("port", 0))
+        token = st.get("token", "")
+        if pid <= 0 or port <= 0 or not token:
+            return False
+        os.kill(pid, 0)
+        import urllib.request
+        req = urllib.request.Request(
+            f"http://127.0.0.1:{port}/api/sync/status",
+            headers={"X-App-Token": token},
+        )
+        urllib.request.urlopen(req, timeout=1.5).read()
+        existing_url = f"http://127.0.0.1:{port}/?token={token}"
+        if os.path.exists(CHROME_BIN):
+            subprocess.Popen(
+                [
+                    CHROME_BIN,
+                    f"--app={existing_url}",
+                    f"--user-data-dir={CHROME_PROFILE}",
+                    "--no-first-run",
+                    "--no-default-browser-check",
+                ]
+            )
+        else:
+            subprocess.run(["open", existing_url], check=False)
+        return True
+    except Exception:
+        return False
+
+
 def main():
     parser = argparse.ArgumentParser(description="Private local Remux Vault app server")
     parser.add_argument("--port", type=int, default=0)
     parser.add_argument("--launch-chrome", action="store_true")
     args = parser.parse_args()
+
+    if args.launch_chrome and _try_reuse_running_app():
+        return
 
     # Bind strictly to 127.0.0.1 loopback so nothing external can connect
     server = ThreadingHTTPServer(("127.0.0.1", args.port), RemuxAppHandler)
@@ -223,6 +266,10 @@ def main():
     if args.launch_chrome:
         os.makedirs(CHROME_PROFILE, mode=0o700, exist_ok=True)
         os.chmod(CHROME_PROFILE, 0o700)
+        with open(STATE_FILE, "w", encoding="utf-8") as sf:
+            json.dump({"pid": os.getpid(), "port": port, "token": APP_TOKEN}, sf)
+        os.chmod(STATE_FILE, 0o600)
+
         def _launch_ui():
             time.sleep(0.4)
             if os.path.exists(CHROME_BIN):
@@ -248,6 +295,11 @@ def main():
         pass
     finally:
         server.server_close()
+        if args.launch_chrome and os.path.exists(STATE_FILE):
+            try:
+                os.remove(STATE_FILE)
+            except OSError:
+                pass
 
 
 if __name__ == "__main__":

@@ -276,8 +276,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     let currentFilter = 'all';
     let currentView = 'grid';
 
-    // Attempt to dynamically fetch fresh CSV if served over HTTP
-    if (window.location.protocol.startsWith('http')) {
+    // Attempt to dynamically fetch fresh CSV if served over non-local HTTP (e.g. GitHub Pages)
+    if (window.location.protocol.startsWith('http') && window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
       fetch('remux_library.csv?t=' + Date.now())
         .then(res => res.text())
         .then(text => {
@@ -620,7 +620,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           document.getElementById('stat-uhd').innerText = data.uhd;
           document.getElementById('stat-1080p').innerText = data.best_1080p;
           document.getElementById('stat-dvd').innerText = data.dvd;
-          render();
+          renderMovies();
         }).catch(() => {});
     }
 
@@ -630,7 +630,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       btn.disabled = true;
       document.getElementById('syncLogDrawer').classList.remove('hidden');
       fetch('/api/sync', { method: 'POST', credentials: 'same-origin' })
-        .then(r => r.json())
+        .then(async r => {
+          if (!r.ok && r.status !== 409) {
+            throw new Error('HTTP ' + r.status);
+          }
+          return r.json();
+        })
         .then(res => {
           showToast(res.started ? 'Sync started! Scraping X.com & updating Google Sheet...' : (res.message || 'Sync running'));
           startSyncPolling();
