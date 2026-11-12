@@ -23,6 +23,8 @@ SEARCH_QUERIES = [
     "from:LogiLampadina remux",
     "from:LogiLampadina bdremux",
     "from:Lampadinalinks remux",
+    "from:postdiem_drive",
+    "from:postdiem_drive remux",
     "transfer.it remux",
     "gofile.io remux",
     "pixeldrain remux",
