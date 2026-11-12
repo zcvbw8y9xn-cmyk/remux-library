@@ -7,6 +7,7 @@ Private local-only server for Remux Vault desktop app.
 
 import argparse
 import csv
+import gzip
 import http.cookies
 import json
 import os
@@ -42,6 +43,11 @@ def _launch_browser_window(url: str):
             f"--user-data-dir={CHROME_PROFILE}",
             "--no-first-run",
             "--no-default-browser-check",
+            "--disable-extensions",
+            "--disable-default-apps",
+            "--disable-background-networking",
+            "--disable-sync",
+            "--metrics-recording-only",
         ]
         return subprocess.Popen(cmd)
     subprocess.run(["open", url], check=False)
@@ -78,6 +84,36 @@ def read_library_payload() -> dict:
         "dvd": sum(1 for m in movies if "DVD" in m.get("Quality", "")),
         "last_updated": mtime,
     }
+
+
+_cache_lock = threading.Lock()
+_html_cache = {"mtime_ns": -1, "raw": b"", "gz": b""}
+_data_cache = {"mtime_ns": -1, "raw": b"", "gz": b""}
+
+
+def _get_cached_html() -> tuple[bytes, bytes]:
+    mtime_ns = os.stat(HTML_FILE).st_mtime_ns
+    with _cache_lock:
+        if _html_cache["mtime_ns"] != mtime_ns:
+            with open(HTML_FILE, "rb") as f:
+                raw = f.read()
+            _html_cache["raw"] = raw
+            _html_cache["gz"] = gzip.compress(raw, compresslevel=6)
+            _html_cache["mtime_ns"] = mtime_ns
+        return _html_cache["raw"], _html_cache["gz"]
+
+
+def _get_cached_data_json() -> tuple[bytes, bytes]:
+    mtime_ns = os.stat(CSV_FILE).st_mtime_ns if os.path.exists(CSV_FILE) else 0
+    with _cache_lock:
+        if _data_cache["mtime_ns"] != mtime_ns:
+            raw = json.dumps(
+                read_library_payload(), ensure_ascii=False, separators=(",", ":")
+            ).encode("utf-8")
+            _data_cache["raw"] = raw
+            _data_cache["gz"] = gzip.compress(raw, compresslevel=6)
+            _data_cache["mtime_ns"] = mtime_ns
+        return _data_cache["raw"], _data_cache["gz"]
 
 
 def detect_phase(line: str) -> str:
@@ -150,14 +186,25 @@ class RemuxAppHandler(BaseHTTPRequestHandler):
                 return True
         return False
 
-    def _send_json(self, status: int, payload: dict):
-        body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    def _send_bytes(self, status: int, content_type: str, raw_bytes: bytes, gz_bytes: bytes | None = None, extra_headers=None):
+        accept_enc = self.headers.get("Accept-Encoding", "")
+        use_gz = gz_bytes is not None and "gzip" in accept_enc
+        body = gz_bytes if use_gz else raw_bytes
         self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Type", content_type)
         self.send_header("Cache-Control", "no-store")
+        if use_gz:
+            self.send_header("Content-Encoding", "gzip")
+        if extra_headers:
+            for k, v in extra_headers:
+                self.send_header(k, v)
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def _send_json(self, status: int, payload: dict):
+        body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+        self._send_bytes(status, "application/json; charset=utf-8", body)
 
     def do_GET(self):
         if not self._is_authorized():
@@ -169,22 +216,19 @@ class RemuxAppHandler(BaseHTTPRequestHandler):
             if not os.path.exists(HTML_FILE):
                 self.send_error(404, "index.html not found")
                 return
-            with open(HTML_FILE, "rb") as f:
-                data = f.read()
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html; charset=utf-8")
-            self.send_header("Cache-Control", "no-store")
-            self.send_header(
-                "Set-Cookie",
-                f"rv_token={APP_TOKEN}; HttpOnly; SameSite=Strict; Path=/",
+            raw_bytes, gz_bytes = _get_cached_html()
+            self._send_bytes(
+                200,
+                "text/html; charset=utf-8",
+                raw_bytes,
+                gz_bytes,
+                extra_headers=[("Set-Cookie", f"rv_token={APP_TOKEN}; HttpOnly; SameSite=Strict; Path=/")],
             )
-            self.send_header("Content-Length", str(len(data)))
-            self.end_headers()
-            self.wfile.write(data)
             return
 
         if parsed.path == "/api/data":
-            self._send_json(200, read_library_payload())
+            raw_bytes, gz_bytes = _get_cached_data_json()
+            self._send_bytes(200, "application/json; charset=utf-8", raw_bytes, gz_bytes)
             return
 
         if parsed.path == "/api/sync/status":
@@ -279,7 +323,6 @@ def main():
         os.chmod(STATE_FILE, 0o600)
 
         def _launch_ui():
-            time.sleep(0.4)
             proc = _launch_browser_window(url)
             if proc is not None:
                 proc.wait()
