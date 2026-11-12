@@ -1,4 +1,10 @@
 .browser_profile/
+.app_chrome_profile/
+.app_token
+.app_state.json
+.shim/
+app.log
+cron.log
 __pycache__/
 *.pyc
 .DS_Store

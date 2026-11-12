@@ -310,23 +310,23 @@ STATE_FILE = os.path.join(PROJECT_DIR, ".app_state.json")
 
 def _try_reuse_running_app() -> bool:
     """If an existing local app_server is alive, reopen its Chrome app window and exit cleanly."""
-    if not os.path.exists(STATE_FILE):
-        return False
+    port = DEFAULT_PORT
+    token = APP_TOKEN
+    if os.path.exists(STATE_FILE):
+        try:
+            with open(STATE_FILE, "r", encoding="utf-8") as f:
+                st = json.load(f)
+            port = int(st.get("port", port))
+            token = st.get("token", token)
+        except Exception:
+            pass
     try:
-        with open(STATE_FILE, "r", encoding="utf-8") as f:
-            st = json.load(f)
-        pid = int(st.get("pid", 0))
-        port = int(st.get("port", 0))
-        token = st.get("token", "")
-        if pid <= 0 or port <= 0 or not token:
-            return False
-        os.kill(pid, 0)
         import urllib.request
         req = urllib.request.Request(
             f"http://127.0.0.1:{port}/api/sync/status",
             headers={"X-App-Token": token},
         )
-        urllib.request.urlopen(req, timeout=1.5).read()
+        urllib.request.urlopen(req, timeout=1.2).read()
         existing_url = f"http://127.0.0.1:{port}/?token={token}"
         _launch_browser_window(existing_url)
         return True
@@ -353,13 +353,23 @@ def main():
     url = f"http://127.0.0.1:{port}/?token={APP_TOKEN}"
     print(f"🔒 Remux Vault private local app running at http://127.0.0.1:{port}/")
 
-    if args.launch_chrome:
-        os.makedirs(CHROME_PROFILE, mode=0o700, exist_ok=True)
-        os.chmod(CHROME_PROFILE, 0o700)
-        with open(STATE_FILE, "w", encoding="utf-8") as sf:
-            json.dump({"pid": os.getpid(), "port": port, "token": APP_TOKEN}, sf)
-        os.chmod(STATE_FILE, 0o600)
+    os.makedirs(CHROME_PROFILE, mode=0o700, exist_ok=True)
+    os.chmod(CHROME_PROFILE, 0o700)
+    with open(STATE_FILE, "w", encoding="utf-8") as sf:
+        json.dump({"pid": os.getpid(), "port": port, "token": APP_TOKEN}, sf)
+    os.chmod(STATE_FILE, 0o600)
 
+    def _sig_handler(signum, frame):
+        threading.Thread(target=server.shutdown, daemon=True).start()
+
+    try:
+        import signal
+        signal.signal(signal.SIGTERM, _sig_handler)
+        signal.signal(signal.SIGINT, _sig_handler)
+    except Exception:
+        pass
+
+    if args.launch_chrome:
         def _launch_ui():
             _launch_browser_window(url)
 
@@ -367,7 +377,7 @@ def main():
 
     try:
         server.serve_forever()
-    except KeyboardInterrupt:
+    except Exception:
         pass
     finally:
         server.server_close()
