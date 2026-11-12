@@ -663,6 +663,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   <!-- Inline SVG Sprite (zero external font/CSS requests) -->
   <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
     <symbol id="i-film" viewBox="0 0 24 24"><path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 2v2h2V5H4zm14 0v2h2V5h-2zM4 9v2h2V9H4zm14 0v2h2V9h-2zM4 13v2h2v-2H4zm14 0v2h2v-2h-2zM4 17v2h2v-2H4zm14 0v2h2v-2h-2zM8 5v14h8V5H8z"/></symbol>
+    <symbol id="i-letterboxd" viewBox="0 0 24 24"><circle cx="4.5" cy="12" r="3.4" fill="#40BCF4"/><circle cx="12" cy="12" r="3.4" fill="#00E054"/><circle cx="19.5" cy="12" r="3.4" fill="#FF8000"/></symbol>
     <symbol id="i-sync" viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0 0 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 0 0 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></symbol>
     <symbol id="i-terminal" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM6.7 16.3l-1.4-1.4L8.2 12 5.3 9.1l1.4-1.4L11 12l-4.3 4.3zm11.3.7h-6v-2h6v2z"/></symbol>
     <symbol id="i-table" viewBox="0 0 24 24"><path d="M3 3h18a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 6v4h8V9H3zm10 0v4h8V9h-8zM3 15v4h8v-4H3zm10 0v4h8v-4h-8z"/></symbol>
@@ -1051,7 +1052,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
               <span>Copy Link</span>
             </button>
             <a href="${m._linkEsc}" target="_blank" class="icon-btn" title="Open Download Link (${m._hostEsc})"><svg class="icon"><use href="#i-download"/></svg></a>
-            <a href="${esc(m.letterboxd)}" target="_blank" class="icon-btn" title="Search on Letterboxd"><svg class="icon"><use href="#i-film"/></svg></a>
+            <a href="${esc(m.letterboxd)}" target="_blank" class="icon-btn" title="Search on Letterboxd"><svg class="icon"><use href="#i-letterboxd"/></svg></a>
             <a href="${esc(m.imdb)}" target="_blank" class="imdb-btn" title="Search on IMDb">IMDb</a>
             ${m.tweetUrl ? `<a href="${esc(m.tweetUrl)}" target="_blank" class="icon-btn" title="View Tweet"><svg class="icon"><use href="#i-x"/></svg></a>` : ''}
           </div>
@@ -1070,7 +1071,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             <div class="td-actions">
               <button type="button" class="copy-btn t-btn" style="flex:0;" data-copy="${m._linkEsc}" title="Copy Link"><svg class="icon icon-sm"><use href="#i-copy"/></svg></button>
               <a href="${m._linkEsc}" target="_blank" class="icon-btn t-btn" title="Download (${m._hostEsc})"><svg class="icon icon-sm"><use href="#i-download"/></svg></a>
-              <a href="${esc(m.letterboxd)}" target="_blank" class="icon-btn t-btn" title="Letterboxd"><svg class="icon icon-sm"><use href="#i-film"/></svg></a>
+              <a href="${esc(m.letterboxd)}" target="_blank" class="icon-btn t-btn" title="Letterboxd"><svg class="icon icon-sm"><use href="#i-letterboxd"/></svg></a>
               <a href="${esc(m.imdb)}" target="_blank" class="imdb-btn t-btn" title="IMDb">IMDb</a>
               ${m.tweetUrl ? `<a href="${esc(m.tweetUrl)}" target="_blank" class="icon-btn t-btn" title="Tweet"><svg class="icon icon-sm"><use href="#i-x"/></svg></a>` : ''}
             </div>
