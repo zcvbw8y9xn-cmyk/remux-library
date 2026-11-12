@@ -53,7 +53,30 @@ def _launch_browser_window(url: str):
     subprocess.run(["open", url], check=False)
     return None
 
-APP_TOKEN = secrets.token_urlsafe(24)
+DEFAULT_PORT = 58239
+TOKEN_FILE = os.path.join(PROJECT_DIR, ".app_token")
+
+
+def _get_persistent_token() -> str:
+    if os.path.exists(TOKEN_FILE):
+        try:
+            with open(TOKEN_FILE, "r", encoding="utf-8") as f:
+                tok = f.read().strip()
+                if len(tok) >= 16:
+                    return tok
+        except Exception:
+            pass
+    tok = secrets.token_urlsafe(24)
+    try:
+        with open(TOKEN_FILE, "w", encoding="utf-8") as f:
+            f.write(tok)
+        os.chmod(TOKEN_FILE, 0o600)
+    except Exception:
+        pass
+    return tok
+
+
+APP_TOKEN = _get_persistent_token()
 
 sync_lock = threading.Lock()
 sync_state = {
@@ -206,12 +229,23 @@ class RemuxAppHandler(BaseHTTPRequestHandler):
         body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
         self._send_bytes(status, "application/json; charset=utf-8", body)
 
+    def do_HEAD(self):
+        self.do_GET()
+
     def do_GET(self):
+        parsed = urlparse(self.path)
+        if parsed.path in ("/", "/index.html") and not self._is_authorized():
+            self.send_response(302)
+            self.send_header("Location", f"/?token={APP_TOKEN}")
+            self.send_header("Set-Cookie", f"rv_token={APP_TOKEN}; HttpOnly; SameSite=Strict; Path=/")
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+
         if not self._is_authorized():
             self.send_error(403, "Forbidden: private local session token required")
             return
 
-        parsed = urlparse(self.path)
         if parsed.path in ("/", "/index.html"):
             if not os.path.exists(HTML_FILE):
                 self.send_error(404, "index.html not found")
@@ -310,7 +344,11 @@ def main():
         return
 
     # Bind strictly to 127.0.0.1 loopback so nothing external can connect
-    server = ThreadingHTTPServer(("127.0.0.1", args.port), RemuxAppHandler)
+    bind_port = args.port if args.port > 0 else DEFAULT_PORT
+    try:
+        server = ThreadingHTTPServer(("127.0.0.1", bind_port), RemuxAppHandler)
+    except OSError:
+        server = ThreadingHTTPServer(("127.0.0.1", 0), RemuxAppHandler)
     port = server.server_address[1]
     url = f"http://127.0.0.1:{port}/?token={APP_TOKEN}"
     print(f"🔒 Remux Vault private local app running at http://127.0.0.1:{port}/")
@@ -323,10 +361,7 @@ def main():
         os.chmod(STATE_FILE, 0o600)
 
         def _launch_ui():
-            proc = _launch_browser_window(url)
-            if proc is not None:
-                proc.wait()
-                server.shutdown()
+            _launch_browser_window(url)
 
         threading.Thread(target=_launch_ui, daemon=True).start()
 
@@ -336,7 +371,7 @@ def main():
         pass
     finally:
         server.server_close()
-        if args.launch_chrome and os.path.exists(STATE_FILE):
+        if os.path.exists(STATE_FILE):
             try:
                 os.remove(STATE_FILE)
             except OSError:
