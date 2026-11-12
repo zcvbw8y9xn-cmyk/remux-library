@@ -358,6 +358,7 @@
         gridContainer.classList.add('hidden');
         tableContainer.classList.remove('hidden');
       }
+      renderMovies();
     }
 
     function handleSearch() {
@@ -445,8 +446,10 @@
       }
       emptyState.classList.add('hidden');
 
-      // Render Grid
-      grid.innerHTML = movies.map(m => {
+      if (currentView === 'grid') {
+        tableBody.innerHTML = '';
+        // Render Grid
+        grid.innerHTML = movies.map(m => {
         const title = m['Title'] || 'Unknown';
         const year = m['Year'] || '';
         const quality = m['Quality'] || '';
@@ -504,9 +507,10 @@
           </div>
         `;
       }).join('');
-
-      // Render Table
-      tableBody.innerHTML = movies.map(m => {
+      } else {
+        grid.innerHTML = '';
+        // Render Table
+        tableBody.innerHTML = movies.map(m => {
         const title = m['Title'] || 'Unknown';
         const year = m['Year'] || '';
         const quality = m['Quality'] || '';
@@ -550,6 +554,7 @@
           </tr>
         `;
       }).join('');
+      }
     }
 
     function copyToClipboard(text) {
@@ -656,8 +661,7 @@
 
           pill.innerText = st.phase || 'Idle';
           if (st.log_tail && st.log_tail.length) {
-            logEl.textContent = st.log_tail.join('
-');
+            logEl.textContent = st.log_tail.join('\n');
             logEl.scrollTop = logEl.scrollHeight;
           }
           if (st.started_at) {

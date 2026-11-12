@@ -26,7 +26,26 @@ HTML_FILE = os.path.join(PROJECT_DIR, "index.html")
 SYNC_SCRIPT = os.path.join(PROJECT_DIR, "run_daily.sh")
 LOG_FILE = os.path.join(PROJECT_DIR, "cron.log")
 CHROME_BIN = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+BRAVE_BIN = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
 CHROME_PROFILE = os.path.join(PROJECT_DIR, ".app_chrome_profile")
+
+
+def _launch_browser_window(url: str):
+    """Launch the private app window natively on arm64 (avoiding slow Rosetta x86_64)."""
+    browser_bin = CHROME_BIN if os.path.exists(CHROME_BIN) else (BRAVE_BIN if os.path.exists(BRAVE_BIN) else None)
+    if browser_bin:
+        cmd = [
+            "/usr/bin/arch",
+            "-arm64",
+            browser_bin,
+            f"--app={url}",
+            f"--user-data-dir={CHROME_PROFILE}",
+            "--no-first-run",
+            "--no-default-browser-check",
+        ]
+        return subprocess.Popen(cmd)
+    subprocess.run(["open", url], check=False)
+    return None
 
 APP_TOKEN = secrets.token_urlsafe(24)
 
@@ -231,18 +250,7 @@ def _try_reuse_running_app() -> bool:
         )
         urllib.request.urlopen(req, timeout=1.5).read()
         existing_url = f"http://127.0.0.1:{port}/?token={token}"
-        if os.path.exists(CHROME_BIN):
-            subprocess.Popen(
-                [
-                    CHROME_BIN,
-                    f"--app={existing_url}",
-                    f"--user-data-dir={CHROME_PROFILE}",
-                    "--no-first-run",
-                    "--no-default-browser-check",
-                ]
-            )
-        else:
-            subprocess.run(["open", existing_url], check=False)
+        _launch_browser_window(existing_url)
         return True
     except Exception:
         return False
@@ -272,20 +280,10 @@ def main():
 
         def _launch_ui():
             time.sleep(0.4)
-            if os.path.exists(CHROME_BIN):
-                proc = subprocess.Popen(
-                    [
-                        CHROME_BIN,
-                        f"--app={url}",
-                        f"--user-data-dir={CHROME_PROFILE}",
-                        "--no-first-run",
-                        "--no-default-browser-check",
-                    ]
-                )
+            proc = _launch_browser_window(url)
+            if proc is not None:
                 proc.wait()
                 server.shutdown()
-            else:
-                subprocess.run(["open", url], check=False)
 
         threading.Thread(target=_launch_ui, daemon=True).start()
 
