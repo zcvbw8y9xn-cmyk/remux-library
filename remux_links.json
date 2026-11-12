@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-11T23:33:32.330467+00:00",
+  "scraped_at": "2026-11-12T11:33:58.771138+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1138,
-  "total_with_file_links": 1097,
+  "total_tweets": 1142,
+  "total_with_file_links": 1101,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -13439,6 +13439,58 @@
       "text": "Fox Fire (1955, Joseph Pevney)\nbd-remux, 18gb. English/English, with commentary.\nhttps://\ntransfer.it/t/TbqtixZCGTLb",
       "file_links": [
         "https://transfer.it/t/TbqtixZCGTLb"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/rickksntss/status/2120830443536990291",
+      "author": "https://x.com/rickksntss",
+      "timestamp": "2026-11-12T10:45:55.000Z",
+      "text": "F For Fake (1973, Orson Welles)\n1080p REMUX (15.4GB)\neng/ptbr/spa subs\n\nhttps://\ntransfer.it/t/7uLBfzBixTTL",
+      "file_links": [
+        "https://transfer.it/t/7uLBfzBixTTL"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/qkD1yiRMOb": "https://transfer.it/t/7uLBfzBixTTL"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/rssfdv_VK/status/2120708599903392251",
+      "author": "https://x.com/rssfdv_VK",
+      "timestamp": "2026-11-12T02:41:45.000Z",
+      "text": "https://\ndrive.google.com/drive/folders/\n1e_tD_i72nb6XcaVIe3C3IMvI3QbgYZcs?usp=sharing\n… (5,04gb, encode)\n\n\nhttps://\ntransfer.it/t/X2Qkjt5CGJ5a (9.84gb, remux) pass: felipedrive",
+      "file_links": [
+        "https://drive.google.com/drive/folders/1e_tD_i72nb6XcaVIe3C3IMvI3QbgYZcs?usp=sharing",
+        "https://transfer.it/t/X2Qkjt5CGJ5a"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/Gt6FFxx7np": "https://drive.google.com/drive/folders/1e_tD_i72nb6XcaVIe3C3IMvI3QbgYZcs?usp=sharing",
+        "https://t.co/A5lbhS4zQX": "https://transfer.it/t/X2Qkjt5CGJ5a"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/schoppheineken/status/2120678489594687884",
+      "author": "https://x.com/schoppheineken",
+      "timestamp": "2026-11-12T00:42:06.000Z",
+      "text": "Shaolin Temple (1982)\nDirector: Cheung Sing-Yim\n4K UHD BLURAY REMUX HDR HEVC DTS-HD MA 5.1/PCM 1.0 (73.6GB)\n2 Extras (Interview with Jet Li + Cuts from a TV Show)\nSubs: 🇨🇳/🇺🇸\n\nhttps://\ntransfer.it/t/dCaCbxRFyDaQ",
+      "file_links": [
+        "https://transfer.it/t/dCaCbxRFyDaQ"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/GXuuC3szWE": "https://transfer.it/t/dCaCbxRFyDaQ"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/LogiLampadina/status/2120717621322473669",
+      "author": "https://x.com/LogiLampadina",
+      "timestamp": "2026-11-12T03:17:36.000Z",
+      "text": "All Night at the Bizarre Art Theatre (VS-141)\n\nAnother collection of hour-long, early '70s 16mm features. Titles include Daughters of Darkness, Dr. Sexual & Mr. Hyde, Hotter Than Hell, House DeSade, Rites of Uranus, The Sorceress, etc.\n\n12 features. dvd-remux, 22.61gb total.\nhttps://\ntransfer.it/t/95igkQlGwR5Z",
+      "file_links": [
+        "https://transfer.it/t/95igkQlGwR5Z"
       ],
       "other_links": [],
       "raw_tco": {}
