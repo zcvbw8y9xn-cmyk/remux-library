@@ -17,12 +17,14 @@ import re
 import unicodedata
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from patchright.async_api import async_playwright
 
 INPUT_FILE = "remux_links.json"
 OUTPUT_CSV = "remux_library.csv"
 HEALTH_CACHE_FILE = "health_cache.json"
+IMDB_CACHE_FILE = "imdb_cache.json"
 SPREADSHEET_ID = "1oqYjXc5D9eURyHUGNynR9uW9BDKNKWyGtfDBs8j_j8E"
 
 # Curated English translation dictionary for foreign titles
@@ -660,10 +662,136 @@ def get_letterboxd_link(title: str, year: str) -> str:
     return f"https://letterboxd.com/search/{urllib.parse.quote_plus(q)}/"
 
 
-def get_imdb_link(title: str, year: str) -> str:
-    """Generates direct IMDb search URL for the movie."""
+def _norm_imdb_title(s: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", (s or "").lower()).strip()
+
+
+def _query_imdb_suggestions(query: str) -> list:
+    q = urllib.parse.quote(query.strip())
+    if not q:
+        return []
+    url = f"https://v3.sg.media-imdb.com/suggestion/x/{q}.json"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            return json.loads(resp.read()).get("d", [])
+    except Exception:
+        return []
+
+
+def resolve_imdb_id(title: str, year: str) -> str | None:
+    """Resolve the exact IMDb tt-ID (e.g. 'tt0083190') using IMDb's suggestion endpoint."""
+    if not title or title == "Unknown Title":
+        return None
+    target_norm = _norm_imdb_title(title)
+    try:
+        target_year = int(str(year).strip())
+    except Exception:
+        target_year = None
+
+    queries = [f"{title} {year}".strip()] if target_year else [title.strip()]
+    if target_year and title.strip() not in queries:
+        queries.append(title.strip())
+    # Also try stripping ", Director", ": Subtitle", or "Director's " prefixes
+    stripped = re.split(r"\s*,\s*|\s*:\s*", title.strip())[0].strip()
+    stripped = re.sub(r"^[A-Z][\w\s.-]+'s\s+", "", stripped).strip()
+    if stripped and stripped not in queries:
+        queries.append(f"{stripped} {year}".strip() if target_year else stripped)
+        if stripped not in queries:
+            queries.append(stripped)
+
+    best_id = None
+    best_score = -999
+    for idx, q in enumerate(queries):
+        candidates = _query_imdb_suggestions(q)
+        for cand in candidates:
+            cid = cand.get("id", "")
+            if not cid.startswith("tt"):
+                continue
+            qid = cand.get("qid", "")
+            if qid == "videoGame":
+                continue
+            cand_norm = _norm_imdb_title(cand.get("l", ""))
+            cand_year = cand.get("y")
+
+            score = 0
+            if qid in ("movie", "tvMovie"):
+                score += 50
+            elif qid in ("tvMiniSeries", "tvSeries", "short", "video"):
+                score += 25
+
+            if cand_norm == target_norm or (stripped and cand_norm == _norm_imdb_title(stripped)):
+                score += 80
+            elif target_norm and (target_norm in cand_norm or cand_norm in target_norm):
+                score += 45
+
+            if target_year and isinstance(cand_year, int):
+                diff = abs(cand_year - target_year)
+                if diff == 0:
+                    score += 65
+                elif diff == 1:
+                    score += 35
+                elif diff > 2:
+                    score -= 45
+
+            if score > best_score:
+                best_score = score
+                best_id = cid
+
+        # Skip second query if we already have a strong exact/near-exact film+year hit
+        if idx == 0 and best_score >= 140:
+            break
+
+    return best_id if best_score >= 85 else None
+
+
+def load_imdb_cache() -> dict:
+    if os.path.exists(IMDB_CACHE_FILE):
+        try:
+            with open(IMDB_CACHE_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+
+def save_imdb_cache(cache: dict) -> None:
+    with open(IMDB_CACHE_FILE, "w", encoding="utf-8") as f:
+        json.dump(cache, f, ensure_ascii=False, indent=2)
+
+
+def batch_resolve_imdb_links(rows: list, imdb_cache: dict) -> None:
+    """Resolve missing IMDb title URLs concurrently and update imdb_cache in place."""
+    missing = []
+    seen_keys = set()
+    for r in rows:
+        t = r.get("Title", "")
+        y = str(r.get("Year", "")).strip()
+        if not t or t == "Unknown Title":
+            continue
+        key = f"{t}|{y}"
+        if key not in imdb_cache and key not in seen_keys:
+            seen_keys.add(key)
+            missing.append((key, t, y))
+
+    if missing:
+        print(f"🎬 Resolving direct IMDb film URLs for {len(missing)} movie(s)...")
+        with ThreadPoolExecutor(max_workers=14) as pool:
+            results = list(pool.map(lambda item: (item[0], resolve_imdb_id(item[1], item[2])), missing))
+        for key, tt_id in results:
+            imdb_cache[key] = f"https://www.imdb.com/title/{tt_id}/" if tt_id else ""
+        save_imdb_cache(imdb_cache)
+
+
+def get_imdb_link(title: str, year: str, imdb_cache: dict | None = None) -> str:
+    """Returns direct IMDb film URL (/title/tt.../) when resolved, else search fallback."""
     if not title or title == "Unknown Title":
         return ""
+    y = str(year).strip()
+    if imdb_cache is not None:
+        cached = imdb_cache.get(f"{title}|{y}", "")
+        if cached:
+            return cached
     q = f"{title} {year}".strip() if year and year != "Unknown" else title.strip()
     return f"https://www.imdb.com/find/?q={urllib.parse.quote_plus(q)}&s=tt"
 
@@ -979,9 +1107,12 @@ async def process_and_verify():
         # Evaluate Best Quality Available status
         r["Best Quality?" ] = evaluate_quality_tier(r["Quality"], r["Title"], r.get("Year", ""))
 
+    imdb_cache = load_imdb_cache()
+    batch_resolve_imdb_links(rows, imdb_cache)
+    for r in rows:
         # Update Letterboxd and IMDb links with final title and year
         r["Letterboxd"] = get_letterboxd_link(r["Title"], r["Year"])
-        r["IMDb"] = get_imdb_link(r["Title"], r["Year"])
+        r["IMDb"] = get_imdb_link(r["Title"], r["Year"], imdb_cache)
 
     # STRICT FILTER: REMOVE ALL DEAD LINKS
     alive_rows = [r for r in rows if "Alive" in r.get("Status", "")]
