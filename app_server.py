@@ -26,32 +26,15 @@ CSV_FILE = os.path.join(PROJECT_DIR, "remux_library.csv")
 HTML_FILE = os.path.join(PROJECT_DIR, "index.html")
 SYNC_SCRIPT = os.path.join(PROJECT_DIR, "run_daily.sh")
 LOG_FILE = os.path.join(PROJECT_DIR, "cron.log")
-CHROME_BIN = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-BRAVE_BIN = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
-CHROME_PROFILE = os.path.join(PROJECT_DIR, ".app_chrome_profile")
+APP_BUNDLE = os.path.expanduser("~/Applications/Remux Vault.app")
 
 
-def _launch_browser_window(url: str):
-    """Launch the private app window natively on arm64 (avoiding slow Rosetta x86_64)."""
-    browser_bin = CHROME_BIN if os.path.exists(CHROME_BIN) else (BRAVE_BIN if os.path.exists(BRAVE_BIN) else None)
-    if browser_bin:
-        cmd = [
-            "/usr/bin/arch",
-            "-arm64",
-            browser_bin,
-            f"--app={url}",
-            f"--user-data-dir={CHROME_PROFILE}",
-            "--no-first-run",
-            "--no-default-browser-check",
-            "--disable-extensions",
-            "--disable-default-apps",
-            "--disable-background-networking",
-            "--disable-sync",
-            "--metrics-recording-only",
-        ]
-        return subprocess.Popen(cmd)
-    subprocess.run(["open", url], check=False)
-    return None
+def _launch_native_app_window():
+    """Focuses or launches the dedicated native Remux Vault app (zero Chrome tabs/windows)."""
+    if os.path.exists(APP_BUNDLE):
+        subprocess.run(["open", "-a", APP_BUNDLE], check=False)
+    else:
+        subprocess.run(["open", f"http://127.0.0.1:{DEFAULT_PORT}/?token={APP_TOKEN}"], check=False)
 
 DEFAULT_PORT = 58239
 TOKEN_FILE = os.path.join(PROJECT_DIR, ".app_token")
@@ -327,8 +310,7 @@ def _try_reuse_running_app() -> bool:
             headers={"X-App-Token": token},
         )
         urllib.request.urlopen(req, timeout=1.2).read()
-        existing_url = f"http://127.0.0.1:{port}/?token={token}"
-        _launch_browser_window(existing_url)
+        _launch_native_app_window()
         return True
     except Exception:
         return False
@@ -337,7 +319,7 @@ def _try_reuse_running_app() -> bool:
 def main():
     parser = argparse.ArgumentParser(description="Private local Remux Vault app server")
     parser.add_argument("--port", type=int, default=0)
-    parser.add_argument("--launch-chrome", action="store_true")
+    parser.add_argument("--launch-chrome", action="store_true", help="Launch native Remux Vault app window")
     args = parser.parse_args()
 
     if args.launch_chrome and _try_reuse_running_app():
@@ -350,11 +332,8 @@ def main():
     except OSError:
         server = ThreadingHTTPServer(("127.0.0.1", 0), RemuxAppHandler)
     port = server.server_address[1]
-    url = f"http://127.0.0.1:{port}/?token={APP_TOKEN}"
     print(f"🔒 Remux Vault private local app running at http://127.0.0.1:{port}/")
 
-    os.makedirs(CHROME_PROFILE, mode=0o700, exist_ok=True)
-    os.chmod(CHROME_PROFILE, 0o700)
     with open(STATE_FILE, "w", encoding="utf-8") as sf:
         json.dump({"pid": os.getpid(), "port": port, "token": APP_TOKEN}, sf)
     os.chmod(STATE_FILE, 0o600)
@@ -370,10 +349,7 @@ def main():
         pass
 
     if args.launch_chrome:
-        def _launch_ui():
-            _launch_browser_window(url)
-
-        threading.Thread(target=_launch_ui, daemon=True).start()
+        threading.Thread(target=_launch_native_app_window, daemon=True).start()
 
     try:
         server.serve_forever()
