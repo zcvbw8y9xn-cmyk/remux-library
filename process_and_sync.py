@@ -1011,26 +1011,25 @@ async def process_and_verify():
     # Clear Google Sheet completely and re-import with new 11-column layout
     print(f"\n📊 Syncing to Google Sheet ({SPREADSHEET_ID})...")
     end_fmt_row = max(len(alive_rows) + 100, 1000)
-    os.system(f"gsheets mutate clear '{SPREADSHEET_ID}' 'Sheet1!A1:Z5000'")
-    os.system(f"gsheets mutate import-csv '{SPREADSHEET_ID}' '{OUTPUT_CSV}'")
-    os.system(f"gsheets mutate freeze '{SPREADSHEET_ID}' --sheet-id 0 --rows 1")
-    os.system(f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 11 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'")
-    os.system(f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 11")
-    
-    # Conditional formatting for Best Quality? (Col 4)
-    # Green for Yes (4K, 1080p Best, or DVD Best)
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Yes' --color '#DCFCE7'")
-    # Amber for when a higher resolution (4K or 1080p) exists
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Exists' --color '#FEF3C7'")
-    
-    # Conditional formatting for Quality (Col 3)
-    # Soft purple for DVD
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value 'DVD' --color '#F3E8FF'")
-    # Soft gold for 4K
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value '4K' --color '#FEF08A'")
-    
-    # Conditional formatting for Status (Col 9)
-    os.system(f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 9 --end-col 10 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'")
+    sheet_cmds = [
+        f"gsheets mutate clear '{SPREADSHEET_ID}' 'Sheet1!A1:Z5000'",
+        f"gsheets mutate import-csv '{SPREADSHEET_ID}' '{OUTPUT_CSV}'",
+        f"gsheets mutate freeze '{SPREADSHEET_ID}' --sheet-id 0 --rows 1",
+        f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 11 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'",
+        f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 11",
+        # Conditional formatting for Best Quality? (Col 4)
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Yes' --color '#DCFCE7'",
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Exists' --color '#FEF3C7'",
+        # Conditional formatting for Quality (Col 3)
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value 'DVD' --color '#F3E8FF'",
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value '4K' --color '#FEF08A'",
+        # Conditional formatting for Status (Col 9)
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 9 --end-col 10 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'",
+    ]
+    for cmd in sheet_cmds:
+        rc = os.system(cmd)
+        if rc != 0:
+            raise RuntimeError(f"Google Sheets sync command failed (exit {rc >> 8}): {cmd}")
     print("✅ Google Sheet refreshed successfully with transfer.it, Letterboxd, IMDb, and Quality Tier evaluation!")
 
 

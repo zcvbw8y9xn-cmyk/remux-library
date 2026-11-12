@@ -75,13 +75,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             Remux Vault
             <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">Live Library</span>
+            <span id="privateBadge" class="hidden text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium">🔒 Private Local App</span>
           </h1>
           <p class="text-xs text-slate-400">Curated cinema remuxes — 100% verified alive</p>
         </div>
       </div>
 
       <!-- Quick Action Links -->
-      <div class="flex items-center gap-2.5">
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <button id="syncBtn" onclick="triggerSync()" class="hidden px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold flex items-center gap-2 transition shadow-lg shadow-emerald-500/20">
+          <i id="syncIcon" class="fa-solid fa-rotate"></i>
+          <span id="syncBtnText">Sync Now</span>
+        </button>
+        <button id="logToggleBtn" onclick="toggleSyncLog()" class="hidden px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition border border-slate-700">
+          <i class="fa-solid fa-terminal text-[11px]"></i>
+          <span id="syncPhasePill">Idle</span>
+        </button>
         <a href="https://docs.google.com/spreadsheets/d/1oqYjXc5D9eURyHUGNynR9uW9BDKNKWyGtfDBs8j_j8E" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-semibold flex items-center gap-2 transition border border-emerald-500/30">
           <i class="fa-solid fa-table"></i>
           <span>Google Sheet</span>
@@ -94,6 +103,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           <i class="fa-solid fa-download"></i>
           <span>Copy Batch URLs</span>
         </button>
+      </div>
+    </div>
+    <!-- Collapsible Local Sync Log Drawer -->
+    <div id="syncLogDrawer" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-3">
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs">
+        <div class="flex items-center justify-between mb-1.5 text-slate-400">
+          <span class="font-semibold"><i class="fa-solid fa-terminal mr-1.5 text-emerald-400"></i>Local Sync Output</span>
+          <span id="syncTimeInfo" class="font-mono text-[11px]"></span>
+        </div>
+        <pre id="syncLogContent" class="font-mono text-[11px] text-slate-300 max-h-44 overflow-y-auto whitespace-pre-wrap leading-relaxed">Ready. Click "Sync Now" to scrape X.com, verify links, and update Google Sheets.</pre>
       </div>
     </div>
   </header>
@@ -573,7 +592,109 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       }, 2600);
     }
 
+    const IS_LOCAL_APP = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') && window.location.protocol.startsWith('http');
+    let syncPollTimer = null;
+
+    function initLocalAppControls() {
+      if (!IS_LOCAL_APP) return;
+      document.getElementById('privateBadge').classList.remove('hidden');
+      document.getElementById('syncBtn').classList.remove('hidden');
+      document.getElementById('logToggleBtn').classList.remove('hidden');
+      refreshLocalLibrary();
+      pollSyncStatus();
+    }
+
+    function toggleSyncLog() {
+      const drawer = document.getElementById('syncLogDrawer');
+      drawer.classList.toggle('hidden');
+    }
+
+    function refreshLocalLibrary() {
+      if (!IS_LOCAL_APP) return;
+      fetch('/api/data', { credentials: 'same-origin' })
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          if (!data || !Array.isArray(data.movies)) return;
+          rawMovies = data.movies;
+          document.getElementById('stat-total').innerText = data.total;
+          document.getElementById('stat-uhd').innerText = data.uhd;
+          document.getElementById('stat-1080p').innerText = data.best_1080p;
+          document.getElementById('stat-dvd').innerText = data.dvd;
+          render();
+        }).catch(() => {});
+    }
+
+    function triggerSync() {
+      if (!IS_LOCAL_APP) return;
+      const btn = document.getElementById('syncBtn');
+      btn.disabled = true;
+      document.getElementById('syncLogDrawer').classList.remove('hidden');
+      fetch('/api/sync', { method: 'POST', credentials: 'same-origin' })
+        .then(r => r.json())
+        .then(res => {
+          showToast(res.started ? 'Sync started! Scraping X.com & updating Google Sheet...' : (res.message || 'Sync running'));
+          startSyncPolling();
+        })
+        .catch(() => {
+          btn.disabled = false;
+          showToast('Failed to start sync');
+        });
+    }
+
+    function startSyncPolling() {
+      if (syncPollTimer) clearInterval(syncPollTimer);
+      pollSyncStatus();
+      syncPollTimer = setInterval(pollSyncStatus, 2000);
+    }
+
+    function pollSyncStatus() {
+      if (!IS_LOCAL_APP) return;
+      fetch('/api/sync/status', { credentials: 'same-origin' })
+        .then(r => r.ok ? r.json() : null)
+        .then(st => {
+          if (!st) return;
+          const btn = document.getElementById('syncBtn');
+          const icon = document.getElementById('syncIcon');
+          const btnText = document.getElementById('syncBtnText');
+          const pill = document.getElementById('syncPhasePill');
+          const logEl = document.getElementById('syncLogContent');
+          const timeEl = document.getElementById('syncTimeInfo');
+
+          pill.innerText = st.phase || 'Idle';
+          if (st.log_tail && st.log_tail.length) {
+            logEl.textContent = st.log_tail.join('\n');
+            logEl.scrollTop = logEl.scrollHeight;
+          }
+          if (st.started_at) {
+            timeEl.innerText = st.finished_at ? `Started ${st.started_at} · Finished ${st.finished_at}` : `Started ${st.started_at}`;
+          }
+
+          if (st.running) {
+            btn.disabled = true;
+            btn.classList.add('opacity-75');
+            icon.classList.add('fa-spin');
+            btnText.innerText = 'Syncing...';
+            if (!syncPollTimer) startSyncPolling();
+          } else {
+            const wasPolling = Boolean(syncPollTimer);
+            if (syncPollTimer) {
+              clearInterval(syncPollTimer);
+              syncPollTimer = null;
+            }
+            btn.disabled = false;
+            btn.classList.remove('opacity-75');
+            icon.classList.remove('fa-spin');
+            btnText.innerText = 'Sync Now';
+            if (wasPolling) {
+              refreshLocalLibrary();
+              showToast(st.exit_code === 0 ? 'Sync complete! Library & Google Sheet updated.' : 'Sync finished with warnings — check log.');
+            }
+          }
+        }).catch(() => {});
+    }
+
     setQualityFilter('all');
+    initLocalAppControls();
   </script>
 </body>
 </html>

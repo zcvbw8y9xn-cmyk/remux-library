@@ -4,11 +4,11 @@
 # 2. Extracts title, year, quality, and verifies link health
 # 3. Commits and pushes the updated CSV to GitHub
 
-export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/scottsnow/.gemini/antigravity/bin:$PATH"
+PROJECT_DIR="/Users/scottsnow/.gemini/antigravity/scratch/my-pi-project"
+export PATH="$PROJECT_DIR/.shim:/Users/scottsnow/.gemini/antigravity/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 export DEVELOPER_DIR="/Library/Developer/CommandLineTools"
 export PYTHONUNBUFFERED=1
 
-PROJECT_DIR="/Users/scottsnow/.gemini/antigravity/scratch/my-pi-project"
 cd "$PROJECT_DIR" || exit 1
 
 echo "=========================================="
