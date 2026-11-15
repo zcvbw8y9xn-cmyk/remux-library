@@ -25,7 +25,7 @@ INPUT_FILE = "remux_links.json"
 OUTPUT_CSV = "remux_library.csv"
 HEALTH_CACHE_FILE = "health_cache.json"
 IMDB_CACHE_FILE = "imdb_cache.json"
-SPREADSHEET_ID = "1oqYjXc5D9eURyHUGNynR9uW9BDKNKWyGtfDBs8j_j8E"
+SPREADSHEET_ID = "17vRLlGQAj6WE7KcP7puASLnYVe6Wj0VO6II710VqB2Y"
 
 # Curated English translation dictionary for foreign titles
 TRANSLATION_MAP = {

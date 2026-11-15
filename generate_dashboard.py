@@ -708,7 +708,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <svg class="icon icon-sm"><use href="#i-terminal"/></svg>
           <span id="syncPhasePill">Idle</span>
         </button>
-        <a href="https://docs.google.com/spreadsheets/d/1oqYjXc5D9eURyHUGNynR9uW9BDKNKWyGtfDBs8j_j8E" target="_blank" class="btn btn-emerald-soft">
+        <a href="https://docs.google.com/spreadsheets/d/17vRLlGQAj6WE7KcP7puASLnYVe6Wj0VO6II710VqB2Y" target="_blank" class="btn btn-emerald-soft">
           <svg class="icon"><use href="#i-table"/></svg>
           <span>Google Sheet</span>
         </a>
@@ -862,7 +862,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       <div class="footer-links">
         <a href="https://letterboxd.com" target="_blank">Letterboxd</a>
         <a href="https://www.imdb.com" target="_blank">IMDb</a>
-        <a href="https://docs.google.com/spreadsheets/d/1oqYjXc5D9eURyHUGNynR9uW9BDKNKWyGtfDBs8j_j8E" target="_blank">Google Sheets</a>
+        <a href="https://docs.google.com/spreadsheets/d/17vRLlGQAj6WE7KcP7puASLnYVe6Wj0VO6II710VqB2Y" target="_blank">Google Sheets</a>
         <a href="https://github.com/zcvbw8y9xn-cmyk/remux-library" target="_blank">GitHub Repo</a>
       </div>
     </div>
