@@ -1172,11 +1172,17 @@ async def process_and_verify():
         # Conditional formatting for Status (Col 9)
         f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 9 --end-col 10 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'",
     ]
+    sheet_failed = False
     for cmd in sheet_cmds:
         rc = os.system(cmd)
         if rc != 0:
-            raise RuntimeError(f"Google Sheets sync command failed (exit {rc >> 8}): {cmd}")
-    print("✅ Google Sheet refreshed successfully with transfer.it, Letterboxd, IMDb, and Quality Tier evaluation!")
+            print(f"⚠️ Google Sheets sync command warning (exit {rc >> 8}): {cmd}")
+            sheet_failed = True
+            break
+    if sheet_failed:
+        print("⚠️ Google Sheet could not be synced (sign-in required or network error). Local library and dashboard remain fully intact.")
+    else:
+        print("✅ Google Sheet refreshed successfully with transfer.it, Letterboxd, IMDb, and Quality Tier evaluation!")
 
 
 if __name__ == "__main__":

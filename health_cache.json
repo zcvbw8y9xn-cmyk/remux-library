@@ -1,6 +1,12 @@
 {
-  "https://transfer.it/t/cy2ULNtgwbAa": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/VUFv39xlRTgY": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/cy2ULNtgwbAa": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:57:49.564894+00:00"
+  },
+  "https://transfer.it/t/VUFv39xlRTgY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:14:30.977102+00:00"
+  },
   "https://transfer.it/t/2g6Sfkpl2J4Q": "Alive \ud83d\udfe2",
   "https://transfer.it/t/judALU1VlC7D": {
     "status": "Alive \ud83d\udfe2",
@@ -29,7 +35,10 @@
   "https://transfer.it/t/S0dgmgpmmbpR": "Alive \ud83d\udfe2",
   "https://transfer.it/t/1jKsrUURkTRQ": "Alive \ud83d\udfe2",
   "https://transfer.it/t/UITwLhYEmbQL": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/a44tjlIA0bLY": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/a44tjlIA0bLY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:12.534578+00:00"
+  },
   "https://transfer.it/t/SPGVek4FVbDb": "Alive \ud83d\udfe2",
   "https://transfer.it/t/qLaBb04xzJAJ": {
     "status": "Alive \ud83d\udfe2",
@@ -41,7 +50,10 @@
     "checked_at": "2026-11-12T23:41:50.593822+00:00"
   },
   "https://transfer.it/t/UQlsmA8lnBjD": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/X757aMsRHBTJ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/X757aMsRHBTJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:14:15.845132+00:00"
+  },
   "https://transfer.it/t/6hHEOYkBGZLB": "Alive \ud83d\udfe2",
   "https://transfer.it/t/9smXCEknRT5J": "Alive \ud83d\udfe2",
   "https://transfer.it/t/qglfKJtxFBjR": {
@@ -65,9 +77,15 @@
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T23:41:45.406980+00:00"
   },
-  "https://transfer.it/t/fSXIurpBkb5A": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/fSXIurpBkb5A": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:10.330427+00:00"
+  },
   "https://gofile.io/d/imc5N3x7": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/ctFQHds1BTIb": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/ctFQHds1BTIb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:57:54.560655+00:00"
+  },
   "https://transfer.it/t/Lvgb7UkBlBgb": "Alive \ud83d\udfe2",
   "https://transfer.it/t/z7TciM1TlTYS": {
     "status": "Alive \ud83d\udfe2",
@@ -109,7 +127,7 @@
   "https://mega.nz/file/6RNXAI4Y#URyjeRZRuZrJ3jbUq4E0g7y1Hwx6EzQWU-JleFG4khE": "Alive \ud83d\udfe2",
   "https://gofile.io/d/Mx8Ndz": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:09.334377+00:00"
+    "checked_at": "2026-11-15T03:07:40.669672+00:00"
   },
   "https://gofile.io/d/00eggL": "Alive \ud83d\udfe2",
   "https://transfer.it/t/pSt2rd1lARqT": "Dead \ud83d\udd34",
@@ -174,7 +192,10 @@
   "https://gofile.io/d/eQEVgz": "Dead \ud83d\udd34",
   "https://gofile.io/d/N2EkOj": "Dead \ud83d\udd34",
   "https://gofile.io/d/rSGxIM": "Dead \ud83d\udd34",
-  "https://transfer.it/t/fjWb20RyGDDT": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/fjWb20RyGDDT": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:05.355216+00:00"
+  },
   "https://transfer.it/t/mh0U2gB3wDLQ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T11:40:52.990599+00:00"
@@ -218,33 +239,51 @@
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T03:06:06.711917+00:00"
   },
-  "https://transfer.it/t/bcSOyjpRkTQK": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/bcSOyjpRkTQK": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:11.458971+00:00"
+  },
   "https://transfer.it/t/VNGmLMtBGbDD": "Alive \ud83d\udfe2",
   "https://transfer.it/t/1gN31F9WWDDI": "Alive \ud83d\udfe2",
   "https://transfer.it/t/BlO0nZtHCDSb": "Alive \ud83d\udfe2",
   "https://transfer.it/t/MAdOE3lFhBDC": "Dead \ud83d\udd34",
-  "https://transfer.it/t/aI0KG7hF2JxB": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/aI0KG7hF2JxB": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:46.906456+00:00"
+  },
   "https://transfer.it/t/GGZ7PE8jBZbA": "Alive \ud83d\udfe2",
   "https://transfer.it/t/5mTHMi53DBQa": "Alive \ud83d\udfe2",
   "https://transfer.it/t/l79yybo1RBya": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:41:03.589821+00:00"
   },
-  "https://transfer.it/t/ZFkCTY0F0TCb": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/ZFkCTY0F0TCb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:43.381961+00:00"
+  },
   "https://gofile.io/d/xc7Fghtt": "Alive \ud83d\udfe2",
   "https://gofile.io/d/vAh5AIoc": "Alive \ud83d\udfe2",
   "https://gofile.io/d/Y9czKR9U": "Alive \ud83d\udfe2",
   "https://gofile.io/d/jJxg1hRx": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/eOmVr4oTGZ6T": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/eOmVr4oTGZ6T": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:30.244668+00:00"
+  },
   "https://transfer.it/t/MHuGtroRULrK": "Alive \ud83d\udfe2",
   "https://transfer.it/t/nC4MdV4xBbSK": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T11:40:33.057357+00:00"
   },
   "https://transfer.it/t/2HYMkRhRTRSL": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/ZCh4QQkllDDY": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/ZCh4QQkllDDY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:53.610894+00:00"
+  },
   "https://transfer.it/t/F1iHnzpBERZR": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/eu1vXd9DST5K": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/eu1vXd9DST5K": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:20.263634+00:00"
+  },
   "https://gofile.io/d/EW6GtnJ5": "Alive \ud83d\udfe2",
   "https://transfer.it/t/LYG14B8xiDIA": "Alive \ud83d\udfe2",
   "https://gofile.io/d/TljmpcIw": "Alive \ud83d\udfe2",
@@ -256,7 +295,10 @@
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:56:03.712611+00:00"
   },
-  "https://transfer.it/t/ZihUqegRnZAa": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/ZihUqegRnZAa": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:28.240599+00:00"
+  },
   "https://transfer.it/t/x4BtLZsDSTRL": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T23:21:28.181580+00:00"
@@ -264,7 +306,10 @@
   "https://transfer.it/t/F2l8dypxGbaL": "Alive \ud83d\udfe2",
   "https://gofile.io/d/gn3RSwul": "Alive \ud83d\udfe2",
   "https://transfer.it/t/0RMnGxxnRJTK": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/YRCIUE1nwTIA": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/YRCIUE1nwTIA": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:13:57.170748+00:00"
+  },
   "https://transfer.it/t/kfBx27wnSZBb": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:41:13.930826+00:00"
@@ -281,12 +326,18 @@
   },
   "https://transfer.it/t/5qhaqctnGZBT": "Alive \ud83d\udfe2",
   "https://transfer.it/t/30CC2BtDSZob": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/XBGI6B1TDLzb": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/XBGI6B1TDLzb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:14:10.725584+00:00"
+  },
   "https://transfer.it/t/QWKBSOoTBDRY": "Alive \ud83d\udfe2",
   "https://transfer.it/t/BXPviN0nVbpK": "Alive \ud83d\udfe2",
   "https://transfer.it/t/54RxnBlHHJII": "Alive \ud83d\udfe2",
   "https://transfer.it/t/5qGZM58hTTST": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/aJPt3l4n2ZzL": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/aJPt3l4n2ZzL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:41.760756+00:00"
+  },
   "https://transfer.it/t/TjohOKp1CZ4B": "Alive \ud83d\udfe2",
   "https://gofile.io/d/JdIFy4Ra": "Alive \ud83d\udfe2",
   "https://transfer.it/t/r0OPPAlDGbgS": {
@@ -298,7 +349,10 @@
     "checked_at": "2026-11-12T23:41:35.465073+00:00"
   },
   "https://gofile.io/d/IBSoOAUz": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/YmB0f85zRTbJ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/YmB0f85zRTbJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:13:52.112534+00:00"
+  },
   "https://transfer.it/t/xbEImt5FgBIL": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T23:21:03.904696+00:00"
@@ -315,12 +369,18 @@
   "https://transfer.it/t/7tIy745XxBaL": "Alive \ud83d\udfe2",
   "https://gofile.io/d/qXOgK0ua": "Alive \ud83d\udfe2",
   "https://transfer.it/t/19I44J03jbiC": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/bKSPjGhFxZ6Z": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/bKSPjGhFxZ6Z": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:16.490959+00:00"
+  },
   "https://transfer.it/t/1PNoguoz0DCR": "Alive \ud83d\udfe2",
   "https://gofile.io/d/Hic2D4VQ": "Alive \ud83d\udfe2",
   "https://transfer.it/t/D7u7LlplEB4Y": "Alive \ud83d\udfe2",
   "https://transfer.it/t/2riZOlxxlBxD": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/VRe2q4hhCRaC": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/VRe2q4hhCRaC": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:14:36.084037+00:00"
+  },
   "https://transfer.it/t/9FMFTghHlRjJ": "Alive \ud83d\udfe2",
   "https://transfer.it/t/lXrQ2pwl1bgR": {
     "status": "Alive \ud83d\udfe2",
@@ -343,37 +403,61 @@
     "checked_at": "2026-11-10T23:21:08.819208+00:00"
   },
   "https://transfer.it/t/5D4SPCo3WJgb": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/dUS3PohHnBzJ": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/ed3vWp5FmZSC": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/dUS3PohHnBzJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:57:39.200702+00:00"
+  },
+  "https://transfer.it/t/ed3vWp5FmZSC": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:25.208686+00:00"
+  },
   "https://transfer.it/t/Au40jowjQLTL": "Alive \ud83d\udfe2",
   "https://transfer.it/t/JojH39xVgJDR": "Alive \ud83d\udfe2",
   "https://transfer.it/t/Ov0u6opzwRxB": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/dZfBv1gThTBQ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/dZfBv1gThTBQ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:57:34.034081+00:00"
+  },
   "https://transfer.it/t/430sfE93FBAK": "Alive \ud83d\udfe2",
   "https://transfer.it/t/FeEnTvgxzTyK": "Alive \ud83d\udfe2",
   "https://transfer.it/t/L9vZjNsDCTLZ": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/XHgMDKx3HR6I": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/XHgMDKx3HR6I": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:14:02.189320+00:00"
+  },
   "https://transfer.it/t/kz6bwU8DkJCK": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:41:08.528952+00:00"
   },
   "https://transfer.it/t/CcwEPxgXDRQS": "Alive \ud83d\udfe2",
   "https://transfer.it/t/FB5lf4pl2Bja": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/a7D6S0wXABaS": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/a7D6S0wXABaS": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:51.993814+00:00"
+  },
   "https://transfer.it/t/H017W5x1QTDA": "Alive \ud83d\udfe2",
   "https://transfer.it/t/DSU8C4xzGZAB": "Alive \ud83d\udfe2",
   "https://transfer.it/t/jgmzHShVCBhA": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:55:39.416746+00:00"
   },
-  "https://transfer.it/t/ZzqK5Y5xhTDB": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/bxpsKQkTkLYR": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/ZzqK5Y5xhTDB": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:17.620875+00:00"
+  },
+  "https://transfer.it/t/bxpsKQkTkLYR": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:58:14.766609+00:00"
+  },
   "https://transfer.it/t/zzHAGAthnRRB": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T21:36:00.510572+00:00"
   },
   "https://transfer.it/t/2NHZX0pzBRpS": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/cotvD8oDlbRa": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/cotvD8oDlbRa": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:57:59.634499+00:00"
+  },
   "https://transfer.it/t/JEOlCe5VTJhZ": "Alive \ud83d\udfe2",
   "https://transfer.it/t/Cm8vfZlDjT6D": "Alive \ud83d\udfe2",
   "https://transfer.it/t/lXNj7o5jhRgY": {
@@ -382,7 +466,10 @@
   },
   "https://transfer.it/t/9Sm7xroVxRYR": "Alive \ud83d\udfe2",
   "https://transfer.it/t/GISUnLplGZKQ": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/bw3hTb4jELgC": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/bw3hTb4jELgC": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:58:19.891711+00:00"
+  },
   "https://transfer.it/t/pqXiya5DFDgL": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T03:05:42.430818+00:00"
@@ -450,7 +537,10 @@
   "https://transfer.it/t/QPsNO4wjQBqC": "Alive \ud83d\udfe2",
   "https://transfer.it/t/PiBSfFlHDBrY": "Alive \ud83d\udfe2",
   "https://transfer.it/t/An2j0EwzVLbR": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/X15Q0Q8nnTCY": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/X15Q0Q8nnTCY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:14:20.827680+00:00"
+  },
   "https://transfer.it/t/2XpKJY9F3ZZR": "Alive \ud83d\udfe2",
   "https://transfer.it/t/Ltwhy14jnRaS": "Alive \ud83d\udfe2",
   "https://transfer.it/t/kUIJr0pHwbKJ": {
@@ -503,7 +593,10 @@
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T03:05:57.023618+00:00"
   },
-  "https://transfer.it/t/aVARRy4xyDZL": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/aVARRy4xyDZL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:36.589291+00:00"
+  },
   "https://transfer.it/t/lP2KeE1xwBDI": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T23:40:58.773657+00:00"
@@ -517,8 +610,14 @@
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T02:41:43.193491+00:00"
   },
-  "https://transfer.it/t/ZuL6zh51CJgD": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/fBF7DapXnByL": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/ZuL6zh51CJgD": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:22.981816+00:00"
+  },
+  "https://transfer.it/t/fBF7DapXnByL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:15.347587+00:00"
+  },
   "https://transfer.it/t/S1MnXQ8T3bwC": "Alive \ud83d\udfe2",
   "https://transfer.it/t/zfVQCI0XkRga": {
     "status": "Alive \ud83d\udfe2",
@@ -528,8 +627,14 @@
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T02:41:38.357335+00:00"
   },
-  "https://transfer.it/t/djWB7D4zzLAS": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/cLeVf8o3zRYJ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/djWB7D4zzLAS": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:50.141487+00:00"
+  },
+  "https://transfer.it/t/cLeVf8o3zRYJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:58:04.633324+00:00"
+  },
   "https://gofile.io/d/G98Itm": "Alive \ud83d\udfe2",
   "https://transfer.it/t/2YqVa55RFZRJ": "Alive \ud83d\udfe2",
   "https://transfer.it/t/RnlrlM1RgL5D": "Alive \ud83d\udfe2",
@@ -539,7 +644,10 @@
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:55:49.268853+00:00"
   },
-  "https://transfer.it/t/aYnNmGgFWRYJ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/aYnNmGgFWRYJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:31.518198+00:00"
+  },
   "https://transfer.it/t/m549zfxTzRKA": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T23:40:28.911263+00:00"
@@ -550,9 +658,15 @@
     "checked_at": "2026-11-10T23:21:23.355848+00:00"
   },
   "https://transfer.it/t/K97gjaxFyZrL": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/Z58TiO532ZCD": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/Z58TiO532ZCD": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:58.671995+00:00"
+  },
   "https://gofile.io/d/mJ7eQT": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/e7qBP15zgLyI": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/e7qBP15zgLyI": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:40.209384+00:00"
+  },
   "https://transfer.it/t/7ub7aBsHULZa": "Alive \ud83d\udfe2",
   "https://transfer.it/t/3qDfu0oHGb6L": "Alive \ud83d\udfe2",
   "https://transfer.it/t/PZd9hR5FRRwS": "Alive \ud83d\udfe2",
@@ -583,13 +697,19 @@
   "https://transfer.it/t/IZWhGo4XiDpY": "Alive \ud83d\udfe2",
   "https://transfer.it/t/G4hY3dtzCB5J": "Alive \ud83d\udfe2",
   "https://transfer.it/t/9UTQ68xXgJrC": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/brTfJcxxgBBQ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/brTfJcxxgBBQ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:06.470998+00:00"
+  },
   "https://transfer.it/t/1L1wKN8h1ZSI": "Alive \ud83d\udfe2",
   "https://transfer.it/t/jkRcaq5jTLRY": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:41:39.297769+00:00"
   },
-  "https://transfer.it/t/VYcOGzpRSDIB": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/VYcOGzpRSDIB": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:14:25.958986+00:00"
+  },
   "https://transfer.it/t/3sqUuhghlLia": "Alive \ud83d\udfe2",
   "https://transfer.it/t/1P5bjzxBSTAC": "Alive \ud83d\udfe2",
   "https://transfer.it/t/hvBN6gwjhDoK": {
@@ -597,8 +717,8 @@
     "checked_at": "2026-11-12T11:56:18.234222+00:00"
   },
   "https://transfer.it/t/ilnhlYk1ELrQ": {
-    "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:14.772433+00:00"
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-14T12:17:53.723003+00:00"
   },
   "https://transfer.it/t/m3dX6yh1gB6C": {
     "status": "Alive \ud83d\udfe2",
@@ -656,7 +776,10 @@
   "https://gofile.io/d/TAfNZg": "Alive \ud83d\udfe2",
   "https://gofile.io/d/L3jk7w": "Alive \ud83d\udfe2",
   "https://gofile.io/d/G0SHEL": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/ZQK2n65zHRbB": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/ZQK2n65zHRbB": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:38.351925+00:00"
+  },
   "https://gofile.io/d/9RiHCe": "Alive \ud83d\udfe2",
   "https://drive.google.com/drive/folders/1uYbThZaLcIMnaWquhoSajGLIvBXyEC6y?usp=sharing": "Alive \ud83d\udfe2",
   "https://transfer.it/t/u8xXkFhnRL6Z": {
@@ -685,12 +808,18 @@
   "https://transfer.it/t/JwfreYklkLRa": "Alive \ud83d\udfe2",
   "https://transfer.it/t/OdOytE9XwBoT": "Alive \ud83d\udfe2",
   "https://transfer.it/t/GBSUlFpzCRaA": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/bHC4qIsxlRCa": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/bHC4qIsxlRCa": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:21.494024+00:00"
+  },
   "https://transfer.it/t/D1ZMrmgFVT6S": "Alive \ud83d\udfe2",
   "https://transfer.it/t/779kAx0zQDRL": "Alive \ud83d\udfe2",
   "https://transfer.it/t/46W2KcwTQLTJ": "Alive \ud83d\udfe2",
   "https://transfer.it/t/B9KfXA0BVbqR": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/e8hU2z4XEDQZ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/e8hU2z4XEDQZ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:35.231973+00:00"
+  },
   "https://transfer.it/t/yyVqiBlD1LhD": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T21:36:29.606179+00:00"
@@ -706,8 +835,14 @@
     "checked_at": "2026-11-10T23:32:52.848324+00:00"
   },
   "https://transfer.it/t/BTpENr5xDZ6Y": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/b0bCKd91kJxY": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/cJJjQi5XTJhI": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/b0bCKd91kJxY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:26.481030+00:00"
+  },
+  "https://transfer.it/t/cJJjQi5XTJhI": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:58:09.652558+00:00"
+  },
   "https://transfer.it/t/jihZ4nolDTLZ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:41:44.301912+00:00"
@@ -727,7 +862,10 @@
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T11:40:28.012625+00:00"
   },
-  "https://transfer.it/t/dnDALoxXkZYT": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/dnDALoxXkZYT": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:45.154938+00:00"
+  },
   "https://transfer.it/t/ZCm6KctBDR7Q": "Dead \ud83d\udd34",
   "https://transfer.it/t/OadNusgDVLYC": "Alive \ud83d\udfe2",
   "https://transfer.it/t/PD4gYRolyRjQ": "Alive \ud83d\udfe2",
@@ -735,8 +873,14 @@
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T03:06:01.868762+00:00"
   },
-  "https://transfer.it/t/XGj4iNsVVD5a": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/ZENJ2AhFSbhD": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/XGj4iNsVVD5a": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-15T03:14:05.629116+00:00"
+  },
+  "https://transfer.it/t/ZENJ2AhFSbhD": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:48.461245+00:00"
+  },
   "https://transfer.it/t/6E8lzKoxBZCB": "Alive \ud83d\udfe2",
   "https://transfer.it/t/z6XEeF9zwZRK": {
     "status": "Alive \ud83d\udfe2",
@@ -791,7 +935,10 @@
     "checked_at": "2026-11-10T23:20:54.241986+00:00"
   },
   "https://transfer.it/t/QsAEvDwVRBoD": "Dead \ud83d\udd34",
-  "https://transfer.it/t/d8ECLEsnlL4K": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/d8ECLEsnlL4K": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:57:44.571607+00:00"
+  },
   "https://gofile.io/d/xwExvk": "Alive \ud83d\udfe2",
   "https://transfer.it/t/TqGvixhzFJrB": "Dead \ud83d\udd34",
   "https://transfer.it/t/rPhk3VkTlD7b": {
@@ -814,7 +961,10 @@
   "https://transfer.it/t/7CTPugpHmLTQ": "Dead \ud83d\udd34",
   "https://drive.google.com/file/d/1KfbahTk_xGDXMucPghDKyOdN8yq1w8Ni/view?usp=sharing": "Alive \ud83d\udfe2",
   "https://transfer.it/t/7C07Xx41EbbC": "Dead \ud83d\udd34",
-  "https://transfer.it/t/ZVQ8jNlhGRDB": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/ZVQ8jNlhGRDB": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:33.211417+00:00"
+  },
   "https://transfer.it/t/mPNEwm1nWZqS": "Dead \ud83d\udd34",
   "https://transfer.it/t/rxAkh21RTbxI": "Dead \ud83d\udd34",
   "https://transfer.it/t/YZj2t3hRSDoJ": "Dead \ud83d\udd34",
@@ -1076,7 +1226,7 @@
   },
   "https://transfer.it/t/ywgMMElDlbCL": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:19.705938+00:00"
+    "checked_at": "2026-11-15T03:07:46.416754+00:00"
   },
   "https://transfer.it/t/VEIDHbonyIyK": {
     "status": "Alive \ud83d\udfe2",
@@ -1140,11 +1290,11 @@
   },
   "https://transfer.it/t/oo7jSDpzzbKA": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:24.643035+00:00"
+    "checked_at": "2026-11-15T03:07:51.530978+00:00"
   },
   "https://transfer.it/t/f4BzJQ1lFBDK": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:29.873865+00:00"
+    "checked_at": "2026-11-15T03:07:56.739966+00:00"
   },
   "https://transfer.it/t/96fKeSwxwADZ": {
     "status": "Alive \ud83d\udfe2",
@@ -1168,7 +1318,7 @@
   },
   "https://transfer.it/t/krI76ehz3JTS": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:34.870692+00:00"
+    "checked_at": "2026-11-15T03:08:01.782645+00:00"
   },
   "https://transfer.it/t/Jp0KWX4XiCwa": {
     "status": "Alive \ud83d\udfe2",
@@ -1192,7 +1342,7 @@
   },
   "https://transfer.it/t/pUKpId8FjZBJ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:39.777905+00:00"
+    "checked_at": "2026-11-15T03:08:06.910041+00:00"
   },
   "https://transfer.it/t/fJdX2thFQRyD": {
     "status": "Alive \ud83d\udfe2",
@@ -1243,12 +1393,12 @@
     "checked_at": "2026-11-11T02:12:12.936485+00:00"
   },
   "https://transfer.it/t/kd7JLShFnBbI": {
-    "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:44.713904+00:00"
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-15T00:16:54.555655+00:00"
   },
   "https://transfer.it/t/3XNULSwzFLrR": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:49.633549+00:00"
+    "checked_at": "2026-11-15T03:08:11.958672+00:00"
   },
   "https://transfer.it/t/poQHByhHSbRQ": {
     "status": "Alive \ud83d\udfe2",
@@ -1264,7 +1414,7 @@
   },
   "https://transfer.it/t/w5HHrK4DFZoY": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:54.665868+00:00"
+    "checked_at": "2026-11-15T03:08:16.983503+00:00"
   },
   "https://transfer.it/t/gVlKMio12bYY": {
     "status": "Alive \ud83d\udfe2",
@@ -1288,7 +1438,7 @@
   },
   "https://transfer.it/t/62QlsJ9V0DiC": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:34:59.611351+00:00"
+    "checked_at": "2026-11-15T03:08:22.059074+00:00"
   },
   "https://transfer.it/t/4qxaq7w1WBrZ": {
     "status": "Alive \ud83d\udfe2",
@@ -1428,11 +1578,11 @@
   },
   "https://transfer.it/t/IYGyNNslgZzD": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:04.516382+00:00"
+    "checked_at": "2026-11-15T03:08:27.079510+00:00"
   },
   "https://transfer.it/t/D2SEzEklTZTZ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:09.519269+00:00"
+    "checked_at": "2026-11-15T03:08:32.033320+00:00"
   },
   "https://transfer.it/t/j0UnlAp1RRrR": {
     "status": "Alive \ud83d\udfe2",
@@ -1448,7 +1598,7 @@
   },
   "https://transfer.it/t/cM2q6LoDTbCR": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:14.491859+00:00"
+    "checked_at": "2026-11-15T03:08:37.166494+00:00"
   },
   "https://transfer.it/t/a41k8ZpRQTYA": {
     "status": "Alive \ud83d\udfe2",
@@ -1460,7 +1610,7 @@
   },
   "https://transfer.it/t/hRCXiP5RwLRC": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:19.507026+00:00"
+    "checked_at": "2026-11-15T03:08:42.310537+00:00"
   },
   "https://transfer.it/t/wjEE4vplBDoZ": {
     "status": "Alive \ud83d\udfe2",
@@ -1500,19 +1650,19 @@
   },
   "https://transfer.it/t/94YIbYtxjTxQ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:24.408413+00:00"
+    "checked_at": "2026-11-15T03:08:47.243752+00:00"
   },
   "https://transfer.it/t/lki8XCo3zBxL": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:29.364298+00:00"
+    "checked_at": "2026-11-15T03:08:52.309221+00:00"
   },
   "https://transfer.it/t/j9G4yB8xHb7B": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:34.331495+00:00"
+    "checked_at": "2026-11-15T03:08:57.410083+00:00"
   },
   "https://transfer.it/t/mJNfPJsTTDLK": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:39.257428+00:00"
+    "checked_at": "2026-11-15T03:09:02.870193+00:00"
   },
   "https://transfer.it/t/6K0YC35TCBJJ": {
     "status": "Alive \ud83d\udfe2",
@@ -1520,7 +1670,7 @@
   },
   "https://transfer.it/t/f9XmfL5D2bBJ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:44.227118+00:00"
+    "checked_at": "2026-11-15T03:09:07.868244+00:00"
   },
   "https://transfer.it/t/rDAH26wl1TTD": {
     "status": "Alive \ud83d\udfe2",
@@ -1528,7 +1678,7 @@
   },
   "https://transfer.it/t/97L3KA8hlDjY": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:49.250898+00:00"
+    "checked_at": "2026-11-15T03:09:13.009251+00:00"
   },
   "https://transfer.it/t/UmEy7ihxRJaT": {
     "status": "Alive \ud83d\udfe2",
@@ -1544,7 +1694,7 @@
   },
   "https://transfer.it/t/PCOaaLpjUTRb": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:54.169556+00:00"
+    "checked_at": "2026-11-15T03:09:18.097759+00:00"
   },
   "https://transfer.it/t/37AdWThXCBZI": {
     "status": "Alive \ud83d\udfe2",
@@ -1564,7 +1714,7 @@
   },
   "https://transfer.it/t/i7DAfepV3TgR": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:35:59.083383+00:00"
+    "checked_at": "2026-11-15T03:09:23.074756+00:00"
   },
   "https://transfer.it/t/PTieuj5hzTjY": {
     "status": "Alive \ud83d\udfe2",
@@ -1588,7 +1738,7 @@
   },
   "https://transfer.it/t/MIuNaOhXRZwD": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:04.071868+00:00"
+    "checked_at": "2026-11-15T03:09:28.145965+00:00"
   },
   "https://transfer.it/t/1fl3rnxDXTDQ": {
     "status": "Alive \ud83d\udfe2",
@@ -1596,7 +1746,7 @@
   },
   "https://transfer.it/t/jH5eeLhHGRTS": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:08.919054+00:00"
+    "checked_at": "2026-11-15T03:09:33.267989+00:00"
   },
   "https://transfer.it/t/BwjHyHxXVT4Q": {
     "status": "Alive \ud83d\udfe2",
@@ -1624,7 +1774,7 @@
   },
   "https://transfer.it/t/VXE5baoXyRjR": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:13.865612+00:00"
+    "checked_at": "2026-11-15T03:09:38.358007+00:00"
   },
   "https://transfer.it/t/GBYf1AslEDRJ": {
     "status": "Alive \ud83d\udfe2",
@@ -1652,7 +1802,7 @@
   },
   "https://transfer.it/t/kXejNV8BTDba": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:18.780586+00:00"
+    "checked_at": "2026-11-15T03:09:43.393782+00:00"
   },
   "https://transfer.it/t/dMG2ryphnb7K": {
     "status": "Alive \ud83d\udfe2",
@@ -1664,7 +1814,7 @@
   },
   "https://transfer.it/t/S6rmLP5jRTDQ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:23.692660+00:00"
+    "checked_at": "2026-11-15T03:09:48.402607+00:00"
   },
   "https://transfer.it/t/jIdRwRpXyR6D": {
     "status": "Alive \ud83d\udfe2",
@@ -1680,11 +1830,11 @@
   },
   "https://transfer.it/t/cxDnvehRxLhR": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:28.743950+00:00"
+    "checked_at": "2026-11-15T03:09:53.439462+00:00"
   },
   "https://transfer.it/t/To2TzK53XZja": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:33.675042+00:00"
+    "checked_at": "2026-11-15T03:09:58.505493+00:00"
   },
   "https://transfer.it/t/BXNSfuxnyLDK": {
     "status": "Alive \ud83d\udfe2",
@@ -1700,15 +1850,15 @@
   },
   "https://transfer.it/t/IlydGL5DTRDY": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:38.683002+00:00"
+    "checked_at": "2026-11-15T03:10:03.574974+00:00"
   },
   "https://transfer.it/t/jJkgPnhRkJYR": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T02:21:27.668419+00:00"
   },
   "https://transfer.it/t/321KCW51TBCR": {
-    "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:43.610420+00:00"
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-14T00:23:11.395529+00:00"
   },
   "https://transfer.it/t/5IhxPBslRBJC": {
     "status": "Alive \ud83d\udfe2",
@@ -1724,7 +1874,7 @@
   },
   "https://transfer.it/t/ee2wKbh1BLpB": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:48.636225+00:00"
+    "checked_at": "2026-11-15T03:10:08.524298+00:00"
   },
   "https://transfer.it/t/yQj9wVglgbzB": {
     "status": "Alive \ud83d\udfe2",
@@ -1732,7 +1882,7 @@
   },
   "https://transfer.it/t/8hnPXK4DlRbK": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:53.534123+00:00"
+    "checked_at": "2026-11-15T03:10:13.643799+00:00"
   },
   "https://transfer.it/t/FkAEbmonRZrJ": {
     "status": "Alive \ud83d\udfe2",
@@ -1744,7 +1894,7 @@
   },
   "https://transfer.it/t/XFZzfJ1F0Bqb": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:36:58.432519+00:00"
+    "checked_at": "2026-11-15T03:10:18.631700+00:00"
   },
   "https://transfer.it/t/CdioXc413D4Q": {
     "status": "Alive \ud83d\udfe2",
@@ -1760,7 +1910,7 @@
   },
   "https://transfer.it/t/FSTViE91iJaL": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:03.391127+00:00"
+    "checked_at": "2026-11-15T03:10:23.738720+00:00"
   },
   "https://transfer.it/t/ytWZ3gxTHRqJ": {
     "status": "Alive \ud83d\udfe2",
@@ -1772,7 +1922,7 @@
   },
   "https://transfer.it/t/nXJTSLxR2DxT": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:08.284470+00:00"
+    "checked_at": "2026-11-15T03:10:28.752268+00:00"
   },
   "https://transfer.it/t/I45J9JtT1BJT": {
     "status": "Alive \ud83d\udfe2",
@@ -1784,7 +1934,7 @@
   },
   "https://transfer.it/t/5eEOrC412TCT": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:13.309100+00:00"
+    "checked_at": "2026-11-15T03:10:33.879986+00:00"
   },
   "https://transfer.it/t/PcEiEvpXBJpS": {
     "status": "Alive \ud83d\udfe2",
@@ -1816,7 +1966,7 @@
   },
   "https://transfer.it/t/biCgjLo3AbRI": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:18.248767+00:00"
+    "checked_at": "2026-11-15T03:10:38.998150+00:00"
   },
   "https://transfer.it/t/BX1zupgDhR7Q": {
     "status": "Alive \ud83d\udfe2",
@@ -1884,7 +2034,7 @@
   },
   "https://transfer.it/t/kFHAtE9zlBKB": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:23.229068+00:00"
+    "checked_at": "2026-11-15T03:10:44.012398+00:00"
   },
   "https://transfer.it/t/1RpxnWpnRBZD": {
     "status": "Alive \ud83d\udfe2",
@@ -1912,7 +2062,7 @@
   },
   "https://transfer.it/t/TRAHyOgnyb5L": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:28.165365+00:00"
+    "checked_at": "2026-11-15T03:10:49.114871+00:00"
   },
   "https://transfer.it/t/8p74kr51lbwR": {
     "status": "Dead \ud83d\udd34",
@@ -1924,15 +2074,15 @@
   },
   "https://transfer.it/t/NzZOJY1DyZRD": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:33.226539+00:00"
+    "checked_at": "2026-11-15T03:10:54.367595+00:00"
   },
   "https://transfer.it/t/t7LjFq43AboJ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:38.204567+00:00"
+    "checked_at": "2026-11-15T03:10:59.419600+00:00"
   },
   "https://transfer.it/t/14mTCSxD0Z5C": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:43.143335+00:00"
+    "checked_at": "2026-11-15T03:11:04.464529+00:00"
   },
   "https://transfer.it/t/VK7t4E0xGJTa": {
     "status": "Alive \ud83d\udfe2",
@@ -1944,7 +2094,7 @@
   },
   "https://transfer.it/t/snatsZsjyDSB": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:48.109387+00:00"
+    "checked_at": "2026-11-15T03:11:09.538685+00:00"
   },
   "https://transfer.it/t/Gbi86w4hBb4J": {
     "status": "Alive \ud83d\udfe2",
@@ -2012,7 +2162,7 @@
   },
   "https://transfer.it/t/bAscUYshBBhJ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:53.065376+00:00"
+    "checked_at": "2026-11-15T03:11:14.619008+00:00"
   },
   "https://transfer.it/t/DBbFXo4VDRwQ": {
     "status": "Alive \ud83d\udfe2",
@@ -2044,11 +2194,11 @@
   },
   "https://transfer.it/t/CpowjHp3xDwI": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:37:58.115629+00:00"
+    "checked_at": "2026-11-15T03:11:19.643836+00:00"
   },
   "https://transfer.it/t/HMa1QJ1XADDQ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:03.046604+00:00"
+    "checked_at": "2026-11-15T03:11:24.716238+00:00"
   },
   "https://transfer.it/t/hqkBT3wB3JCK": {
     "status": "Alive \ud83d\udfe2",
@@ -2107,16 +2257,16 @@
     "checked_at": "2026-11-11T02:28:55.591107+00:00"
   },
   "https://transfer.it/t/aenlcZkHQTIQ": {
-    "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:07.951091+00:00"
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-14T00:25:59.750822+00:00"
   },
   "https://transfer.it/t/z8A2vOoXWBZR": {
-    "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:12.878041+00:00"
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-14T00:26:09.851424+00:00"
   },
   "https://transfer.it/t/cG4IDIlV0LjS": {
-    "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:17.837346+00:00"
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-14T00:26:13.522695+00:00"
   },
   "https://transfer.it/t/hvUcf2wXmRrY": {
     "status": "Alive \ud83d\udfe2",
@@ -2131,8 +2281,8 @@
     "checked_at": "2026-11-11T02:29:24.595935+00:00"
   },
   "https://transfer.it/t/yMYHzNsDDRLa": {
-    "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:22.736330+00:00"
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-13T11:55:33.911469+00:00"
   },
   "https://transfer.it/t/IH6teDhVGbzR": {
     "status": "Alive \ud83d\udfe2",
@@ -2248,7 +2398,7 @@
   },
   "https://transfer.it/t/1OrPYZk3mJIY": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:27.764423+00:00"
+    "checked_at": "2026-11-15T03:11:29.917259+00:00"
   },
   "https://transfer.it/t/xRY8L9oRFTjI": {
     "status": "Dead \ud83d\udd34",
@@ -2344,7 +2494,7 @@
   },
   "https://transfer.it/t/zZbz0VsRCZwb": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:32.754530+00:00"
+    "checked_at": "2026-11-15T03:11:35.142167+00:00"
   },
   "https://transfer.it/t/xWuwy3o3RLQZ": {
     "status": "Dead \ud83d\udd34",
@@ -2388,7 +2538,7 @@
   },
   "https://transfer.it/t/ivwaFEtnABRI": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:37.693330+00:00"
+    "checked_at": "2026-11-15T03:11:40.224572+00:00"
   },
   "https://transfer.it/t/re8vzIlXkBZJ": {
     "status": "Dead \ud83d\udd34",
@@ -2416,7 +2566,7 @@
   },
   "https://transfer.it/t/GCL69FtVEZDZ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:42.578749+00:00"
+    "checked_at": "2026-11-15T03:11:45.306802+00:00"
   },
   "https://transfer.it/t/gzP6GI8VXZQY": {
     "status": "Dead \ud83d\udd34",
@@ -2428,7 +2578,7 @@
   },
   "https://transfer.it/t/SAOAJM0FRRib": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:47.485890+00:00"
+    "checked_at": "2026-11-15T03:11:50.453107+00:00"
   },
   "https://transfer.it/t/6Gn3oI1xULhB": {
     "status": "Dead \ud83d\udd34",
@@ -2444,7 +2594,7 @@
   },
   "https://transfer.it/t/gnlA0ZlxxZjS": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:52.463780+00:00"
+    "checked_at": "2026-11-15T03:11:55.557832+00:00"
   },
   "https://transfer.it/t/7kpS3RsVnZRK": {
     "status": "Dead \ud83d\udd34",
@@ -2472,7 +2622,7 @@
   },
   "https://transfer.it/t/9oA8lcsDXJzD": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:38:57.404578+00:00"
+    "checked_at": "2026-11-15T03:12:00.550733+00:00"
   },
   "https://transfer.it/t/RAonfc1lTbZT": {
     "status": "Dead \ud83d\udd34",
@@ -2520,7 +2670,7 @@
   },
   "https://transfer.it/t/SxmJZNlznLTD": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:02.318927+00:00"
+    "checked_at": "2026-11-15T03:12:05.605247+00:00"
   },
   "https://transfer.it/t/EkoE2l5XCLqA": {
     "status": "Dead \ud83d\udd34",
@@ -2536,7 +2686,7 @@
   },
   "https://transfer.it/t/NT168FsDSboa": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:07.272512+00:00"
+    "checked_at": "2026-11-15T03:12:10.654029+00:00"
   },
   "https://transfer.it/t/KcOZKF9jDBaQ": {
     "status": "Dead \ud83d\udd34",
@@ -2580,23 +2730,23 @@
   },
   "https://transfer.it/t/eO9gwZ1XlL6a": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:12.287381+00:00"
+    "checked_at": "2026-11-15T03:12:15.736817+00:00"
   },
   "https://transfer.it/t/0jQldY0nwBJJ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:17.185266+00:00"
+    "checked_at": "2026-11-15T03:12:20.789986+00:00"
   },
   "https://transfer.it/t/wpSf2F9RhbxL": {
     "status": "Dead \ud83d\udd34",
     "checked_at": "2026-11-11T02:36:11.061981+00:00"
   },
   "https://transfer.it/t/Uo2TFE8lWZKR": {
-    "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:22.162009+00:00"
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-14T00:33:29.664136+00:00"
   },
   "https://transfer.it/t/ETy6ldsTkTjL": {
-    "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:27.105463+00:00"
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-15T00:44:55.016003+00:00"
   },
   "https://transfer.it/t/AljXRE8TxJbJ": {
     "status": "Alive \ud83d\udfe2",
@@ -2604,11 +2754,11 @@
   },
   "https://transfer.it/t/v4QBxI8HGZLC": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:32.112638+00:00"
+    "checked_at": "2026-11-15T03:12:25.947034+00:00"
   },
   "https://transfer.it/t/mLgndAs1nRRb": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:36.995166+00:00"
+    "checked_at": "2026-11-15T03:12:30.992217+00:00"
   },
   "https://gofile.io/d/Kbryzd": {
     "status": "Dead \ud83d\udd34",
@@ -2628,7 +2778,7 @@
   },
   "https://transfer.it/t/ioZNVUtXhLTb": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:41.847608+00:00"
+    "checked_at": "2026-11-15T03:12:36.070531+00:00"
   },
   "https://transfer.it/t/hpOIrU0VHL6Y": {
     "status": "Dead \ud83d\udd34",
@@ -2664,7 +2814,7 @@
   },
   "https://transfer.it/t/hc8fRJ1nmZYY": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:46.794977+00:00"
+    "checked_at": "2026-11-15T03:12:41.133946+00:00"
   },
   "https://transfer.it/t/5CzgR0wRQJRQ": {
     "status": "Dead \ud83d\udd34",
@@ -2672,7 +2822,7 @@
   },
   "https://transfer.it/t/PoaqUR9D1RhR": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:51.706818+00:00"
+    "checked_at": "2026-11-15T03:12:46.227991+00:00"
   },
   "https://transfer.it/t/JHUgmIkRwDDY": {
     "status": "Dead \ud83d\udd34",
@@ -2756,27 +2906,27 @@
   },
   "https://transfer.it/t/Tk6r9A8RGZ4b": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:39:56.714909+00:00"
+    "checked_at": "2026-11-15T03:12:51.254788+00:00"
   },
   "https://transfer.it/t/pcHq4RlzGBCI": {
-    "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:40:01.621432+00:00"
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-14T00:40:57.973371+00:00"
   },
   "https://transfer.it/t/WmqLoY9BQJDJ": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:40:06.504504+00:00"
+    "checked_at": "2026-11-15T03:12:56.408943+00:00"
   },
   "https://transfer.it/t/wCRO9I0R3JjD": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:40:11.544701+00:00"
+    "checked_at": "2026-11-15T03:13:01.384597+00:00"
   },
   "https://transfer.it/t/ME6IpNtxDBYK": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:40:16.443747+00:00"
+    "checked_at": "2026-11-15T03:13:06.420310+00:00"
   },
   "https://transfer.it/t/QX9CEMl13RhR": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:40:21.469419+00:00"
+    "checked_at": "2026-11-15T03:13:11.524287+00:00"
   },
   "https://transfer.it/t/a75OeMs3TJQZ": {
     "status": "Dead \ud83d\udd34",
@@ -2796,7 +2946,7 @@
   },
   "https://transfer.it/t/VJEt3HgTmBZI": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:40:26.355293+00:00"
+    "checked_at": "2026-11-15T03:13:16.603057+00:00"
   },
   "https://transfer.it/t/gqdumYkhUZDa": {
     "status": "Dead \ud83d\udd34",
@@ -2852,7 +3002,7 @@
   },
   "https://transfer.it/t/efNvYjAVkDYD": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:40:31.282459+00:00"
+    "checked_at": "2026-11-15T03:13:21.701390+00:00"
   },
   "https://transfer.it/t/TbqtixZCGTLb": {
     "status": "Alive \ud83d\udfe2",
@@ -2864,7 +3014,7 @@
   },
   "https://transfer.it/t/X2Qkjt5CGJ5a": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:40:36.234877+00:00"
+    "checked_at": "2026-11-15T03:13:26.973790+00:00"
   },
   "https://transfer.it/t/dCaCbxRFyDaQ": {
     "status": "Alive \ud83d\udfe2",
@@ -2872,7 +3022,7 @@
   },
   "https://transfer.it/t/95igkQlGwR5Z": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-12T23:40:41.176411+00:00"
+    "checked_at": "2026-11-15T03:13:32.025835+00:00"
   },
   "https://transfer.it/t/FTCyPzxiVK7T": {
     "status": "Alive \ud83d\udfe2",
@@ -2897,5 +3047,65 @@
   "https://transfer.it/t/T71GC4JAlbZJ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T23:41:10.659589+00:00"
+  },
+  "https://transfer.it/t/rVatSE0wzJaT": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-13T11:58:00.351382+00:00"
+  },
+  "https://transfer.it/t/jPyJPxJCyToR": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:57:12.594869+00:00"
+  },
+  "https://transfer.it/t/yOgxC0hxWDhT": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:57:18.596411+00:00"
+  },
+  "https://transfer.it/t/pGu8tMBSFbYY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:13:37.083048+00:00"
+  },
+  "https://transfer.it/t/k5lXH9Y0yRJS": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T00:57:28.797587+00:00"
+  },
+  "https://transfer.it/t/3NoiUYlSEDpI": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:12:56.281315+00:00"
+  },
+  "https://transfer.it/t/YCkjKo4XQIJI": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-14T13:13:01.349352+00:00"
+  },
+  "https://transfer.it/t/fG67pNYkQZhZ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:13:42.042690+00:00"
+  },
+  "https://transfer.it/t/PWPxUA9gyTTB": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:04:08.173006+00:00"
+  },
+  "https://transfer.it/t/Zxzr7hRQ0JwT": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:04:13.199328+00:00"
+  },
+  "https://transfer.it/t/u38byc1ikRTY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:04:18.345593+00:00"
+  },
+  "https://transfer.it/t/410OvAkVkLBQ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T03:13:47.086198+00:00"
+  },
+  "https://transfer.it/t/CeJy4ul1UbRb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:21:56.291045+00:00"
+  },
+  "https://transfer.it/t/MjFIy9Aw3DIK": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:02.477982+00:00"
+  },
+  "https://transfer.it/t/KNQHBUlUAJBY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T01:22:07.525267+00:00"
   }
 }
