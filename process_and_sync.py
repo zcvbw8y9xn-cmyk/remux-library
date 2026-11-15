@@ -14,6 +14,7 @@ import csv
 import json
 import os
 import re
+import subprocess
 import time
 import unicodedata
 import urllib.parse
@@ -629,6 +630,85 @@ def extract_sound_info(raw_text: str) -> str:
     return " / ".join(clean_results) if clean_results else ""
 
 
+def probe_remote_audio(stream_url: str) -> str:
+    """
+    Directly inspects the remote media container (MKV/MP4) audio streams via ffprobe
+    over HTTP Range requests without downloading the entire file.
+    """
+    cmd = [
+        "/opt/homebrew/bin/ffprobe",
+        "-v", "error",
+        "-select_streams", "a",
+        "-show_entries", "stream=codec_name,channels,channel_layout,profile",
+        "-of", "json",
+        stream_url
+    ]
+    try:
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=12)
+        if res.returncode != 0 or not res.stdout.strip():
+            return ""
+        data = json.loads(res.stdout)
+        streams = data.get("streams", [])
+        if not streams:
+            return ""
+
+        sound_tracks = []
+        for s in streams:
+            codec = s.get("codec_name", "").lower()
+            prof = (s.get("profile") or "").strip()
+            channels = s.get("channels", 0)
+            layout = (s.get("channel_layout") or "").lower()
+
+            c_label = ""
+            if "dts" in codec:
+                if "ma" in prof.lower() or "master audio" in prof.lower():
+                    c_label = "DTS-HD MA"
+                elif "hra" in prof.lower():
+                    c_label = "DTS-HD HRA"
+                else:
+                    c_label = "DTS"
+            elif "truehd" in codec:
+                c_label = "TrueHD"
+            elif "flac" in codec:
+                c_label = "FLAC"
+            elif "pcm" in codec:
+                c_label = "PCM"
+            elif "eac3" in codec:
+                c_label = "DDP"
+            elif "ac3" in codec:
+                c_label = "DD"
+            elif "aac" in codec:
+                c_label = "AAC"
+            elif "opus" in codec:
+                c_label = "Opus"
+
+            ch_label = ""
+            if "7.1" in layout or channels == 8:
+                ch_label = "7.1"
+            elif "5.1" in layout or channels == 6:
+                ch_label = "5.1"
+            elif "stereo" in layout or channels == 2:
+                ch_label = "2.0"
+            elif "mono" in layout or channels == 1:
+                ch_label = "1.0"
+
+            if c_label and ch_label:
+                track = f"{c_label} {ch_label}"
+            elif c_label:
+                track = c_label
+            elif ch_label:
+                track = ch_label
+            else:
+                track = ""
+
+            if track and track not in sound_tracks:
+                sound_tracks.append(track)
+
+        return " / ".join(sound_tracks)
+    except Exception:
+        return ""
+
+
 async def check_link_health(link: str, page) -> tuple[str, str | None, str | None, str]:
     """
     Checks whether the file link is still alive or expired.
@@ -680,11 +760,31 @@ async def check_link_health(link: str, page) -> tuple[str, str | None, str | Non
             return "Dead 🔴", None, None, ""
 
         elif "gofile.io" in link:
+            captured_name = []
+            async def on_gofile_resp(resp):
+                if "api.gofile.io/contents" in resp.url:
+                    try:
+                        gdata = await resp.json()
+                        cname = gdata.get("data", {}).get("name")
+                        if cname:
+                            captured_name.append(cname)
+                    except Exception:
+                        pass
+
+            page.on("response", on_gofile_resp)
             await page.goto(link, wait_until="domcontentloaded", timeout=12000)
             await page.wait_for_timeout(3500)
             body = (await page.inner_text("body")).lower()
             if "this content does not exist" in body or "error-notfound" in body or "not found" in body:
                 return "Dead 🔴", None, None, ""
+
+            if captured_name:
+                raw_n = captured_name[0]
+                fn_title, fn_year = extract_title_from_filename(raw_n)
+                fn_sound = extract_sound_info(raw_n)
+                if fn_title:
+                    return "Alive 🟢", fn_title, fn_year, fn_sound
+
             if "download" in body or "files" in body:
                 lines = [l.strip() for l in (await page.inner_text("body")).split("\n") if l.strip()]
                 for l in lines:
@@ -710,6 +810,10 @@ async def check_link_health(link: str, page) -> tuple[str, str | None, str | Non
                         pname = pdata.get("name", "")
                         fn_title, fn_year = extract_title_from_filename(pname)
                         fn_sound = extract_sound_info(pname)
+                        if not fn_sound:
+                            # Direct ffprobe HTTP Range probe on the actual container headers
+                            direct_stream = f"https://pixeldrain.com/api/file/{pid}?download"
+                            fn_sound = probe_remote_audio(direct_stream)
                         return "Alive 🟢", fn_title, fn_year, fn_sound
             except Exception:
                 pass
