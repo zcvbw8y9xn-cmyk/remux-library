@@ -14,6 +14,7 @@ import csv
 import json
 import os
 import re
+import time
 import unicodedata
 import urllib.parse
 import urllib.request
@@ -998,6 +999,7 @@ async def process_and_verify():
         except Exception:
             health_cache = {}
 
+    now_utc = datetime.now(timezone.utc)
     rows = []
     links_to_check = []
 
@@ -1026,6 +1028,16 @@ async def process_and_verify():
                     eff_year = ov_y
                     break
 
+            # If title is still missing or invalid, check health_cache for previously extracted title
+            raw_cache = health_cache.get(file_link, {})
+            if isinstance(raw_cache, dict):
+                c_title = raw_cache.get("title")
+                c_year = raw_cache.get("year")
+                if (eff_title == "Unknown Title" or not is_valid_movie_title(eff_title)) and c_title and is_valid_movie_title(c_title):
+                    eff_title = c_title
+                    if c_year:
+                        eff_year = c_year
+
             if not is_valid_movie_title(eff_title):
                 eff_title = "Unknown Title"
 
@@ -1044,11 +1056,21 @@ async def process_and_verify():
                 "_raw_time": raw_time or "1970-01-01",
             }
             rows.append(item)
-            if cached_status == "Pending" or (cached_status != "Dead 🔴" and (eff_title == "Unknown Title" or not is_valid_movie_title(eff_title))):
+            is_unknown = eff_title == "Unknown Title" or not is_valid_movie_title(eff_title)
+            needs_check = False
+            if cached_status == "Pending":
+                needs_check = True
+            elif cached_status != "Dead 🔴" and is_unknown:
+                try:
+                    c_dt = datetime.fromisoformat(cached_time.replace("Z", "+00:00"))
+                    if (now_utc - c_dt).total_seconds() > 7 * 86400:
+                        needs_check = True
+                except Exception:
+                    needs_check = True
+            if needs_check:
                 links_to_check.append(file_link)
 
     # Periodic Maintenance: Re-verify up to 10 active links older than 21 days
-    now_utc = datetime.now(timezone.utc)
     recheck_candidates = []
     for flink, entry in health_cache.items():
         st, ctime = parse_cached_entry(entry)
@@ -1075,7 +1097,9 @@ async def process_and_verify():
                 status, fn_title, fn_year = await check_link_health(link, page)
                 health_cache[link] = {
                     "status": status,
-                    "checked_at": datetime.now(timezone.utc).isoformat()
+                    "checked_at": datetime.now(timezone.utc).isoformat(),
+                    "title": fn_title or (raw_cache.get("title") if isinstance(raw_cache, dict) else ""),
+                    "year": fn_year or (raw_cache.get("year") if isinstance(raw_cache, dict) else "")
                 }
                 print(f"   [{i}/{len(links_to_check)}] {link} -> {status} (Extracted: {fn_title or 'N/A'})")
 
@@ -1174,11 +1198,18 @@ async def process_and_verify():
     ]
     sheet_failed = False
     for cmd in sheet_cmds:
-        rc = os.system(cmd)
-        if rc != 0:
-            print(f"⚠️ Google Sheets sync command warning (exit {rc >> 8}): {cmd}")
-            sheet_failed = True
-            break
+        success = False
+        for attempt in range(3):
+            rc = os.system(cmd)
+            if rc == 0:
+                success = True
+                break
+            time.sleep(1.5)
+        if not success:
+            print(f"⚠️ Google Sheets sync command warning: {cmd}")
+            if "clear" in cmd or "import-csv" in cmd:
+                sheet_failed = True
+                break
     if sheet_failed:
         print("⚠️ Google Sheet could not be synced (sign-in required or network error). Local library and dashboard remain fully intact.")
     else:
