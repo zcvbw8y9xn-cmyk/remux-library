@@ -455,6 +455,28 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .q-dvd { background: var(--purple-400); color: #020617; }
     .q-1080 { background: #334155; color: #e2e8f0; }
 
+    .sound-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: var(--mono);
+      background: rgba(168, 85, 247, 0.15);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      white-space: nowrap;
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: max-width 0.2s ease;
+    }
+    .sound-badge:hover {
+      max-width: none;
+    }
+
     .host-pill {
       font-size: 10px;
       font-family: var(--mono);
@@ -682,6 +704,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     <symbol id="i-copy" viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></symbol>
     <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.4 14.3L6.4 12.1l1.4-1.4 2.8 2.8 5.6-5.6 1.4 1.4-7 7z"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></symbol>
   </svg>
 
   <!-- Header -->
@@ -818,6 +841,17 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <option value="drive.google.com">Google Drive</option>
         </select>
 
+        <span class="filter-label" style="margin-left:10px;">Audio:</span>
+        <select id="audioFilter" onchange="renderMovies()" class="select-dark" style="padding:4px 8px;">
+          <option value="all">All Audio</option>
+          <option value="has-audio">Has Audio Info</option>
+          <option value="surround">Surround (5.1 / 7.1 / Atmos)</option>
+          <option value="flac">FLAC Lossless</option>
+          <option value="dts">DTS / DTS-HD MA</option>
+          <option value="truehd">TrueHD / Atmos</option>
+          <option value="pcm">PCM / LPCM</option>
+        </select>
+
         <span id="resultCount" class="result-count">Showing __TOTAL_COUNT__ movies</span>
       </div>
     </div>
@@ -831,6 +865,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             <th>Date</th>
             <th>Title & Year</th>
             <th>Specs</th>
+            <th>Sound</th>
             <th>Quality Tier</th>
             <th>Host</th>
             <th style="text-align:right;">Actions</th>
@@ -880,6 +915,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         const title = m['Title'] || 'Unknown';
         const year = m['Year'] || '';
         const quality = m['Quality'] || '';
+        const sound = m['Sound'] || '';
         const host = m['File Host'] || '';
         const tier = m['Best Quality?'] || '';
         const tweetDate = m['Tweet Date'] || '';
@@ -888,6 +924,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           title,
           year,
           quality,
+          sound,
           host,
           tier,
           tweetDate,
@@ -899,19 +936,21 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           _titleEsc: esc(title),
           _yearEsc: esc(year),
           _qualityEsc: esc(quality),
+          _soundEsc: esc(sound),
           _hostEsc: esc(host),
           _tierEsc: esc(tier),
           _linkEsc: esc(m['File Link'] || ''),
           _titleLower: title.toLowerCase(),
           _yearInt: parseInt(year, 10) || 0,
           _hostLower: host.toLowerCase(),
+          _soundLower: sound.toLowerCase(),
           _is4k: quality.includes('4K'),
           _isDvd: quality.includes('DVD'),
           _is1080Best: tier.includes('1080p Best'),
           _is4kBlurayExists: tier.includes('4K UHD Blu-ray Exists'),
           _is4kDigitalOnly: tier.includes('4K Digital Only'),
           _is4kExists: tier.includes('Exists'),
-          _searchBlob: (title + ' ' + year + ' ' + quality + ' ' + host + ' ' + tier).toLowerCase()
+          _searchBlob: (title + ' ' + year + ' ' + quality + ' ' + sound + ' ' + host + ' ' + tier).toLowerCase()
         };
       });
     }
@@ -979,6 +1018,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     function getFilteredMovies() {
       const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
       const hostFilter = document.getElementById('hostFilter').value;
+      const audioFilter = (document.getElementById('audioFilter') ? document.getElementById('audioFilter').value : 'all');
       const sort = document.getElementById('sortSelect').value;
 
       const out = [];
@@ -986,6 +1026,13 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         const m = rawMovies[i];
         if (query && !m._searchBlob.includes(query)) continue;
         if (hostFilter !== 'all' && !m._hostLower.includes(hostFilter)) continue;
+        if (audioFilter === 'has-audio' && !m.sound) continue;
+        if (audioFilter === 'surround' && !(m._soundLower.includes('5.1') || m._soundLower.includes('7.1') || m._soundLower.includes('atmos'))) continue;
+        if (audioFilter === 'flac' && !m._soundLower.includes('flac')) continue;
+        if (audioFilter === 'dts' && !m._soundLower.includes('dts')) continue;
+        if (audioFilter === 'truehd' && !(m._soundLower.includes('truehd') || m._soundLower.includes('atmos'))) continue;
+        if (audioFilter === 'pcm' && !m._soundLower.includes('pcm')) continue;
+
         if (currentFilter === '4k' && !m._is4k) continue;
         if (currentFilter === '1080p-best' && !m._is1080Best) continue;
         if (currentFilter === '4k-bluray' && !m._is4kBlurayExists) continue;
@@ -1037,6 +1084,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             <div class="card-top">
               <div class="card-badges">
                 ${getQualityBadge(m)}
+                ${m.sound ? `<span class="sound-badge" title="Audio: ${m._soundEsc}"><svg class="icon icon-sm" style="flex-shrink:0;"><use href="#i-volume"/></svg>${m._soundEsc}</span>` : ''}
                 <span class="host-pill">${m._hostEsc}</span>
               </div>
               <span class="date-label">${esc(m.shortDate)}</span>
@@ -1065,6 +1113,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <td class="mono" style="color:var(--text-400);white-space:nowrap;font-size:11px;">${esc(m.tweetDate)}</td>
           <td style="font-weight:700;color:var(--text-100);">${m._titleEsc} <span style="color:var(--text-400);font-size:11px;font-weight:400;">(${m._yearEsc})</span></td>
           <td class="mono" style="font-size:11px;color:var(--text-300);">${m._qualityEsc}</td>
+          <td class="mono" style="font-size:11px;">${m.sound ? `<span class="sound-badge" title="Audio: ${m._soundEsc}"><svg class="icon icon-sm" style="flex-shrink:0;"><use href="#i-volume"/></svg>${m._soundEsc}</span>` : ''}</td>
           <td>${getTierBadge(m)}</td>
           <td class="mono" style="color:var(--text-400);font-size:11px;">${m._hostEsc}</td>
           <td>

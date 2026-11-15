@@ -560,12 +560,81 @@ def extract_format_info(raw_text: str) -> str:
     return " | ".join(tags) if tags else "Remux"
 
 
-async def check_link_health(link: str, page) -> tuple[str, str | None, str | None]:
+def extract_sound_info(raw_text: str) -> str:
+    """
+    Extracts audio sound specifications from filenames or tweet text (e.g. 5.1, TrueHD Atmos, FLAC 1.0, DTS-HD MA).
+    Makes NO assumptions: if no explicit audio format or channel layout is present, returns an empty string "".
+    """
+    if not raw_text:
+        return ""
+
+    # Protect channel numbers with decimal dots like 5.1, 7.1, 2.0, 1.0
+    text = re.sub(r"\b(\d)\.(\d)\b", r"\1@@DOT@@\2", raw_text)
+    text = text.replace(".", " ").replace("_", " ")
+    text = text.replace("@@DOT@@", ".")
+
+    codecs_re = r"(?:TrueHD\s*Atmos|Dolby\s*TrueHD\s*Atmos|Atmos|Dolby\s*Atmos|DTS[\s\-]HD\s*MA|DTS[\s\-]HD\s*Master\s*Audio|DTSHD\s*MA|DTS[\s\-:X]+X|DTS[\s\-]HD\s*HRA|DTS[\s\-]HD|TrueHD|Dolby\s*TrueHD|FLAC|LPCM|PCM|DDP|DD\+|Dolby\s*Digital\s*Plus|E-?AC-?3|Dolby\s*Digital|AC-?3|AAC|Opus|DTS)"
+    channels_re = r"(?:7\.1|5\.1|2\.0|1\.0|mono|stereo)"
+
+    p1 = rf"\b({codecs_re})\s*[\s\/\-]?\s*({channels_re})\b"
+    p2 = rf"\b({channels_re})\s*[\s\/\-]?\s*({codecs_re})\b"
+    p3 = r"\b(TrueHD\s*Atmos|Atmos|DTS[\s\-]HD\s*MA|DTS[\s\-:X]+X|DTS[\s\-]HD|TrueHD|FLAC|LPCM)\b"
+    p4 = r"\b(7\.1|5\.1)\b"
+
+    results = []
+
+    for m in re.finditer(p1, text, re.I):
+        c, ch = m.group(1), m.group(2)
+        c_clean = re.sub(r"\s+", " ", c).strip()
+        ch_clean = ch.upper() if ch.lower() in ["mono", "stereo"] else ch
+        results.append(f"{c_clean} {ch_clean}")
+
+    for m in re.finditer(p2, text, re.I):
+        ch, c = m.group(1), m.group(2)
+        c_clean = re.sub(r"\s+", " ", c).strip()
+        ch_clean = ch.upper() if ch.lower() in ["mono", "stereo"] else ch
+        cand = f"{c_clean} {ch_clean}"
+        if cand not in results:
+            results.append(cand)
+
+    if not results:
+        for m in re.finditer(p3, text, re.I):
+            cand = re.sub(r"\s+", " ", m.group(1)).strip()
+            if cand not in results:
+                results.append(cand)
+
+    if not results:
+        for m in re.finditer(p4, text, re.I):
+            cand = m.group(1).strip()
+            if cand not in results:
+                results.append(cand)
+
+    clean_results = []
+    for r in results:
+        norm = r
+        norm = re.sub(r"Dolby\s*TrueHD", "TrueHD", norm, flags=re.I)
+        norm = re.sub(r"Dolby\s*Atmos", "Atmos", norm, flags=re.I)
+        norm = re.sub(r"DTS[\s\-]HD\s*Master\s*Audio", "DTS-HD MA", norm, flags=re.I)
+        norm = re.sub(r"DTSHD\s*MA", "DTS-HD MA", norm, flags=re.I)
+        norm = re.sub(r"DTS[\s\-]MA", "DTS-HD MA", norm, flags=re.I)
+        norm = re.sub(r"DTS[\s\-]HD(?!\s*MA)", "DTS-HD", norm, flags=re.I)
+        norm = re.sub(r"DTS[\s\-:X]+X", "DTS:X", norm, flags=re.I)
+        norm = re.sub(r"Dolby\s*Digital\s*Plus|E-?AC-?3", "DDP", norm, flags=re.I)
+        norm = re.sub(r"Dolby\s*Digital|AC-?3", "DD", norm, flags=re.I)
+        if not any(norm != x and norm in x for x in clean_results):
+            clean_results = [x for x in clean_results if not (x != norm and x in norm)]
+            if norm not in clean_results:
+                clean_results.append(norm)
+
+    return " / ".join(clean_results) if clean_results else ""
+
+
+async def check_link_health(link: str, page) -> tuple[str, str | None, str | None, str]:
     """
     Checks whether the file link is still alive or expired.
     Deep-inspects the download page (clicking 'View content' on transfer.it if needed)
-    to extract the exact movie title and year.
-    Returns: (status, fallback_title, fallback_year)
+    to extract the exact movie title, year, and audio format from release filenames.
+    Returns: (status, fallback_title, fallback_year, fallback_sound)
     """
     try:
         if "transfer.it" in link:
@@ -574,7 +643,7 @@ async def check_link_health(link: str, page) -> tuple[str, str | None, str | Non
             body = (await page.inner_text("body")).lower()
 
             if any(term in body for term in ["oops", "can’t find this transfer", "can't find this transfer", "expired", "removed", "incorrect"]):
-                return "Dead 🔴", None, None
+                return "Dead 🔴", None, None, ""
 
             if "ready to download" in body or "1 file" in body or "files" in body:
                 btn = await page.query_selector("text=View content")
@@ -591,41 +660,45 @@ async def check_link_health(link: str, page) -> tuple[str, str | None, str | Non
                 for l in lines:
                     if any(ext in l.lower() for ext in [".mkv", ".mp4", ".avi", ".iso"]):
                         fn_title, fn_year = extract_title_from_filename(l)
+                        fn_sound = extract_sound_info(l)
                         if fn_title:
-                            return "Alive 🟢", fn_title, fn_year
+                            return "Alive 🟢", fn_title, fn_year, fn_sound
 
                 for idx, line in enumerate(lines):
                     if line.lower() == "ready to download" and idx + 1 < len(lines):
                         cand = lines[idx + 1]
                         fn_title, fn_year = extract_title_from_filename(cand)
+                        fn_sound = extract_sound_info(cand)
                         if fn_title:
-                            return "Alive 🟢", fn_title, fn_year
+                            return "Alive 🟢", fn_title, fn_year, fn_sound
                         m = re.search(r'^([^\n\r(\[]+?)\s*[\(\[](19\d{2}|20\d{2})[\)\]]', cand)
                         if m:
-                            return "Alive 🟢", m.group(1).strip(), m.group(2)
+                            return "Alive 🟢", m.group(1).strip(), m.group(2), fn_sound
 
-                return "Alive 🟢", None, None
+                return "Alive 🟢", None, None, ""
 
-            return "Dead 🔴", None, None
+            return "Dead 🔴", None, None, ""
 
         elif "gofile.io" in link:
             await page.goto(link, wait_until="domcontentloaded", timeout=12000)
             await page.wait_for_timeout(3500)
             body = (await page.inner_text("body")).lower()
             if "this content does not exist" in body or "error-notfound" in body or "not found" in body:
-                return "Dead 🔴", None, None
+                return "Dead 🔴", None, None, ""
             if "download" in body or "files" in body:
                 lines = [l.strip() for l in (await page.inner_text("body")).split("\n") if l.strip()]
                 for l in lines:
                     if any(ext in l.lower() for ext in [".mkv", ".mp4"]):
                         fn_title, fn_year = extract_title_from_filename(l)
+                        fn_sound = extract_sound_info(l)
                         if fn_title:
-                            return "Alive 🟢", fn_title, fn_year
+                            return "Alive 🟢", fn_title, fn_year, fn_sound
                     m = re.search(r'^([^\n\r(\[]+?)\s*[\(\[](19\d{2}|20\d{2})[\)\]]', l)
                     if m and not re.search(r'guest|account|file manager|premium', m.group(1), re.I):
-                        return "Alive 🟢", m.group(1).strip(), m.group(2)
-                return "Alive 🟢", None, None
-            return "Dead 🔴", None, None
+                        fn_sound = extract_sound_info(l)
+                        return "Alive 🟢", m.group(1).strip(), m.group(2), fn_sound
+                return "Alive 🟢", None, None, ""
+            return "Dead 🔴", None, None, ""
 
         elif "pixeldrain.com" in link:
             pid = link.split("/")[-1]
@@ -636,23 +709,24 @@ async def check_link_health(link: str, page) -> tuple[str, str | None, str | Non
                     if pdata.get("success"):
                         pname = pdata.get("name", "")
                         fn_title, fn_year = extract_title_from_filename(pname)
-                        return "Alive 🟢", fn_title, fn_year
+                        fn_sound = extract_sound_info(pname)
+                        return "Alive 🟢", fn_title, fn_year, fn_sound
             except Exception:
                 pass
-            return "Alive 🟢", None, None
+            return "Alive 🟢", None, None, ""
 
         elif "mega.nz" in link:
             await page.goto(link, wait_until="domcontentloaded", timeout=12000)
             await page.wait_for_timeout(3500)
             body = (await page.inner_text("body")).lower()
             if any(term in body for term in ["no longer available", "removed", "does not exist", "invalid link"]):
-                return "Dead 🔴", None, None
-            return "Alive 🟢", None, None
+                return "Dead 🔴", None, None, ""
+            return "Alive 🟢", None, None, ""
 
-        return "Alive 🟢", None, None
+        return "Alive 🟢", None, None, ""
 
     except Exception:
-        return "Dead 🔴", None, None
+        return "Dead 🔴", None, None, ""
 
 
 def get_letterboxd_link(title: str, year: str, imdb_url: str = "") -> str:
@@ -1011,6 +1085,7 @@ async def process_and_verify():
 
         title, year = clean_text_for_title(text)
         quality = extract_format_info(text)
+        sound = extract_sound_info(text)
 
         entry_links = entry.get("file_links", [])
         for file_link in entry_links:
@@ -1030,13 +1105,17 @@ async def process_and_verify():
 
             # If title is still missing or invalid, check health_cache for previously extracted title
             raw_cache = health_cache.get(file_link, {})
+            eff_sound = sound
             if isinstance(raw_cache, dict):
                 c_title = raw_cache.get("title")
                 c_year = raw_cache.get("year")
+                c_sound = raw_cache.get("sound", "")
                 if (eff_title == "Unknown Title" or not is_valid_movie_title(eff_title)) and c_title and is_valid_movie_title(c_title):
                     eff_title = c_title
                     if c_year:
                         eff_year = c_year
+                if not eff_sound and c_sound:
+                    eff_sound = c_sound
 
             if not is_valid_movie_title(eff_title):
                 eff_title = "Unknown Title"
@@ -1046,6 +1125,7 @@ async def process_and_verify():
                 "Title": eff_title,
                 "Year": eff_year,
                 "Quality": quality,
+                "Sound": eff_sound,
                 "Best Quality?": "Pending",
                 "File Host": host,
                 "File Link": file_link,
@@ -1094,14 +1174,17 @@ async def process_and_verify():
             page = await browser.new_page()
 
             for i, link in enumerate(links_to_check, 1):
-                status, fn_title, fn_year = await check_link_health(link, page)
+                status, fn_title, fn_year, fn_sound = await check_link_health(link, page)
+                prev_sound = raw_cache.get("sound", "") if isinstance(raw_cache, dict) else ""
                 health_cache[link] = {
                     "status": status,
                     "checked_at": datetime.now(timezone.utc).isoformat(),
                     "title": fn_title or (raw_cache.get("title") if isinstance(raw_cache, dict) else ""),
-                    "year": fn_year or (raw_cache.get("year") if isinstance(raw_cache, dict) else "")
+                    "year": fn_year or (raw_cache.get("year") if isinstance(raw_cache, dict) else ""),
+                    "sound": fn_sound or prev_sound
                 }
-                print(f"   [{i}/{len(links_to_check)}] {link} -> {status} (Extracted: {fn_title or 'N/A'})")
+                sound_log = f", Sound: {fn_sound}" if fn_sound else ""
+                print(f"   [{i}/{len(links_to_check)}] {link} -> {status} (Extracted: {fn_title or 'N/A'}{sound_log})")
 
                 for r in rows:
                     if r["File Link"] == link:
@@ -1110,6 +1193,8 @@ async def process_and_verify():
                             r["Title"] = fn_title
                             if fn_year:
                                 r["Year"] = fn_year
+                        if not r.get("Sound") and fn_sound:
+                            r["Sound"] = fn_sound
 
             await browser.close()
 
@@ -1160,7 +1245,20 @@ async def process_and_verify():
     alive_rows.sort(key=lambda x: x["_raw_time"], reverse=True)
 
     # Write CSV with Alive items only
-    fieldnames = ["Tweet Date", "Title", "Year", "Quality", "Best Quality?", "File Host", "File Link", "Letterboxd", "IMDb", "Status", "Tweet URL"]
+    fieldnames = [
+        "Tweet Date",
+        "Title",
+        "Year",
+        "Quality",
+        "Sound",
+        "Best Quality?",
+        "File Host",
+        "File Link",
+        "Letterboxd",
+        "IMDb",
+        "Status",
+        "Tweet URL",
+    ]
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
@@ -1177,24 +1275,28 @@ async def process_and_verify():
     # Send optional Discord/Telegram notifications
     send_webhook_notifications(alive_rows, dead_count)
 
-    # Clear Google Sheet completely and re-import with new 11-column layout
+    # Clear Google Sheet completely and re-import with new 12-column layout
     print(f"\n📊 Syncing to Google Sheet ({SPREADSHEET_ID})...")
     end_fmt_row = max(len(alive_rows) + 100, 1000)
     sheet_cmds = [
         f"gsheets mutate clear '{SPREADSHEET_ID}' 'Sheet1!A1:Z5000'",
         f"gsheets mutate import-csv '{SPREADSHEET_ID}' '{OUTPUT_CSV}'",
         f"gsheets mutate freeze '{SPREADSHEET_ID}' --sheet-id 0 --rows 1",
-        f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 11 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'",
-        f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 11",
-        # Conditional formatting for Best Quality? (Col 4)
-        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Yes' --color '#DCFCE7'",
-        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Exists' --color '#FEF3C7'",
-        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value '4K Digital' --color '#E0F2FE'",
+        f"gsheets mutate format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 0 --end-row 1 --start-col 0 --end-col 12 --bold --align CENTER --bg-color '#1E293B' --fg-color '#FFFFFF'",
+        f"gsheets mutate autosize '{SPREADSHEET_ID}' --sheet-id 0 --start-col 0 --end-col 12",
+        # Conditional formatting for Best Quality? (Col 5)
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 5 --end-col 6 --condition 'TEXT_CONTAINS' --value 'Yes' --color '#DCFCE7'",
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 5 --end-col 6 --condition 'TEXT_CONTAINS' --value 'Exists' --color '#FEF3C7'",
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 5 --end-col 6 --condition 'TEXT_CONTAINS' --value '4K Digital' --color '#E0F2FE'",
         # Conditional formatting for Quality (Col 3)
         f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value 'DVD' --color '#F3E8FF'",
         f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 3 --end-col 4 --condition 'TEXT_CONTAINS' --value '4K' --color '#FEF08A'",
-        # Conditional formatting for Status (Col 9)
-        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 9 --end-col 10 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'",
+        # Conditional formatting for Sound (Col 4)
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value '5.1' --color '#F3E8FF'",
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'FLAC' --color '#F5F3FF'",
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 4 --end-col 5 --condition 'TEXT_CONTAINS' --value 'Atmos' --color '#EDE9FE'",
+        # Conditional formatting for Status (Col 10)
+        f"gsheets mutate conditional-format '{SPREADSHEET_ID}' --sheet-id 0 --start-row 1 --end-row {end_fmt_row} --start-col 10 --end-col 11 --condition 'TEXT_CONTAINS' --value 'Alive' --color '#DCFCE7'",
     ]
     sheet_failed = False
     for cmd in sheet_cmds:

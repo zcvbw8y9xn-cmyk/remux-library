@@ -122,7 +122,13 @@
     "title": "Lustmord",
     "year": "1987"
   },
-  "https://transfer.it/t/MFcn2dthTLjI": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/MFcn2dthTLjI": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T12:07:57.138378+00:00",
+    "title": "Blind Beast",
+    "year": "1969",
+    "sound": "FLAC 1.0"
+  },
   "https://transfer.it/t/Q1AlLF8HwDgS": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T04:34:11.562141+00:00",
@@ -135,7 +141,13 @@
     "title": "Re-Wind",
     "year": "1988"
   },
-  "https://transfer.it/t/Kn5CyEtDWZ4T": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/Kn5CyEtDWZ4T": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T12:08:40.803213+00:00",
+    "title": "Colossal Youth",
+    "year": "2006",
+    "sound": "DTS-HD MA 2.0"
+  },
   "https://gofile.io/d/V8CsP2yp": "Alive \ud83d\udfe2",
   "https://transfer.it/t/QinoiNllDbwY": {
     "status": "Alive \ud83d\udfe2",
@@ -168,7 +180,13 @@
     "title": "Dogwood Tree",
     "year": "2010"
   },
-  "https://transfer.it/t/Lvgb7UkBlBgb": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/Lvgb7UkBlBgb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T12:08:02.006777+00:00",
+    "title": "The Yellow Sea",
+    "year": "2010",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/z7TciM1TlTYS": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T21:36:19.906369+00:00",
@@ -176,7 +194,13 @@
     "year": "1985"
   },
   "https://gofile.io/d/Q5qEMqIz": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/LADd2dt1XJxZ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/LADd2dt1XJxZ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T12:08:26.263573+00:00",
+    "title": "Mysterious Skin",
+    "year": "2004",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/uHOdiQ1x0Tya": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T23:33:07.754231+00:00",
@@ -348,7 +372,13 @@
     "year": "1965"
   },
   "https://transfer.it/t/8WCoonxTmR4Y": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/LCmIVjpRSbQI": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/LCmIVjpRSbQI": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T12:08:21.409078+00:00",
+    "title": "Star Trek First Contact",
+    "year": "1996",
+    "sound": ""
+  },
   "https://transfer.it/t/JDPdf9ZHDLaI": "Alive \ud83d\udfe2",
   "https://gofile.io/d/iAgtZMKx": "Alive \ud83d\udfe2",
   "https://transfer.it/t/T8b1smxBiTDY": {
@@ -441,7 +471,13 @@
     "year": "1980"
   },
   "https://gofile.io/d/EW6GtnJ5": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/LYG14B8xiDIA": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/LYG14B8xiDIA": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T12:08:11.712644+00:00",
+    "title": "Invasion",
+    "year": "1969",
+    "sound": ""
+  },
   "https://gofile.io/d/TljmpcIw": "Alive \ud83d\udfe2",
   "https://transfer.it/t/BfAkqclH2LBK": "Alive \ud83d\udfe2",
   "https://transfer.it/t/02yPpI91GLZT": "Alive \ud83d\udfe2",
@@ -644,7 +680,13 @@
   },
   "https://transfer.it/t/430sfE93FBAK": "Alive \ud83d\udfe2",
   "https://transfer.it/t/FeEnTvgxzTyK": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/L9vZjNsDCTLZ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/L9vZjNsDCTLZ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T12:08:31.101766+00:00",
+    "title": "Casa de Lava",
+    "year": "1994",
+    "sound": "FLAC 1.0"
+  },
   "https://transfer.it/t/XHgMDKx3HR6I": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T03:14:02.189320+00:00",
@@ -843,7 +885,13 @@
     "year": "1981"
   },
   "https://transfer.it/t/2XpKJY9F3ZZR": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/Ltwhy14jnRaS": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/Ltwhy14jnRaS": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T12:08:06.847303+00:00",
+    "title": "Pulse",
+    "year": "2001",
+    "sound": ""
+  },
   "https://transfer.it/t/kUIJr0pHwbKJ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:41:19.350367+00:00",
@@ -865,7 +913,13 @@
     "title": "Love Torn in a Dream",
     "year": "2000"
   },
-  "https://transfer.it/t/L8SPm1wXkTbZ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/L8SPm1wXkTbZ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T12:08:35.975492+00:00",
+    "title": "The Texas Chainsaw Massacre 2",
+    "year": "1986",
+    "sound": ""
+  },
   "https://transfer.it/t/KfWAL5p3EBSD": "Alive \ud83d\udfe2",
   "https://transfer.it/t/s24Ncjw3HZRa": {
     "status": "Alive \ud83d\udfe2",
@@ -912,7 +966,13 @@
     "title": "Nobody Knows",
     "year": "2004"
   },
-  "https://transfer.it/t/LUznnvgXGBAa": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/LUznnvgXGBAa": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-15T12:08:16.563963+00:00",
+    "title": "Dog Day Afternoon",
+    "year": "1975",
+    "sound": "FLAC 1.0"
+  },
   "https://gofile.io/d/tBcwQDfB": "Alive \ud83d\udfe2",
   "https://transfer.it/t/oy9O6ix3gDCD": {
     "status": "Alive \ud83d\udfe2",
