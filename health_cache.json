@@ -430,7 +430,13 @@
     "year": "2000"
   },
   "https://transfer.it/t/1gN31F9WWDDI": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/BlO0nZtHCDSb": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/BlO0nZtHCDSb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:47:18.834892+00:00",
+    "title": "Creepy",
+    "year": "2016",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/MAdOE3lFhBDC": "Dead \ud83d\udd34",
   "https://transfer.it/t/aI0KG7hF2JxB": {
     "status": "Alive \ud83d\udfe2",
@@ -509,7 +515,13 @@
     "sound": ""
   },
   "https://gofile.io/d/TljmpcIw": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/BfAkqclH2LBK": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/BfAkqclH2LBK": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:47:23.798766+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/02yPpI91GLZT": "Alive \ud83d\udfe2",
   "https://transfer.it/t/7Hl1rQtx1DRT": "Alive \ud83d\udfe2",
   "https://transfer.it/t/8G31T0wj2RAZ": "Alive \ud83d\udfe2",
@@ -580,7 +592,13 @@
     "title": "Kamikaze Girls",
     "year": "2004"
   },
-  "https://transfer.it/t/BXPviN0nVbpK": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/BXPviN0nVbpK": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:47:28.852464+00:00",
+    "title": "Vitalina Varela",
+    "year": "2019",
+    "sound": "FLAC 2.0"
+  },
   "https://transfer.it/t/54RxnBlHHJII": "Alive \ud83d\udfe2",
   "https://transfer.it/t/5qGZM58hTTST": "Alive \ud83d\udfe2",
   "https://transfer.it/t/aJPt3l4n2ZzL": {
@@ -633,7 +651,13 @@
     "title": "Scarlet Street",
     "year": "1945"
   },
-  "https://transfer.it/t/Cf8gixxjBBBA": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/Cf8gixxjBBBA": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:47:08.899093+00:00",
+    "title": "Magnificent Obsession",
+    "year": "1954",
+    "sound": ""
+  },
   "https://transfer.it/t/7tIy745XxBaL": "Alive \ud83d\udfe2",
   "https://gofile.io/d/qXOgK0ua": "Alive \ud83d\udfe2",
   "https://transfer.it/t/19I44J03jbiC": "Alive \ud83d\udfe2",
@@ -645,7 +669,13 @@
   },
   "https://transfer.it/t/1PNoguoz0DCR": "Alive \ud83d\udfe2",
   "https://gofile.io/d/Hic2D4VQ": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/D7u7LlplEB4Y": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/D7u7LlplEB4Y": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:46:50.687322+00:00",
+    "title": "Near Orouet",
+    "year": "1971",
+    "sound": ""
+  },
   "https://transfer.it/t/2riZOlxxlBxD": "Alive \ud83d\udfe2",
   "https://transfer.it/t/VRe2q4hhCRaC": {
     "status": "Alive \ud83d\udfe2",
@@ -747,7 +777,13 @@
     "title": "Dementia",
     "year": "1955"
   },
-  "https://transfer.it/t/CcwEPxgXDRQS": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/CcwEPxgXDRQS": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:47:13.862655+00:00",
+    "title": "The Good, the Bad and the Ugly",
+    "year": "1966",
+    "sound": ""
+  },
   "https://transfer.it/t/FB5lf4pl2Bja": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-16T11:44:42.046679+00:00",
@@ -813,7 +849,13 @@
     "year": "2000",
     "sound": "FLAC 2.0"
   },
-  "https://transfer.it/t/Cm8vfZlDjT6D": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/Cm8vfZlDjT6D": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:47:03.906185+00:00",
+    "title": "The Player",
+    "year": "1992",
+    "sound": "DTS-HD MA 2.0"
+  },
   "https://transfer.it/t/lXNj7o5jhRgY": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T23:40:53.869563+00:00",
@@ -1506,7 +1548,13 @@
     "title": "What's Up, Doc?",
     "year": "1972"
   },
-  "https://transfer.it/t/D1ZMrmgFVT6S": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/D1ZMrmgFVT6S": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:46:55.629161+00:00",
+    "title": "HellBoy",
+    "year": "2004",
+    "sound": ""
+  },
   "https://transfer.it/t/779kAx0zQDRL": "Alive \ud83d\udfe2",
   "https://transfer.it/t/46W2KcwTQLTJ": "Alive \ud83d\udfe2",
   "https://transfer.it/t/B9KfXA0BVbqR": "Alive \ud83d\udfe2",
@@ -1542,7 +1590,13 @@
     "title": "Shadows of Forgotten Ancestors",
     "year": "1965"
   },
-  "https://transfer.it/t/BTpENr5xDZ6Y": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/BTpENr5xDZ6Y": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:47:33.762475+00:00",
+    "title": "All the President's Men",
+    "year": "1976",
+    "sound": ""
+  },
   "https://transfer.it/t/b0bCKd91kJxY": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-14T13:13:26.481030+00:00",
@@ -1654,7 +1708,13 @@
     "title": "And Your Bird Can Sing, Sho Miyake",
     "year": "2018"
   },
-  "https://transfer.it/t/CsdabV0jTDZR": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/CsdabV0jTDZR": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-16T23:46:59.025510+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/xKWeW6pTATqC": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T23:21:13.647201+00:00",
@@ -4657,5 +4717,19 @@
     "title": "Model Shop",
     "year": "1969",
     "sound": "FLAC 2.0"
+  },
+  "https://transfer.it/t/41PNzsRzBRDY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:46:40.779096+00:00",
+    "title": "Limit",
+    "year": "1931",
+    "sound": ""
+  },
+  "https://transfer.it/t/YwKRTCx1mQxJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T23:46:45.735022+00:00",
+    "title": "The Others",
+    "year": "2001",
+    "sound": ""
   }
 }
