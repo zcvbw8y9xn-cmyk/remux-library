@@ -438,7 +438,13 @@
     "title": "Dark City",
     "year": "1998"
   },
-  "https://transfer.it/t/GGZ7PE8jBZbA": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/GGZ7PE8jBZbA": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:29:22.973430+00:00",
+    "title": "Phenomena",
+    "year": "1985",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/5mTHMi53DBQa": "Alive \ud83d\udfe2",
   "https://transfer.it/t/l79yybo1RBya": {
     "status": "Alive \ud83d\udfe2",
@@ -731,7 +737,13 @@
     "title": "Drifting Clouds",
     "year": "1996"
   },
-  "https://transfer.it/t/H017W5x1QTDA": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/H017W5x1QTDA": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:13:08.992211+00:00",
+    "title": "The Seventh Seal",
+    "year": "1957",
+    "sound": ""
+  },
   "https://transfer.it/t/DSU8C4xzGZAB": "Alive \ud83d\udfe2",
   "https://transfer.it/t/jgmzHShVCBhA": {
     "status": "Alive \ud83d\udfe2",
@@ -779,7 +791,13 @@
     "year": "2017"
   },
   "https://transfer.it/t/9Sm7xroVxRYR": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/GISUnLplGZKQ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/GISUnLplGZKQ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:29:17.900810+00:00",
+    "title": "Volver",
+    "year": "2006",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/bw3hTb4jELgC": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-14T00:58:19.891711+00:00",
@@ -888,7 +906,13 @@
   "https://gofile.io/d/4Ae2aAJY": "Alive \ud83d\udfe2",
   "https://gofile.io/d/9QkaKzMF": "Alive \ud83d\udfe2",
   "https://gofile.io/d/MkeAen": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/GpIVDs5xxBaR": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/GpIVDs5xxBaR": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:13:13.891727+00:00",
+    "title": "Zigeunerweisen",
+    "year": "1980",
+    "sound": ""
+  },
   "https://transfer.it/t/mHx8ed1jxL5I": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T11:41:07.962655+00:00",
@@ -963,7 +987,13 @@
     "title": "Apocalypse Now",
     "year": "1979"
   },
-  "https://transfer.it/t/IFy72rg3lZrb": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/IFy72rg3lZrb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:13:04.141972+00:00",
+    "title": "Youth of the Beast",
+    "year": "1963",
+    "sound": "FLAC 2.0"
+  },
   "https://transfer.it/t/truprElhFLpa": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T02:41:28.698438+00:00",
@@ -1230,8 +1260,20 @@
     "title": "Bloody Sunday",
     "year": "2002"
   },
-  "https://transfer.it/t/IZWhGo4XiDpY": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/G4hY3dtzCB5J": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/IZWhGo4XiDpY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:12:58.928375+00:00",
+    "title": "Fargo",
+    "year": "1996",
+    "sound": ""
+  },
+  "https://transfer.it/t/G4hY3dtzCB5J": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:29:37.911474+00:00",
+    "title": "The Friends",
+    "year": "1994",
+    "sound": ""
+  },
   "https://transfer.it/t/9UTQ68xXgJrC": "Alive \ud83d\udfe2",
   "https://transfer.it/t/brTfJcxxgBBQ": {
     "status": "Alive \ud83d\udfe2",
@@ -1403,7 +1445,13 @@
     "title": "Sunday in the Country",
     "year": "1974"
   },
-  "https://transfer.it/t/GBSUlFpzCRaA": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/GBSUlFpzCRaA": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:29:28.028914+00:00",
+    "title": "HellBoy II The Golden Army",
+    "year": "2008",
+    "sound": ""
+  },
   "https://transfer.it/t/bHC4qIsxlRCa": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-14T13:13:21.494024+00:00",
@@ -1465,7 +1513,13 @@
     "title": "Shao nian ye an la",
     "year": "1992"
   },
-  "https://transfer.it/t/G5wzXMtBiTRK": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/G5wzXMtBiTRK": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:29:33.033234+00:00",
+    "title": "Russian Symphony",
+    "year": "1994",
+    "sound": ""
+  },
   "https://transfer.it/t/wCJptEoBhDqD": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T23:32:27.778348+00:00",
@@ -1532,7 +1586,13 @@
     "title": "Kung Fu Hustle",
     "year": "2004"
   },
-  "https://transfer.it/t/FszKOaxz2RgT": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/FszKOaxz2RgT": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-16T00:29:41.423303+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://drive.google.com/drive/folders/1cyRFz0WdzS0MiGdMJAPuvJp1zI33oKhs": "Alive \ud83d\udfe2",
   "https://transfer.it/t/RbuI36gFVJBD": {
     "status": "Dead \ud83d\udd34",
@@ -4509,5 +4569,26 @@
     "checked_at": "2026-11-15T11:52:11.013402+00:00",
     "title": "The Apartment",
     "year": "1960"
+  },
+  "https://transfer.it/t/XdzDjP4jlKjb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:12:43.653143+00:00",
+    "title": "Love in the Afternoon",
+    "year": "1957",
+    "sound": "FLAC 2.0"
+  },
+  "https://transfer.it/t/FMltSK5x2QBK": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:12:48.641373+00:00",
+    "title": "On the Town",
+    "year": "1949",
+    "sound": "FLAC 1.0"
+  },
+  "https://transfer.it/t/Qjm9v5Jh3LyZ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-16T00:12:53.726364+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
   }
 }

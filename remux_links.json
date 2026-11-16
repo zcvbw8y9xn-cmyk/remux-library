@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-15T11:52:04.368138+00:00",
+  "scraped_at": "2026-11-16T00:12:37.046548+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1164,
-  "total_with_file_links": 1123,
+  "total_tweets": 1168,
+  "total_with_file_links": 1126,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -13759,6 +13759,40 @@
       "raw_tco": {
         "https://t.co/IlDOPFeVr8": "https://transfer.it/t/bGlX74AQFZyB"
       }
+    },
+    {
+      "tweet_url": "https://x.com/LogiLampadina/status/2122061438705635525",
+      "author": "https://x.com/LogiLampadina",
+      "timestamp": "2026-11-15T20:17:27.000Z",
+      "text": "Love In The Afternoon (1957, Billy Wilder)\nbd-remux, 32.22gb. English/English.\nhttps://\ntransfer.it/t/XdzDjP4jlKjb",
+      "file_links": [
+        "https://transfer.it/t/XdzDjP4jlKjb"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/LogiLampadina/status/2122051344609755227",
+      "author": "https://x.com/LogiLampadina",
+      "timestamp": "2026-11-15T19:37:21.000Z",
+      "text": "On the Town (1949, Stanley Donen & Gene Kelly) \nbd-remux, 16.89gb. English with English, French, Japanese and Spanish (x2) subtitles.\nhttps://\ntransfer.it/t/FMltSK5x2QBK",
+      "file_links": [
+        "https://transfer.it/t/FMltSK5x2QBK"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/rssfdvbackup/status/2121959156215165099",
+      "author": "https://x.com/rssfdvbackup",
+      "timestamp": "2026-11-15T13:31:01.000Z",
+      "text": "7th Heaven (1927) 🇺🇸\nDir. Frank Borzage\n1080p BluRay Remux | 1080p BluRay Encode\nLegendado: 🇧🇷🇪🇦🇮🇹🇫🇷🇵🇱🇺🇸\n\nUm trabalhador dos esgotos de Paris chamado Chico encontra Diane que precisa de sua ajuda para se esconder da polícia.\nhttps://\ntransfer.it/t/Qjm9v5Jh3LyZ (30.31GB - pass: felipedrive)\n\n\nhttps://\ndrive.google.com/drive/folders/\n1LrCcRu-dfToAwj6yw3ookbWOqN97VVit?usp=sharing\n… (5.19GB)",
+      "file_links": [
+        "https://transfer.it/t/Qjm9v5Jh3LyZ",
+        "https://drive.google.com/drive/folders/1LrCcRu-dfToAwj6yw3ookbWOqN97VVit?usp=sharing"
+      ],
+      "other_links": [],
+      "raw_tco": {}
     }
   ],
   "no_file_links": [
@@ -14288,6 +14322,19 @@
         "https://gdflix.dev/file/xQ5O9VOP41Zh2CZ"
       ],
       "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/9znki/status/2122092377821122567",
+      "author": "https://x.com/9znki",
+      "timestamp": "2026-11-15T22:20:24.000Z",
+      "text": "https://\ngithub.com/9jfcc/TorrentX\nالمهارة هنا كل اللي عليك تسويه تحمل antigravity وتقول له يحملها وبعدها تضيف api خدمه ديبرد اذا عندك وتضيف api موقع subdl و subsource عشان يحمل لك الترجمه منهم\n\nويمديك تستخدمه اصلا بدون ديبرد عبر qbit بس الافضل مع ديبرد عشان يكون اسرع خاصة اذا تحمل 4k remux",
+      "file_links": [],
+      "other_links": [
+        "https://github.com/9jfcc/TorrentX"
+      ],
+      "raw_tco": {
+        "https://t.co/tdjHlamucX": "https://github.com/9jfcc/TorrentX"
+      }
     }
   ]
 }
