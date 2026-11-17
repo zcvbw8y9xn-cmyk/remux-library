@@ -48,7 +48,13 @@
     "title": "The Banshees of Inisherin",
     "year": "2022"
   },
-  "https://transfer.it/t/Af5UyclWCLwJ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/Af5UyclWCLwJ": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-17T12:13:51.443432+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/K8o8UnxFEBYR": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T12:21:29.515175+00:00",
@@ -56,7 +62,13 @@
     "year": "1969",
     "sound": ""
   },
-  "https://transfer.it/t/AmFL1r4RXLjR": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/AmFL1r4RXLjR": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-17T12:13:45.982797+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/S0dgmgpmmbpR": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T04:15:51.599918+00:00",
@@ -730,7 +742,13 @@
     "title": "Obsession",
     "year": "1976"
   },
-  "https://transfer.it/t/Au40jowjQLTL": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/Au40jowjQLTL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T12:04:39.988179+00:00",
+    "title": "Blow-Up",
+    "year": "1966",
+    "sound": ""
+  },
   "https://transfer.it/t/JojH39xVgJDR": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T12:21:44.209555+00:00",
@@ -929,7 +947,13 @@
     "year": "1956"
   },
   "https://transfer.it/t/2JuarKxjBJTI": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/AwoqvfpxnRZK": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/AwoqvfpxnRZK": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T12:04:34.985938+00:00",
+    "title": "Secretary",
+    "year": "2002",
+    "sound": "DTS-HD MA 7.1"
+  },
   "https://transfer.it/t/qid3jWxhmThK": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T02:56:45.177815+00:00",
@@ -950,7 +974,13 @@
     "year": "1962"
   },
   "https://transfer.it/t/4mMiLP430JzK": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/ABAEDd9n3ZgR": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/ABAEDd9n3ZgR": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T12:14:06.702070+00:00",
+    "title": "The Long Goodbye",
+    "year": "1973",
+    "sound": "FLAC 2.0"
+  },
   "https://drive.google.com/file/d/1inumqcg3b6Ab3duUU7wf30Noni3gPS3n/view?usp=drivesdk": "Alive \ud83d\udfe2",
   "https://drive.google.com/file/d/1PB4eDBMQuaxPaK3vPlas-83N3c4JwsTO/view?usp=drivesdk": "Alive \ud83d\udfe2",
   "https://transfer.it/t/MQMDKC4FVBLY": {
@@ -959,8 +989,20 @@
     "title": "Days of Being Wild",
     "year": "1990"
   },
-  "https://transfer.it/t/A8hgrB9B0D6J": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/AFgjja5D2TYJ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/A8hgrB9B0D6J": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T12:14:11.944198+00:00",
+    "title": "McCabe and Mrs Miller",
+    "year": "1971",
+    "sound": "FLAC 1.0"
+  },
+  "https://transfer.it/t/AFgjja5D2TYJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T12:13:56.567092+00:00",
+    "title": "2046",
+    "year": "2004",
+    "sound": "DD 5.1"
+  },
   "https://transfer.it/t/PF5Lyd8XATwT": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T04:51:13.669550+00:00",
@@ -1003,7 +1045,13 @@
     "title": "And Your Bird Can Sing, Sho Miyake",
     "year": "2018"
   },
-  "https://transfer.it/t/An2j0EwzVLbR": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/An2j0EwzVLbR": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T12:04:44.882167+00:00",
+    "title": "Spider-Man No Way Home",
+    "year": "2021",
+    "sound": ""
+  },
   "https://transfer.it/t/X15Q0Q8nnTCY": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T03:14:20.827680+00:00",
@@ -1393,7 +1441,13 @@
     "year": "1980",
     "sound": ""
   },
-  "https://transfer.it/t/AFNwSkpxybAb": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/AFNwSkpxybAb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T12:14:01.554153+00:00",
+    "title": "Oldboy",
+    "year": "2003",
+    "sound": ""
+  },
   "https://transfer.it/t/lKS7nJlxDTpZ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:40:58.526298+00:00",
@@ -1557,7 +1611,13 @@
   },
   "https://transfer.it/t/779kAx0zQDRL": "Alive \ud83d\udfe2",
   "https://transfer.it/t/46W2KcwTQLTJ": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/B9KfXA0BVbqR": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/B9KfXA0BVbqR": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-17T12:04:30.035220+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/e8hU2z4XEDQZ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-13T11:58:35.231973+00:00",
@@ -4730,6 +4790,20 @@
     "checked_at": "2026-11-16T23:46:45.735022+00:00",
     "title": "The Others",
     "year": "2001",
+    "sound": ""
+  },
+  "https://transfer.it/t/XfPNfAVmmLwT": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T11:48:32.815900+00:00",
+    "title": "Irma Vep",
+    "year": "1996",
+    "sound": "DTS-HD MA 5.1"
+  },
+  "https://transfer.it/t/0FrgmmAiiTTY": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-17T12:04:26.211833+00:00",
+    "title": null,
+    "year": null,
     "sound": ""
   }
 }
