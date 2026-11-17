@@ -120,14 +120,26 @@
     "year": "2013"
   },
   "https://transfer.it/t/6hHEOYkBGZLB": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/9smXCEknRT5J": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/9smXCEknRT5J": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:35:08.062131+00:00",
+    "title": "Melancholia",
+    "year": "2011",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/qglfKJtxFBjR": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T02:56:50.022313+00:00",
     "title": "The Eye's Dream",
     "year": "2016"
   },
-  "https://transfer.it/t/9yCUHd9x0B6a": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/9yCUHd9x0B6a": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:35:03.159622+00:00",
+    "title": "Seance",
+    "year": "2000",
+    "sound": ""
+  },
   "https://transfer.it/t/PbHgTFt3UJwQ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T04:51:03.706971+00:00",
@@ -695,14 +707,26 @@
     "title": "Masculine Feminine",
     "year": "1966"
   },
-  "https://transfer.it/t/9FMFTghHlRjJ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/9FMFTghHlRjJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:35:37.620995+00:00",
+    "title": "Happiness",
+    "year": "1965",
+    "sound": ""
+  },
   "https://transfer.it/t/lXrQ2pwl1bgR": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T23:40:48.918533+00:00",
     "title": "The Sound of Music",
     "year": "1965"
   },
-  "https://transfer.it/t/A1fbifwh2LCJ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/A1fbifwh2LCJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:34:58.256243+00:00",
+    "title": "Mes seances de lutte",
+    "year": "2013",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/17x7mfgjwZiC": "Alive \ud83d\udfe2",
   "https://transfer.it/t/qrvRnH5nUBQY": {
     "status": "Alive \ud83d\udfe2",
@@ -880,7 +904,13 @@
     "title": "On the Beach at Night Alone",
     "year": "2017"
   },
-  "https://transfer.it/t/9Sm7xroVxRYR": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/9Sm7xroVxRYR": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:35:22.859793+00:00",
+    "title": "L'important c'est d'aimer",
+    "year": "1975",
+    "sound": ""
+  },
   "https://transfer.it/t/GISUnLplGZKQ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-16T00:29:17.900810+00:00",
@@ -932,7 +962,13 @@
     "title": "La Notte",
     "year": "1961"
   },
-  "https://transfer.it/t/8jV07PwlGZbZ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/8jV07PwlGZbZ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:35:42.584179+00:00",
+    "title": "Star Wars Episode V The Empire Strikes Back",
+    "year": "1980",
+    "sound": ""
+  },
   "https://transfer.it/t/1pFlEY410JrS": "Alive \ud83d\udfe2",
   "https://transfer.it/t/mpwvwI41mZ6R": {
     "status": "Alive \ud83d\udfe2",
@@ -960,7 +996,13 @@
     "title": "Malena",
     "year": "2000"
   },
-  "https://transfer.it/t/9NwHD5oVQL6Z": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/9NwHD5oVQL6Z": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:35:27.852986+00:00",
+    "title": "Le Samourai",
+    "year": "1967",
+    "sound": ""
+  },
   "https://transfer.it/t/q8ovhq5BEB5Y": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T03:05:32.728817+00:00",
@@ -1394,7 +1436,13 @@
     "year": "1994",
     "sound": ""
   },
-  "https://transfer.it/t/9UTQ68xXgJrC": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/9UTQ68xXgJrC": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:35:17.896539+00:00",
+    "title": "Imitation of Life",
+    "year": "1959",
+    "sound": ""
+  },
   "https://transfer.it/t/brTfJcxxgBBQ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-14T13:13:06.470998+00:00",
@@ -1433,7 +1481,13 @@
     "year": "2007"
   },
   "https://drive.google.com/drive/folders/1KlPfUWe9lfZPmQrjsOhwdS_Am7YW3hqo?usp=drive_link": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/9JSyfWpx3BjI": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/9JSyfWpx3BjI": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:35:32.714107+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/FPGprvwVBLTY": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-16T11:44:37.177719+00:00",
@@ -1555,7 +1609,13 @@
     "year": "1997"
   },
   "https://transfer.it/t/2y6v9rohQbLR": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/9sEXctpn2BjJ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/9sEXctpn2BjJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:35:12.970456+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/PmQiT75zyJwb": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T04:50:53.790070+00:00",
@@ -4802,6 +4862,27 @@
   "https://transfer.it/t/0FrgmmAiiTTY": {
     "status": "Dead \ud83d\udd34",
     "checked_at": "2026-11-17T12:04:26.211833+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/AcN56ghBzBYA": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:34:48.302593+00:00",
+    "title": "The Gold Rush",
+    "year": "1925",
+    "sound": ""
+  },
+  "https://transfer.it/t/GXZpOmwBiYqa": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:34:53.280044+00:00",
+    "title": "The Nest",
+    "year": "1988",
+    "sound": ""
+  },
+  "https://drive.google.com/drive/folders/1WGhDHaSw3buyU0-bp0H8Oac1Nc0sbdQ8": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-17T23:34:53.280690+00:00",
     "title": null,
     "year": null,
     "sound": ""
