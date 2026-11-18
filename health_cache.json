@@ -125,7 +125,13 @@
     "title": "Under the Skin",
     "year": "2013"
   },
-  "https://transfer.it/t/6hHEOYkBGZLB": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/6hHEOYkBGZLB": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:24.749202+00:00",
+    "title": "The House That Jack Built",
+    "year": "2018",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/9smXCEknRT5J": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-17T23:35:08.062131+00:00",
@@ -487,7 +493,13 @@
     "year": "1985",
     "sound": "DTS-HD MA 5.1"
   },
-  "https://transfer.it/t/5mTHMi53DBQa": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/5mTHMi53DBQa": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:47.863786+00:00",
+    "title": "The Guest",
+    "year": "2014",
+    "sound": ""
+  },
   "https://transfer.it/t/l79yybo1RBya": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:41:03.589821+00:00",
@@ -626,7 +638,13 @@
     "title": "Nights of Cabiria",
     "year": "1957"
   },
-  "https://transfer.it/t/5qhaqctnGZBT": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/5qhaqctnGZBT": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:37.980624+00:00",
+    "title": "Insiang",
+    "year": "1976",
+    "sound": "FLAC 1.0"
+  },
   "https://transfer.it/t/30CC2BtDSZob": "Alive \ud83d\udfe2",
   "https://transfer.it/t/XBGI6B1TDLzb": {
     "status": "Alive \ud83d\udfe2",
@@ -648,7 +666,13 @@
     "sound": "FLAC 2.0"
   },
   "https://transfer.it/t/54RxnBlHHJII": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/5qGZM58hTTST": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/5qGZM58hTTST": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:42.912526+00:00",
+    "title": "Until the End of the World",
+    "year": "1991",
+    "sound": "5.1"
+  },
   "https://transfer.it/t/aJPt3l4n2ZzL": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-14T13:13:41.760756+00:00",
@@ -966,7 +990,13 @@
     "title": "Here",
     "year": "2024"
   },
-  "https://transfer.it/t/5mDgaboHRRZD": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/5mDgaboHRRZD": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:52.814757+00:00",
+    "title": "Love Me If You Dare aka Jeux D'Enfants",
+    "year": "2003",
+    "sound": "5.1"
+  },
   "https://transfer.it/t/pxBuOKg1HRjS": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T03:05:37.578454+00:00",
@@ -1211,10 +1241,22 @@
     "year": "1995",
     "sound": "DD 5.1"
   },
-  "https://transfer.it/t/5LIHDwxhUBrA": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/5LIHDwxhUBrA": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:57.694566+00:00",
+    "title": "Young Mr Lincoln",
+    "year": "1939",
+    "sound": "FLAC 1.0"
+  },
   "https://gofile.io/d/pBQ0g0YM": "Dead \ud83d\udd34",
   "https://gofile.io/d/cafTkzsR": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/6w0zPNlFwbBb": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/6w0zPNlFwbBb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:19.694699+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/QIIPrZkl2bKL": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T04:34:06.281799+00:00",
@@ -1235,7 +1277,13 @@
     "year": "2013",
     "sound": "TrueHD 5.1"
   },
-  "https://transfer.it/t/6zjtz2gViTqb": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/6zjtz2gViTqb": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:14.726156+00:00",
+    "title": "Moonlight",
+    "year": "2016",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/URfQHPoR2b5R": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T03:47:05.524671+00:00",
@@ -1654,7 +1702,13 @@
     "title": "Yokohama BJ Blues",
     "year": "1981"
   },
-  "https://transfer.it/t/62lVflohSLaY": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/62lVflohSLaY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:32.991386+00:00",
+    "title": "Angels Wear White",
+    "year": "2017",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/uQLC5Y4XiJZC": "Dead \ud83d\udd34",
   "https://transfer.it/t/wY3JzI8jwTyQ": {
     "status": "Alive \ud83d\udfe2",
@@ -1867,7 +1921,13 @@
     "title": "Silence",
     "year": "2016"
   },
-  "https://transfer.it/t/6E8lzKoxBZCB": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/6E8lzKoxBZCB": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-18T23:35:28.047926+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/z6XEeF9zwZRK": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T21:36:24.749008+00:00",
@@ -4945,6 +5005,41 @@
     "checked_at": "2026-11-17T23:34:53.280690+00:00",
     "title": null,
     "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/GpAy5FoWBSTR": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:34:54.811869+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/1UrFd7ZxxTrL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:34:59.895305+00:00",
+    "title": "From Up on Poppy Hill",
+    "year": "2011",
+    "sound": "DTS-HD MA"
+  },
+  "https://transfer.it/t/D1CMrNNQkJoS": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:04.823950+00:00",
+    "title": "Our Time",
+    "year": "2018",
+    "sound": "DTS-HD MA 5.1"
+  },
+  "https://drive.google.com/drive/folders/1rxK7Axc_sA19muv9iPvS517bLKsCZ7qL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:04.825002+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/TZYXEIciXJZA": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T23:35:09.771922+00:00",
+    "title": "Razzia sur la Schnouf",
+    "year": "1955",
     "sound": ""
   }
 }
