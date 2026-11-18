@@ -100,7 +100,13 @@
     "title": "Timecop",
     "year": "1994"
   },
-  "https://transfer.it/t/8G7OvbhBXIxJ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/8G7OvbhBXIxJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T11:49:50.346812+00:00",
+    "title": "Fish Story",
+    "year": "2009",
+    "sound": "FLAC 2.0"
+  },
   "https://transfer.it/t/gDVLkuwxkDiA": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T23:41:50.593822+00:00",
@@ -407,7 +413,13 @@
     "title": "A Spring for the Thirsty",
     "year": "1965"
   },
-  "https://transfer.it/t/8WCoonxTmR4Y": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/8WCoonxTmR4Y": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T11:49:40.549826+00:00",
+    "title": "Conan The Barbarian",
+    "year": "1982",
+    "sound": ""
+  },
   "https://transfer.it/t/LCmIVjpRSbQI": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T12:08:21.409078+00:00",
@@ -547,8 +559,20 @@
     "sound": ""
   },
   "https://transfer.it/t/02yPpI91GLZT": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/7Hl1rQtx1DRT": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/8G31T0wj2RAZ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/7Hl1rQtx1DRT": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T11:50:10.456444+00:00",
+    "title": "Turtle Vision",
+    "year": "1991",
+    "sound": "DTS-HD MA 2.0"
+  },
+  "https://transfer.it/t/8G31T0wj2RAZ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T11:49:55.256155+00:00",
+    "title": "Placido",
+    "year": "1961",
+    "sound": ""
+  },
   "https://transfer.it/t/iGh68JgHDZxS": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:56:03.712611+00:00",
@@ -682,7 +706,13 @@
     "year": "1954",
     "sound": ""
   },
-  "https://transfer.it/t/7tIy745XxBaL": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/7tIy745XxBaL": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-18T11:50:05.028181+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://gofile.io/d/qXOgK0ua": "Alive \ud83d\udfe2",
   "https://transfer.it/t/19I44J03jbiC": "Alive \ud83d\udfe2",
   "https://transfer.it/t/bKSPjGhFxZ6Z": {
@@ -746,7 +776,13 @@
     "title": "Beetlejuice Beetlejuice",
     "year": "2024"
   },
-  "https://transfer.it/t/7HeKjG5XQBxY": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/7HeKjG5XQBxY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T11:50:15.836898+00:00",
+    "title": "The Possessed",
+    "year": "1965",
+    "sound": "FLAC 1.0"
+  },
   "https://transfer.it/t/xYmCNYsxHBIC": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T23:21:08.819208+00:00",
@@ -1352,7 +1388,13 @@
     "title": "Altered States",
     "year": "1980"
   },
-  "https://transfer.it/t/7ub7aBsHULZa": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/7ub7aBsHULZa": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T11:50:01.475385+00:00",
+    "title": "Go",
+    "year": "2001",
+    "sound": "FLAC 2.0"
+  },
   "https://transfer.it/t/3qDfu0oHGb6L": "Alive \ud83d\udfe2",
   "https://transfer.it/t/PZd9hR5FRRwS": {
     "status": "Alive \ud83d\udfe2",
@@ -1508,14 +1550,26 @@
     "title": "Marketa Lazarova",
     "year": "1967"
   },
-  "https://transfer.it/t/8HAyTSh1AbIL": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/8HAyTSh1AbIL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T11:49:45.438130+00:00",
+    "title": "Bringing Out The Dead",
+    "year": "1999",
+    "sound": ""
+  },
   "https://transfer.it/t/x8S229h1kJjI": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T23:21:18.489401+00:00",
     "title": "The Young Girls of Rochefort",
     "year": "1967"
   },
-  "https://transfer.it/t/71NJOgollbAS": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/71NJOgollbAS": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T11:50:25.776928+00:00",
+    "title": "Bring Me the Head of Alfredo Garcia",
+    "year": "1974",
+    "sound": ""
+  },
   "https://transfer.it/t/pdopzJthVJzD": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T03:05:47.275228+00:00",
@@ -1669,7 +1723,13 @@
     "year": "2004",
     "sound": ""
   },
-  "https://transfer.it/t/779kAx0zQDRL": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/779kAx0zQDRL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-18T11:50:20.794319+00:00",
+    "title": "The Lovers on the Bridge",
+    "year": "1991",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/46W2KcwTQLTJ": "Alive \ud83d\udfe2",
   "https://transfer.it/t/B9KfXA0BVbqR": {
     "status": "Dead \ud83d\udd34",
