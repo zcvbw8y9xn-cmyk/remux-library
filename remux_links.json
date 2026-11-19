@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-19T00:41:33.939682+00:00",
+  "scraped_at": "2026-11-19T11:34:44.422425+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1184,
-  "total_with_file_links": 1140,
+  "total_tweets": 1188,
+  "total_with_file_links": 1144,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -13962,6 +13962,54 @@
       "text": "Razzia (1955)\n1080p - Sub Eng\nSmall size (7gb)\nRemux (20gb)\n\nRazzia sur la Chnouf. Dir. Henri Decoin\nhttps://\ntransfer.it/t/TZYXEIciXJZA",
       "file_links": [
         "https://transfer.it/t/TZYXEIciXJZA"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/vilibazmiooo/status/2123358497945342073",
+      "author": "https://x.com/vilibazmiooo",
+      "timestamp": "2026-11-19T10:11:30.000Z",
+      "text": "So Long, My Son (2019)\ndir. Wang Xiaoshuai\n\nhttps://\ntransfer.it/t/jLszbMclBbaY\n1080p BluRay REMUX eng, fr subs (35GB)",
+      "file_links": [
+        "https://transfer.it/t/jLszbMclBbaY"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/TQPqJpfunw": "https://transfer.it/t/jLszbMclBbaY"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/schoppheineken/status/2123321283765240212",
+      "author": "https://x.com/schoppheineken",
+      "timestamp": "2026-11-19T07:43:38.000Z",
+      "text": "Chizuko's Younger Sister (1991)\nDirector: Nobuhiko Obayashi\n1080p BLURAY REMUX AVC FLAC 2.0 (36GB)\nSub: 🇺🇸\n\nhttps://\ntransfer.it/t/EPdmKh5RxILA",
+      "file_links": [
+        "https://transfer.it/t/EPdmKh5RxILA"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/7C5StfEXIF": "https://transfer.it/t/EPdmKh5RxILA"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/LogiLampadina/status/2123277000400118253",
+      "author": "https://x.com/LogiLampadina",
+      "timestamp": "2026-11-19T04:47:40.000Z",
+      "text": "Lady Chatterley's Lover (1981, Just Jaeckin)\nbd-remux, 19.85gb. English with English and German subtitles.\nhttps://\ntransfer.it/t/KJKGmexlBa6L",
+      "file_links": [
+        "https://transfer.it/t/KJKGmexlBa6L"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/LogiLampadina/status/2123271669594661290",
+      "author": "https://x.com/LogiLampadina",
+      "timestamp": "2026-11-19T04:26:29.000Z",
+      "text": "Last Foxtrot in Burbank (1973, Charles Band)\nbd-remux, 11.06gb. English/English.\nhttps://\ntransfer.it/t/r0mATawRzSyQ",
+      "file_links": [
+        "https://transfer.it/t/r0mATawRzSyQ"
       ],
       "other_links": [],
       "raw_tco": {}
