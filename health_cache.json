@@ -81,7 +81,13 @@
     "title": "El Dorado",
     "year": "1967"
   },
-  "https://transfer.it/t/1jKsrUURkTRQ": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/1jKsrUURkTRQ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:24.089309+00:00",
+    "title": "Nymphomaniac Vol I",
+    "year": "2013",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/UITwLhYEmbQL": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T03:47:16.023623+00:00",
@@ -477,7 +483,13 @@
     "title": "Sexy Beast",
     "year": "2000"
   },
-  "https://transfer.it/t/1gN31F9WWDDI": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/1gN31F9WWDDI": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:29.097565+00:00",
+    "title": "Orpheus",
+    "year": "1950",
+    "sound": ""
+  },
   "https://transfer.it/t/BlO0nZtHCDSb": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-16T23:47:18.834892+00:00",
@@ -540,7 +552,13 @@
     "title": "Sunset Blvd",
     "year": "1950"
   },
-  "https://transfer.it/t/2HYMkRhRTRSL": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/2HYMkRhRTRSL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:08.001987+00:00",
+    "title": "Cure",
+    "year": "1997",
+    "sound": ""
+  },
   "https://transfer.it/t/ZCh4QQkllDDY": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T01:22:53.610894+00:00",
@@ -762,14 +780,26 @@
     "sound": ""
   },
   "https://gofile.io/d/qXOgK0ua": "Alive \ud83d\udfe2",
-  "https://transfer.it/t/19I44J03jbiC": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/19I44J03jbiC": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:51.184931+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/bKSPjGhFxZ6Z": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-14T13:13:16.490959+00:00",
     "title": "Yi Yi",
     "year": "2000"
   },
-  "https://transfer.it/t/1PNoguoz0DCR": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/1PNoguoz0DCR": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:34.031905+00:00",
+    "title": "In Vandas Room",
+    "year": "2000",
+    "sound": "DTS-HD MA 2.0"
+  },
   "https://gofile.io/d/Hic2D4VQ": "Alive \ud83d\udfe2",
   "https://transfer.it/t/D7u7LlplEB4Y": {
     "status": "Alive \ud83d\udfe2",
@@ -811,7 +841,13 @@
     "year": "2013",
     "sound": "DTS-HD MA 5.1"
   },
-  "https://transfer.it/t/17x7mfgjwZiC": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/17x7mfgjwZiC": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:56.279797+00:00",
+    "title": "Aquaman",
+    "year": "2018",
+    "sound": "TrueHD Atmos 7.1"
+  },
   "https://transfer.it/t/qrvRnH5nUBQY": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T02:56:35.511684+00:00",
@@ -1069,7 +1105,13 @@
     "title": "Star Wars Episode VI Return of the Jedi",
     "year": "1983"
   },
-  "https://transfer.it/t/22KYyJ1nlRTR": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/22KYyJ1nlRTR": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:13.017517+00:00",
+    "title": "3 Women",
+    "year": "1977",
+    "sound": "FLAC 1.0"
+  },
   "https://transfer.it/t/Ur7NuhoxwZ5R": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T03:47:00.114186+00:00",
@@ -1083,7 +1125,13 @@
     "year": "1980",
     "sound": ""
   },
-  "https://transfer.it/t/1pFlEY410JrS": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/1pFlEY410JrS": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:18.391302+00:00",
+    "title": "Star Wars Episode IV A New Hope",
+    "year": "1977",
+    "sound": ""
+  },
   "https://transfer.it/t/mpwvwI41mZ6R": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T11:40:47.955586+00:00",
@@ -1635,7 +1683,13 @@
     "title": "Stromboli, Terra di Dio",
     "year": "1950"
   },
-  "https://transfer.it/t/1L1wKN8h1ZSI": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/1L1wKN8h1ZSI": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:46.150407+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/jkRcaq5jTLRY": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:41:39.297769+00:00",
@@ -1655,7 +1709,13 @@
     "year": "1992",
     "sound": ""
   },
-  "https://transfer.it/t/1P5bjzxBSTAC": "Alive \ud83d\udfe2",
+  "https://transfer.it/t/1P5bjzxBSTAC": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:41.287751+00:00",
+    "title": "Bubba Ho-Tep",
+    "year": "2002",
+    "sound": ""
+  },
   "https://transfer.it/t/hvBN6gwjhDoK": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-12T11:56:18.234222+00:00",
@@ -5189,5 +5249,33 @@
     "title": "Last Foxtrot in Burbank",
     "year": "1973",
     "sound": ""
+  },
+  "https://transfer.it/t/C4N7cyQ1hTzZ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:42:48.170708+00:00",
+    "title": "Devil Hunters",
+    "year": "1989",
+    "sound": "FLAC 2.0"
+  },
+  "https://transfer.it/t/P0bhpdsC1Sib": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:42:53.141731+00:00",
+    "title": "Symphony for a Massacre AKA Symphonie pour un massacre",
+    "year": "1963",
+    "sound": ""
+  },
+  "https://transfer.it/t/CRe3fgZGxRIR": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:42:58.095871+00:00",
+    "title": "Lust for Freedom",
+    "year": "1987",
+    "sound": ""
+  },
+  "https://transfer.it/t/RNGVa8JmmZYY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-19T21:43:03.090391+00:00",
+    "title": "Teki Cometh",
+    "year": "2025",
+    "sound": "DTS-HD MA 5.1"
   }
 }
