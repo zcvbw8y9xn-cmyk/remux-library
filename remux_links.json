@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-19T23:35:01.469380+00:00",
+  "scraped_at": "2026-11-20T11:34:35.800265+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1192,
-  "total_with_file_links": 1148,
+  "total_tweets": 1195,
+  "total_with_file_links": 1151,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -14054,6 +14054,40 @@
       "text": "1080p, BLURAY REMUX, 31 GB\n\nTeki Cometh, Daihachi Yoshida, 2025\n敵\nhttps://\ntransfer.it/t/RNGVa8JmmZYY",
       "file_links": [
         "https://transfer.it/t/RNGVa8JmmZYY"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/aidiesey/status/2123591929623671108",
+      "author": "https://x.com/aidiesey",
+      "timestamp": "2026-11-20T01:39:05.000Z",
+      "text": "1080p Bluray Remux\nTheatrical Cut (30.58 GB)\nDirector’s Cut (36.09 GB)\nhttps://\ntransfer.it/t/EzmuWWhHTTgB\n\nhttps://\ntransfer.it/t/uYnh6P51BB5a │",
+      "file_links": [
+        "https://transfer.it/t/EzmuWWhHTTgB",
+        "https://transfer.it/t/uYnh6P51BB5a"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/postdiemologian/status/2123574115097555123",
+      "author": "https://x.com/postdiemologian",
+      "timestamp": "2026-11-20T00:28:17.000Z",
+      "text": "You Were Never Really Here, Lynne Ramsey, 2017, 2160p UHD REMUX, 37.71 GiB, en/es (LAtAm)/pt/other subs\nhttps://\ntransfer.it/t/7KZDLe5VVRIC",
+      "file_links": [
+        "https://transfer.it/t/7KZDLe5VVRIC"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/aidiesey/status/2123566078542713051",
+      "author": "https://x.com/aidiesey",
+      "timestamp": "2026-11-19T23:56:21.000Z",
+      "text": "1080p Bluray Remux (27.95 GB)\nhttps://\ntransfer.it/t/i8FBYB8XiBob",
+      "file_links": [
+        "https://transfer.it/t/i8FBYB8XiBob"
       ],
       "other_links": [],
       "raw_tco": {}
