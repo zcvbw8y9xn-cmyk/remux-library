@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-20T11:34:35.800265+00:00",
+  "scraped_at": "2026-11-20T23:34:53.947848+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1195,
-  "total_with_file_links": 1151,
+  "total_tweets": 1199,
+  "total_with_file_links": 1155,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -14088,6 +14088,54 @@
       "text": "1080p Bluray Remux (27.95 GB)\nhttps://\ntransfer.it/t/i8FBYB8XiBob",
       "file_links": [
         "https://transfer.it/t/i8FBYB8XiBob"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/JacobKenne92848/status/2123921321939861866",
+      "author": "https://x.com/JacobKenne92848",
+      "timestamp": "2026-11-20T23:27:58.000Z",
+      "text": "Rock & Rule (2010 Blu-Ray Remux)\nAudio:\n1: 2.0 Dolby Stereo Mix (1985 JP LD)\n2: 2.0 Dolby Stereo Mix (1986 US LD)\n3: 2.0 Optical Track (2010 BD)\n4: 2.0 Optical Track Screener DVD \n5: 5.1 Surround Sound Upmix\n6: 2.0 Director's Commentary\n\nhttps://\nmega.nz/file/pV8V3QRQ#\nUyx_DCfHIkaCvSiSTXmS3ONeEj_bjPiQ13uPyHTyVFQ\n…",
+      "file_links": [
+        "https://mega.nz/file/pV8V3QRQ#Uyx_DCfHIkaCvSiSTXmS3ONeEj_bjPiQ13uPyHTyVFQ"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/L4THtlyFWA": "https://mega.nz/file/pV8V3QRQ#Uyx_DCfHIkaCvSiSTXmS3ONeEj_bjPiQ13uPyHTyVFQ"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/filmsofukraine/status/2123823689338601619",
+      "author": "https://x.com/filmsofukraine",
+      "timestamp": "2026-11-20T17:00:00.000Z",
+      "text": "110th film of the Ukrainian Archive Collection 🇺🇦\n\nArsenal\nАрсенал\nOleksandr Dovzhenko, 1929\n\n\nhttps://\ntransfer.it/t/ju0bSIlTCbYK\n\n576p DVD remux, with Ukrainian, English, and French subtitles",
+      "file_links": [
+        "https://transfer.it/t/ju0bSIlTCbYK"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/xZsQs50ZOi": "https://transfer.it/t/ju0bSIlTCbYK"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/bristalbastles/status/2123817873521184896",
+      "author": "https://x.com/bristalbastles",
+      "timestamp": "2026-11-20T16:36:54.000Z",
+      "text": "There Will Be Blood (2007) dir. Paul Thomas Anderson\n1080P REMUX\n\n40.79GB\nAudio: ENG,ESP, ITA, FRE\nSubs: ENG, FRE, ESP, POR\nhttps://\ntransfer.it/t/0C3qMmdkwZoS",
+      "file_links": [
+        "https://transfer.it/t/0C3qMmdkwZoS"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/LogiLampadina/status/2123780686268035288",
+      "author": "https://x.com/LogiLampadina",
+      "timestamp": "2026-11-20T14:09:08.000Z",
+      "text": "Honor Among Lovers (1931, Dorothy Arzner)\nbd-remux, 16.13gb. English with French subtitles.\nhttps://\ntransfer.it/t/1RzBbgRCnBzQ",
+      "file_links": [
+        "https://transfer.it/t/1RzBbgRCnBzQ"
       ],
       "other_links": [],
       "raw_tco": {}
