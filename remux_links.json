@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-20T23:34:53.947848+00:00",
+  "scraped_at": "2026-11-21T11:34:38.398271+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1199,
-  "total_with_file_links": 1155,
+  "total_tweets": 1201,
+  "total_with_file_links": 1156,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -14139,6 +14139,19 @@
       ],
       "other_links": [],
       "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/schoppheineken/status/2124073701302038816",
+      "author": "https://x.com/schoppheineken",
+      "timestamp": "2026-11-21T09:33:28.000Z",
+      "text": "L'Eclisse (1962)\nDirector: Michelangelo Antonioni\n1080p BLURAY REMUX AVC FLAC 1.0 (31.3GB)\n1 Commentary Track\nSubs: 🇺🇸/🇫🇷/🇩🇪\n\nhttps://\ntransfer.it/t/aUyfq8oEBaZA",
+      "file_links": [
+        "https://transfer.it/t/aUyfq8oEBaZA"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/uUaMtQzK85": "https://transfer.it/t/aUyfq8oEBaZA"
+      }
     }
   ],
   "no_file_links": [
@@ -14708,6 +14721,20 @@
       ],
       "raw_tco": {
         "https://t.co/NtaQqaS3S9": "https://pan.baidu.com/share/init?surl=hVDZgh41UVokx1vogmHtlA&pwd=f14s"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/priyakr3xd/status/2123975299192983843",
+      "author": "https://x.com/priyakr3xd",
+      "timestamp": "2026-11-21T03:02:27.000Z",
+      "text": "The Odyssey (2026) IMAX 2160p UHD BluRay REMUX DV HDR 10bit HDR 10bit HEVC  English DTS-HDMA 5.1 x265 .mkv (85 gb file)\n\nhttps://\nexe.io/IpTEfkk\n\n#TheOdyssey\n#TheOdysseyMovie  \n#OdysseyMovie\n#TheOdyssey2026",
+      "file_links": [],
+      "other_links": [
+        "https://t.co/rnYSm6hcVP",
+        "https://exe.io/IpTEfkk"
+      ],
+      "raw_tco": {
+        "https://t.co/rnYSm6hcVP": "https://t.co/rnYSm6hcVP"
       }
     }
   ]

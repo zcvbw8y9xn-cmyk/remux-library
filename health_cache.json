@@ -259,7 +259,13 @@
     "title": "Luminous Woman",
     "year": "1985"
   },
-  "https://gofile.io/d/Q5qEMqIz": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/Q5qEMqIz": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:34:53.096446+00:00",
+    "title": "Jeanne Dielman",
+    "year": "1975",
+    "sound": ""
+  },
   "https://transfer.it/t/LADd2dt1XJxZ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T12:08:26.263573+00:00",
@@ -817,7 +823,13 @@
     "title": "A Brighter Summer Day",
     "year": "1991"
   },
-  "https://gofile.io/d/JdIFy4Ra": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/JdIFy4Ra": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:35:16.512867+00:00",
+    "title": "Cape Fear",
+    "year": "1991",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/r0OPPAlDGbgS": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-11T02:56:30.667710+00:00",
@@ -830,7 +842,13 @@
     "title": "The Cranes Are Flying",
     "year": "1957"
   },
-  "https://gofile.io/d/IBSoOAUz": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/IBSoOAUz": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:35:20.424273+00:00",
+    "title": "Infernal Affairs",
+    "year": "2002",
+    "sound": "DTS-HD MA 5.1"
+  },
   "https://transfer.it/t/YmB0f85zRTbJ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T03:13:52.112534+00:00",
@@ -896,7 +914,13 @@
     "year": "2000",
     "sound": "DTS-HD MA 2.0"
   },
-  "https://gofile.io/d/Hic2D4VQ": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/Hic2D4VQ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:35:24.351012+00:00",
+    "title": "Brief Encounter",
+    "year": "1945",
+    "sound": "LPCM 1.0"
+  },
   "https://transfer.it/t/D7u7LlplEB4Y": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-16T23:46:50.687322+00:00",
@@ -1331,7 +1355,13 @@
   "https://gofile.io/d/80GFnWVc": "Alive \ud83d\udfe2",
   "https://gofile.io/d/4Ae2aAJY": "Alive \ud83d\udfe2",
   "https://gofile.io/d/9QkaKzMF": "Alive \ud83d\udfe2",
-  "https://gofile.io/d/MkeAen": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/MkeAen": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:35:04.806938+00:00",
+    "title": "Cure",
+    "year": "1997",
+    "sound": ""
+  },
   "https://transfer.it/t/GpIVDs5xxBaR": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-16T00:13:13.891727+00:00",
@@ -1925,8 +1955,20 @@
     "year": "1984",
     "sound": "FLAC 2.0"
   },
-  "https://gofile.io/d/KgjVF8": "Alive \ud83d\udfe2",
-  "https://gofile.io/d/NGNW14": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/KgjVF8": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:35:12.609572+00:00",
+    "title": "Aguirre, the Wrath of God",
+    "year": "1972",
+    "sound": ""
+  },
+  "https://gofile.io/d/NGNW14": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:35:00.904400+00:00",
+    "title": "They Live",
+    "year": "1988",
+    "sound": ""
+  },
   "https://drive.google.com/drive/folders/1tiyA0gY-73Qp0oGOEgi7y6GYF76ARFay?usp=sharing": "Alive \ud83d\udfe2",
   "https://transfer.it/t/qN9ZjvpXkR7I": {
     "status": "Alive \ud83d\udfe2",
@@ -1978,9 +2020,27 @@
     "title": "Poltergeist",
     "year": "1982"
   },
-  "https://gofile.io/d/Pp3DTC": "Alive \ud83d\udfe2",
-  "https://gofile.io/d/TAfNZg": "Alive \ud83d\udfe2",
-  "https://gofile.io/d/L3jk7w": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/Pp3DTC": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:34:57.000485+00:00",
+    "title": "Stalker",
+    "year": "1979",
+    "sound": ""
+  },
+  "https://gofile.io/d/TAfNZg": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:34:49.192860+00:00",
+    "title": "Black God, White Devil",
+    "year": "1964",
+    "sound": ""
+  },
+  "https://gofile.io/d/L3jk7w": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:35:08.708773+00:00",
+    "title": "Hovering Over the Water",
+    "year": "1986",
+    "sound": ""
+  },
   "https://gofile.io/d/G0SHEL": "Alive \ud83d\udfe2",
   "https://transfer.it/t/ZQK2n65zHRbB": {
     "status": "Alive \ud83d\udfe2",
@@ -5513,5 +5573,12 @@
     "title": "Honor Among Lovers",
     "year": "1931",
     "sound": "FLAC 2.0"
+  },
+  "https://transfer.it/t/aUyfq8oEBaZA": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-21T11:34:45.078120+00:00",
+    "title": "L'Eclisse",
+    "year": "1962",
+    "sound": ""
   }
 }
