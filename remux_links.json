@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-22T12:38:34.722724+00:00",
+  "scraped_at": "2026-11-22T23:34:31.256693+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1208,
-  "total_with_file_links": 1161,
+  "total_tweets": 1211,
+  "total_with_file_links": 1164,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -14221,6 +14221,43 @@
       "raw_tco": {
         "https://t.co/0cFc6gosxJ": "https://transfer.it/t/7QtLCtxCUQxa"
       }
+    },
+    {
+      "tweet_url": "https://x.com/schoppheineken/status/2124642483296702942",
+      "author": "https://x.com/schoppheineken",
+      "timestamp": "2026-11-22T23:13:36.000Z",
+      "text": "The Great Ecstasy Of Woodcarver Steiner (1974)\nDirector: Werner Herzog\n1080p BLURAY REMUX AVC FLAC 2.0 (10GB)\nSub: 🇺🇸\n\nhttps://\ntransfer.it/t/ueLC2spwQYyB",
+      "file_links": [
+        "https://transfer.it/t/ueLC2spwQYyB"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/mE9z1H9nWm": "https://transfer.it/t/ueLC2spwQYyB"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/schoppheineken/status/2124535398844289515",
+      "author": "https://x.com/schoppheineken",
+      "timestamp": "2026-11-22T16:08:05.000Z",
+      "text": "Will Success Spoil Rock Hunter? (1957)\nDirector: Frank Tashlin\n1080p BLURAY REMUX AVC DTS-HD MA 5.1/ DTS-HD MA 4.0 (22.9GB)\n2 Additional Soundtracks\n1 Commentary Track\nSubs: 🇺🇸/🇩🇰/🇳🇱/🇫🇮/🇫🇷/🇩🇪/🇮🇹/🇳🇴/🇵🇹/🇪🇸/🇸🇪\n\nhttps://\ntransfer.it/t/th1YXshGUITD\nCourtesy of the one and only \n@rippersarchive",
+      "file_links": [
+        "https://transfer.it/t/th1YXshGUITD"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/NcJpdFa2W4": "https://transfer.it/t/th1YXshGUITD"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/aidiesey/status/2124470921994052057",
+      "author": "https://x.com/aidiesey",
+      "timestamp": "2026-11-22T11:51:53.000Z",
+      "text": "1080p Bluray Remux (27.22 GB)\nhttps://\ntransfer.it/t/ZAErbXxVlLoL",
+      "file_links": [
+        "https://transfer.it/t/ZAErbXxVlLoL"
+      ],
+      "other_links": [],
+      "raw_tco": {}
     }
   ],
   "no_file_links": [
