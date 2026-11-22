@@ -349,7 +349,13 @@
     "title": "Dreams",
     "year": "1990"
   },
-  "https://gofile.io/d/00eggL": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/00eggL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:07:02.163560+00:00",
+    "title": "Cure",
+    "year": "1997",
+    "sound": ""
+  },
   "https://transfer.it/t/pSt2rd1lARqT": "Dead \ud83d\udd34",
   "https://transfer.it/t/em0tbc1lkZYa": "Dead \ud83d\udd34",
   "https://transfer.it/t/waPazd1HhJaJ": "Dead \ud83d\udd34",
@@ -650,7 +656,13 @@
     "title": "Bona",
     "year": "1980"
   },
-  "https://gofile.io/d/EW6GtnJ5": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/EW6GtnJ5": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:06:41.284126+00:00",
+    "title": "Tokyo Fist",
+    "year": "1995",
+    "sound": "DTS-HD MA"
+  },
   "https://transfer.it/t/LYG14B8xiDIA": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T12:08:11.712644+00:00",
@@ -1317,7 +1329,13 @@
     "year": "1973",
     "sound": "FLAC 2.0"
   },
-  "https://drive.google.com/file/d/1inumqcg3b6Ab3duUU7wf30Noni3gPS3n/view?usp=drivesdk": "Alive \ud83d\udfe2",
+  "https://drive.google.com/file/d/1inumqcg3b6Ab3duUU7wf30Noni3gPS3n/view?usp=drivesdk": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:07:02.163929+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://drive.google.com/file/d/1PB4eDBMQuaxPaK3vPlas-83N3c4JwsTO/view?usp=drivesdk": "Alive \ud83d\udfe2",
   "https://transfer.it/t/MQMDKC4FVBLY": {
     "status": "Alive \ud83d\udfe2",
@@ -1352,9 +1370,27 @@
     "year": "1995"
   },
   "https://gofile.io/d/uuuKzPNk": "Dead \ud83d\udd34",
-  "https://gofile.io/d/80GFnWVc": "Alive \ud83d\udfe2",
-  "https://gofile.io/d/4Ae2aAJY": "Alive \ud83d\udfe2",
-  "https://gofile.io/d/9QkaKzMF": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/80GFnWVc": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:06:52.987276+00:00",
+    "title": "Perfect Blue",
+    "year": "1997",
+    "sound": ""
+  },
+  "https://gofile.io/d/4Ae2aAJY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:06:57.785566+00:00",
+    "title": "Tenebrae",
+    "year": "1982",
+    "sound": "DTS-HD MA 1.0"
+  },
+  "https://gofile.io/d/9QkaKzMF": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:06:49.092770+00:00",
+    "title": "La Casa Lobo",
+    "year": "2018",
+    "sound": "FLAC"
+  },
   "https://gofile.io/d/MkeAen": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-21T11:35:04.806938+00:00",
@@ -1640,7 +1676,13 @@
     "title": "The Creator",
     "year": "2023"
   },
-  "https://gofile.io/d/G98Itm": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/G98Itm": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:06:32.824598+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/2YqVa55RFZRJ": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-19T11:35:26.336740+00:00",
@@ -2041,14 +2083,26 @@
     "year": "1986",
     "sound": ""
   },
-  "https://gofile.io/d/G0SHEL": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/G0SHEL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:06:37.383428+00:00",
+    "title": "Red Desert",
+    "year": "1964",
+    "sound": ""
+  },
   "https://transfer.it/t/ZQK2n65zHRbB": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-15T01:22:38.351925+00:00",
     "title": "A Nos Amours",
     "year": "1983"
   },
-  "https://gofile.io/d/9RiHCe": "Alive \ud83d\udfe2",
+  "https://gofile.io/d/9RiHCe": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:06:45.188530+00:00",
+    "title": "Kwaidan",
+    "year": "1964",
+    "sound": ""
+  },
   "https://drive.google.com/drive/folders/1uYbThZaLcIMnaWquhoSajGLIvBXyEC6y?usp=sharing": "Alive \ud83d\udfe2",
   "https://transfer.it/t/u8xXkFhnRL6Z": {
     "status": "Alive \ud83d\udfe2",
@@ -2339,7 +2393,13 @@
     "title": "Sense and Sensibility",
     "year": "1995"
   },
-  "https://drive.google.com/file/d/1y4t3UEAQdyjZCGTZXBdQHWFeQ-Fa3quo/view?usp=drivesdk": "Alive \ud83d\udfe2",
+  "https://drive.google.com/file/d/1y4t3UEAQdyjZCGTZXBdQHWFeQ-Fa3quo/view?usp=drivesdk": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:07:02.163842+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
   "https://transfer.it/t/vuSnSm53GZjD": {
     "status": "Alive \ud83d\udfe2",
     "checked_at": "2026-11-10T23:32:37.856613+00:00",
@@ -5579,6 +5639,27 @@
     "checked_at": "2026-11-21T11:34:45.078120+00:00",
     "title": "L'Eclisse",
     "year": "1962",
+    "sound": ""
+  },
+  "https://accounts.google.com/v3/signin/identifier?continue=https://drive.google.com/drive/folders/1w_KOkgwQuBcMqwFvm5zyErJ2FNax7l7b?usp%3Ddrive_link&followup=https://drive.google.com/drive/folders/1w_KOkgwQuBcMqwFvm5zyErJ2FNax7l7b?usp%3Ddrive_link&osid=1&passive=1209600&service=wise&flowName=WebLiteSignIn&flowEntry=ServiceLogin&dsh=S688758084:1795303919958599": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:01:35.738962+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/S2CrxBRkFbKK": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:01:41.326302+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/9BXIJE52xIiT": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-22T00:01:46.319617+00:00",
+    "title": "Hanging Garden",
+    "year": "2005",
     "sound": ""
   }
 }

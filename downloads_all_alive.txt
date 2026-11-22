@@ -1,3 +1,6 @@
+https://accounts.google.com/v3/signin/identifier?continue=https://drive.google.com/drive/folders/1w_KOkgwQuBcMqwFvm5zyErJ2FNax7l7b?usp%3Ddrive_link&followup=https://drive.google.com/drive/folders/1w_KOkgwQuBcMqwFvm5zyErJ2FNax7l7b?usp%3Ddrive_link&osid=1&passive=1209600&service=wise&flowName=WebLiteSignIn&flowEntry=ServiceLogin&dsh=S688758084:1795303919958599
+https://transfer.it/t/S2CrxBRkFbKK
+https://transfer.it/t/9BXIJE52xIiT
 https://transfer.it/t/aUyfq8oEBaZA
 https://mega.nz/file/pV8V3QRQ#Uyx_DCfHIkaCvSiSTXmS3ONeEj_bjPiQ13uPyHTyVFQ
 https://transfer.it/t/ju0bSIlTCbYK
