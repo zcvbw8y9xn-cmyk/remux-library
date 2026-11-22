@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-22T00:01:34.574270+00:00",
+  "scraped_at": "2026-11-22T12:38:34.722724+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1205,
-  "total_with_file_links": 1159,
+  "total_tweets": 1208,
+  "total_with_file_links": 1161,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -14195,6 +14195,32 @@
       ],
       "other_links": [],
       "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/schoppheineken/status/2124406571136680352",
+      "author": "https://x.com/schoppheineken",
+      "timestamp": "2026-11-22T07:36:10.000Z",
+      "text": "Taipei Story (1985)\nDirector: Edward Yang\n1080p BLURAY REMUX AVC DTS-HD MA 1.0 (31.16GB)\nDub: 🇰🇷\nSubs: 🇰🇷/🇺🇸/🇫🇷/🇯🇵/🇹🇼\n\nhttps://\ntransfer.it/t/qhKL2h5QhYSQ",
+      "file_links": [
+        "https://transfer.it/t/qhKL2h5QhYSQ"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/4JbPqnxz2C": "https://transfer.it/t/qhKL2h5QhYSQ"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/schoppheineken/status/2124338212537512215",
+      "author": "https://x.com/schoppheineken",
+      "timestamp": "2026-11-22T03:04:32.000Z",
+      "text": "The Geisha Boy (1958)\nDirector: Frank Tashlin\n1080p BLURAY REMUX AVC DTS-HD MA 1.0/DTS 1.0 (19.5GB)\nSub: 🇧🇷\n\nhttps://\ntransfer.it/t/7QtLCtxCUQxa\nCourtesy of the one and only \n@rippersarchive",
+      "file_links": [
+        "https://transfer.it/t/7QtLCtxCUQxa"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/0cFc6gosxJ": "https://transfer.it/t/7QtLCtxCUQxa"
+      }
     }
   ],
   "no_file_links": [
@@ -14793,6 +14819,20 @@
       ],
       "raw_tco": {
         "https://t.co/RVdVxKWJqt": "https://www.youtube.com/@CardinalGaming789VODS"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/Alexthehero10/status/2124316696122884410",
+      "author": "https://x.com/Alexthehero10",
+      "timestamp": "2026-11-22T01:39:02.000Z",
+      "text": "¡Ya está listo el proyecto!\n\n- Traducción/adaptación fiel al español con subtítulos estilizados \n- Calidad de video FRBD Remux\n- Doblajes en francés y coreano\n- Subtítulos en Japonés y francés \n\n\nhttps://\nt.me/+hF2BNEbh5QcyZ\njk0\n…",
+      "file_links": [],
+      "other_links": [
+        "https://t.me/+hF2BNEbh5QcyZjk0",
+        "https://t.me/+hF2BNEbh5QcyZ"
+      ],
+      "raw_tco": {
+        "https://t.co/7VrqdQyNyD": "https://t.me/+hF2BNEbh5QcyZjk0"
       }
     }
   ]
