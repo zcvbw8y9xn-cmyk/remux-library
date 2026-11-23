@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-22T23:34:31.256693+00:00",
+  "scraped_at": "2026-11-23T11:33:44.922234+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1211,
-  "total_with_file_links": 1164,
+  "total_tweets": 1217,
+  "total_with_file_links": 1170,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -14255,6 +14255,76 @@
       "text": "1080p Bluray Remux (27.22 GB)\nhttps://\ntransfer.it/t/ZAErbXxVlLoL",
       "file_links": [
         "https://transfer.it/t/ZAErbXxVlLoL"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/vilibazmiooo/status/2124821244298076274",
+      "author": "https://x.com/vilibazmiooo",
+      "timestamp": "2026-11-23T11:03:56.000Z",
+      "text": "4 Months, 3 Weeks and 2 Days (2007)\ndir. Cristian Mungiu\n\nhttps://\ntransfer.it/t/1fbtSZkV2DCB\n1080p BluRay REMUX eng subs (26GB)",
+      "file_links": [
+        "https://transfer.it/t/1fbtSZkV2DCB"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/l6uo2MP5Q3": "https://transfer.it/t/1fbtSZkV2DCB"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/schoppheineken/status/2124806475394793537",
+      "author": "https://x.com/schoppheineken",
+      "timestamp": "2026-11-23T10:05:15.000Z",
+      "text": "Rock-a-Bye Baby (1958)\nDirector: Frank Tashlin\n1080p BLURAY REMUX AVC FLAC 1.0 (19.2GB)\nSubs: 🇺🇸/🇧🇷\n\nhttps://\ntransfer.it/t/wKl2Sw4AmaBC",
+      "file_links": [
+        "https://transfer.it/t/wKl2Sw4AmaBC"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/LdltWS5hj8": "https://transfer.it/t/wKl2Sw4AmaBC"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/postdiemologian/status/2124742556953289191",
+      "author": "https://x.com/postdiemologian",
+      "timestamp": "2026-11-23T05:51:16.000Z",
+      "text": "The Living Dead Girl, Jean Rollin, 1982, 2160p UHD REMUX, 60.17 GiB, en subs\nhttps://\ntransfer.it/t/AzyEnYMwwZ7J",
+      "file_links": [
+        "https://transfer.it/t/AzyEnYMwwZ7J"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/postdiemologian/status/2124739146375958845",
+      "author": "https://x.com/postdiemologian",
+      "timestamp": "2026-11-23T05:37:42.000Z",
+      "text": "The Substance, Coralie Fargeat, 2024, 2160p UHD REMUX, 50.31 GiB, en/es/other subs\nhttps://\ntransfer.it/t/vghliIVAjRrY",
+      "file_links": [
+        "https://transfer.it/t/vghliIVAjRrY"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/LogiLampadina/status/2124709685668282511",
+      "author": "https://x.com/LogiLampadina",
+      "timestamp": "2026-11-23T03:40:38.000Z",
+      "text": "The American Soldier (1970, Rainer Werner Fassbinder)\nbd-remux, 14.03gb. German with English subtitles, plus commentary.\nhttps://\ntransfer.it/t/OaPHjHgR2QyZ",
+      "file_links": [
+        "https://transfer.it/t/OaPHjHgR2QyZ"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/postdiemologian/status/2124654734615154847",
+      "author": "https://x.com/postdiemologian",
+      "timestamp": "2026-11-23T00:02:17.000Z",
+      "text": "Dune: Part One, Denis Villeneuve, 2021, 2160p UHD REMUX, 69.2 GiB, en/es/many other subs\nand \nDune: Part Two, Denis Villeneuve, 2024, 2160p UHD REMUX, 64.2 GiB, en/es/pt/many other subs\nhttps://\ntransfer.it/t/BjzZ6FVWXJjS",
+      "file_links": [
+        "https://transfer.it/t/BjzZ6FVWXJjS"
       ],
       "other_links": [],
       "raw_tco": {}
