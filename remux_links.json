@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-23T11:33:44.922234+00:00",
+  "scraped_at": "2026-11-23T23:33:20.866683+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1217,
-  "total_with_file_links": 1170,
+  "total_tweets": 1221,
+  "total_with_file_links": 1174,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -14325,6 +14325,54 @@
       "text": "Dune: Part One, Denis Villeneuve, 2021, 2160p UHD REMUX, 69.2 GiB, en/es/many other subs\nand \nDune: Part Two, Denis Villeneuve, 2024, 2160p UHD REMUX, 64.2 GiB, en/es/pt/many other subs\nhttps://\ntransfer.it/t/BjzZ6FVWXJjS",
       "file_links": [
         "https://transfer.it/t/BjzZ6FVWXJjS"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/thecollector_26/status/2124958079917883776",
+      "author": "https://x.com/thecollector_26",
+      "timestamp": "2026-11-23T20:07:40.000Z",
+      "text": "The Departed (2006)\n\nDirected by: Martin Scorsese\n\n2h 31min • 65.72 GB • 2160p Blu-Ray REMUX • 58.1 Mb/s\n\n֍ English DTS-HD MA 5.1\n֍ Subs: Eng / Spa / Por / Bul / Fre / many others\n\n\nhttps://\ntransfer.it/t/ryuaym4HALpa",
+      "file_links": [
+        "https://transfer.it/t/ryuaym4HALpa"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/UjGyJ9IGdi": "https://transfer.it/t/ryuaym4HALpa"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/schoppheineken/status/2124933857640104047",
+      "author": "https://x.com/schoppheineken",
+      "timestamp": "2026-11-23T18:31:25.000Z",
+      "text": "The General (1926)\nDirector: Buster Keaton\n4K UHD BLURAY REMUX HDR HEVC DTS-HD MA 5.1 (54.2GB)\n1 Commentary Track + 7 Extras\n\nhttps://\ntransfer.it/t/ZdCVO4gGhIiI",
+      "file_links": [
+        "https://transfer.it/t/ZdCVO4gGhIiI"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/DVmoSLAM7i": "https://transfer.it/t/ZdCVO4gGhIiI"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/bristalbastles/status/2124998154747851247",
+      "author": "https://x.com/bristalbastles",
+      "timestamp": "2026-11-23T22:46:55.000Z",
+      "text": "Days of Heaven (1978) dir. Terrence Malick \n4K REMUX\n\n56.11GB\nAudio: ENG\nSubs: ENG, HRV, NLD, FIN, FRA, ELL, HEB, ITA, NOR, POR, SPA, SLO\nhttps://\ntransfer.it/t/L1CpAztlSIZY",
+      "file_links": [
+        "https://transfer.it/t/L1CpAztlSIZY"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/LogiLampadina/status/2124878856842850660",
+      "author": "https://x.com/LogiLampadina",
+      "timestamp": "2026-11-23T14:52:52.000Z",
+      "text": "Martha (1974, Rainer Werner Fassbinder)\nbd-remux, 25.25gb. German with English subtitles.\nhttps://\ntransfer.it/t/5S1QiwIABRBD",
+      "file_links": [
+        "https://transfer.it/t/5S1QiwIABRBD"
       ],
       "other_links": [],
       "raw_tco": {}
