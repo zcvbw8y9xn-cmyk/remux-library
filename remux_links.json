@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-23T23:33:20.866683+00:00",
+  "scraped_at": "2026-11-24T11:33:12.067211+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1221,
-  "total_with_file_links": 1174,
+  "total_tweets": 1222,
+  "total_with_file_links": 1175,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -14376,6 +14376,19 @@
       ],
       "other_links": [],
       "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/thecollector_26/status/2125080719500120562",
+      "author": "https://x.com/thecollector_26",
+      "timestamp": "2026-11-24T04:15:00.000Z",
+      "text": "Ms. 45 (1981)\n\nDirected by: Abel Ferrara\n\n1h 21min • 52.94 GB • 2160p Blu-Ray REMUX • 92.6 Mb/s\n\n֍ English PCM 1.0\n֍ Commentary by Alexandra Heller-Nicholas\n֍ Subs: Eng\n\n\nhttps://\ntransfer.it/t/l3pOPD4TmRgK",
+      "file_links": [
+        "https://transfer.it/t/l3pOPD4TmRgK"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/A2XBMzcZPn": "https://transfer.it/t/l3pOPD4TmRgK"
+      }
     }
   ],
   "no_file_links": [
