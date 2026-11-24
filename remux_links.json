@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-24T11:33:12.067211+00:00",
+  "scraped_at": "2026-11-24T23:33:18.680106+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1222,
-  "total_with_file_links": 1175,
+  "total_tweets": 1224,
+  "total_with_file_links": 1177,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -14388,6 +14388,32 @@
       "other_links": [],
       "raw_tco": {
         "https://t.co/A2XBMzcZPn": "https://transfer.it/t/l3pOPD4TmRgK"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/vilibazmiooo/status/2125228232135831820",
+      "author": "https://x.com/vilibazmiooo",
+      "timestamp": "2026-11-24T14:01:10.000Z",
+      "text": "Beyond the Hills (2012)\ndir. Cristian Mungiu\n\nhttps://\ntransfer.it/t/mgmJrJtjUT4b\n1080p BluRay REMUX eng subs (32GB)",
+      "file_links": [
+        "https://transfer.it/t/mgmJrJtjUT4b"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/dEWpzBOV9Z": "https://transfer.it/t/mgmJrJtjUT4b"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/thecollector_26/status/2125220389550969125",
+      "author": "https://x.com/thecollector_26",
+      "timestamp": "2026-11-24T13:30:00.000Z",
+      "text": "Repo Man (1984)\n\nDirected by: Alex Cox\n\n1h 32min • 62.66 GB • 2160p Blu-Ray REMUX • 95.9 Mb/s\n\n֍ English FLAC 1.0\n֍ Isolated Score\n֍ Commentary by Commentary by Director Alex Cox and crew\n֍ Subs: Eng / Ger /Spa\n\n\nhttps://\ntransfer.it/t/Ag2bTyxxmBgT",
+      "file_links": [
+        "https://transfer.it/t/Ag2bTyxxmBgT"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/UFyztmuxXK": "https://transfer.it/t/Ag2bTyxxmBgT"
       }
     }
   ],
