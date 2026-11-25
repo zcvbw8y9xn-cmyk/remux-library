@@ -5524,7 +5524,7 @@
   },
   "https://drive.google.com/drive/folders/1WGhDHaSw3buyU0-bp0H8Oac1Nc0sbdQ8": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-17T23:34:53.280690+00:00",
+    "checked_at": "2026-11-25T23:34:06.858186+00:00",
     "title": null,
     "year": null,
     "sound": ""
@@ -5829,5 +5829,89 @@
     "title": "Repo Man",
     "year": "1984",
     "sound": ""
+  },
+  "https://transfer.it/t/tyhm9jJHAJRJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:34:12.516520+00:00",
+    "title": "Play Misty For Me",
+    "year": "1971",
+    "sound": ""
+  },
+  "https://transfer.it/t/06KfHwpnQR6K": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:34:17.713627+00:00",
+    "title": "Hellish Flesh",
+    "year": "1977",
+    "sound": ""
+  },
+  "https://transfer.it/t/YNbx5nNgwb4T": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:34:22.796115+00:00",
+    "title": "Thief",
+    "year": "1981",
+    "sound": "DTS-HD MA"
+  },
+  "https://transfer.it/t/gWF7Tj4D0BAY": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:34:27.799270+00:00",
+    "title": "Leprechaun",
+    "year": "1993",
+    "sound": "TrueHD 5.1"
+  },
+  "https://transfer.it/t/LYMY65h3BLbL": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:34:32.843666+00:00",
+    "title": "Artists and Models",
+    "year": "1955",
+    "sound": ""
+  },
+  "https://transfer.it/t/7v183U1nhQCJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:34:38.009669+00:00",
+    "title": "Oppenheimer",
+    "year": "2023",
+    "sound": ""
+  },
+  "https://transfer.it/t/QwAKqB8yAJrC": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:34:43.228507+00:00",
+    "title": "Sinners",
+    "year": "2025",
+    "sound": ""
+  },
+  "https://transfer.it/t/QDsHcRg2WQ6T": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:34:48.326898+00:00",
+    "title": "My Sister Eileen",
+    "year": "1942",
+    "sound": ""
+  },
+  "https://transfer.it/t/g3fDbdlliQ4L": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:34:53.401522+00:00",
+    "title": "Paris Texas",
+    "year": "1984",
+    "sound": "FLAC 2.0"
+  },
+  "https://transfer.it/t/ZFRTyVsT2A4Q": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:34:58.620965+00:00",
+    "title": "Ryans Daughter",
+    "year": "1970",
+    "sound": "DTS-HD MA"
+  },
+  "https://transfer.it/t/2vkoPn5BwDDS": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:35:03.863705+00:00",
+    "title": "Husbands and Wives",
+    "year": "1992",
+    "sound": "FLAC 2.0"
+  },
+  "https://transfer.it/t/NlGr7nwDiZiZ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-25T23:35:09.097500+00:00",
+    "title": "Crimes and Misdemeanors",
+    "year": "1989",
+    "sound": "FLAC 2.0"
   }
 }
