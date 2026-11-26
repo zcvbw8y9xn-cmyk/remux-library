@@ -5552,7 +5552,7 @@
   },
   "https://drive.google.com/drive/folders/1rxK7Axc_sA19muv9iPvS517bLKsCZ7qL": {
     "status": "Alive \ud83d\udfe2",
-    "checked_at": "2026-11-18T23:35:04.825002+00:00",
+    "checked_at": "2026-11-26T14:12:55.451985+00:00",
     "title": null,
     "year": null,
     "sound": ""
@@ -5913,5 +5913,54 @@
     "title": "Crimes and Misdemeanors",
     "year": "1989",
     "sound": "FLAC 2.0"
+  },
+  "https://transfer.it/t/Y9UusElEwKjJ": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-26T14:13:01.272062+00:00",
+    "title": "The Reflecting Skin",
+    "year": "1990",
+    "sound": "FLAC 2.0"
+  },
+  "https://gofile.io/d/63FAsXGD": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-26T14:30:41.448633+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/FV0yPLgTHSiK": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-26T14:45:48.440629+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/XHM7WfwF2a6J": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-26T14:45:49.875374+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/IjNmiPoFkYqJ": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-26T14:45:49.887017+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/CMSLIU4iwSRB": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-26T14:45:49.892015+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/yB0PukZUiZJL": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-26T14:45:49.897345+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
   }
 }
