@@ -1,8 +1,8 @@
 {
-  "scraped_at": "2026-11-26T14:12:54.323339+00:00",
+  "scraped_at": "2026-11-27T00:19:34.667672+00:00",
   "query": "remux-multi-query",
-  "total_tweets": 1244,
-  "total_with_file_links": 1196,
+  "total_tweets": 1247,
+  "total_with_file_links": 1199,
   "hits": [
     {
       "tweet_url": "https://x.com/agnialdearian/status/2117280427648110625",
@@ -14641,6 +14641,41 @@
       ],
       "raw_tco": {
         "https://t.co/m8qusrwTeT": "https://t.co/m8qusrwTeT"
+      }
+    },
+    {
+      "tweet_url": "https://x.com/ovatsbob/status/2126087269211906250",
+      "author": "https://x.com/ovatsbob",
+      "timestamp": "2026-11-26T22:54:40.000Z",
+      "text": "com tanta gente nova me seguindo por causa da tradução de mebius, vou aproveitar pra compartilhar o remux que eu fiz de ultraman cosmos em 1080p com as legendas do major da cinespacemonster pra quem tambem tiver interesse em outras series da franquia!!\nSince I think I might have done something important for the Brazilian Ultraman community, I want to share here all 65 episodes of Ultraman Cosmos, subtitled in Portuguese and in the best possible quality, remuxed by me myself\n\n\nhttps://\ntransfer.it/t/2EB5mhgRgBKK",
+      "file_links": [
+        "https://transfer.it/t/2EB5mhgRgBKK"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/penpen_archives/status/2126086202574995777",
+      "author": "https://x.com/penpen_archives",
+      "timestamp": "2026-11-26T22:50:26.000Z",
+      "text": "1080p, BLURAY REMUX, 25.36 GB\n\nBoy, Nagisa Oshima, 1969\n少年\nhttps://\ntransfer.it/t/obvujzplCL5S",
+      "file_links": [
+        "https://transfer.it/t/obvujzplCL5S"
+      ],
+      "other_links": [],
+      "raw_tco": {}
+    },
+    {
+      "tweet_url": "https://x.com/bristalbastles/status/2126043962523648138",
+      "author": "https://x.com/bristalbastles",
+      "timestamp": "2026-11-26T20:02:35.000Z",
+      "text": "Manhunter (1986) Theatrical Cut\n1080P REMUX\n\n27.71GB\nAudio and Subs: ENG\n\nhttps://\ntransfer.it/t/1YeLIqE0iBpD\nsharing most of Michael Mann’s films in 4K/1080P REMUX",
+      "file_links": [
+        "https://transfer.it/t/1YeLIqE0iBpD"
+      ],
+      "other_links": [],
+      "raw_tco": {
+        "https://t.co/Gliq3azSut": "https://transfer.it/t/1YeLIqE0iBpD"
       }
     }
   ],

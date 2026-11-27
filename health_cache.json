@@ -5962,5 +5962,26 @@
     "title": null,
     "year": null,
     "sound": ""
+  },
+  "https://transfer.it/t/2EB5mhgRgBKK": {
+    "status": "Dead \ud83d\udd34",
+    "checked_at": "2026-11-27T00:19:41.097527+00:00",
+    "title": null,
+    "year": null,
+    "sound": ""
+  },
+  "https://transfer.it/t/obvujzplCL5S": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-27T00:19:46.396272+00:00",
+    "title": "Boy",
+    "year": "1969",
+    "sound": "DTS-HD MA 1.0"
+  },
+  "https://transfer.it/t/1YeLIqE0iBpD": {
+    "status": "Alive \ud83d\udfe2",
+    "checked_at": "2026-11-27T00:19:51.369331+00:00",
+    "title": "Manhunter",
+    "year": "1986",
+    "sound": "DTS-HD MA 5.1"
   }
 }
